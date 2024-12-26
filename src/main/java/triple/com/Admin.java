@@ -3,7 +3,7 @@ package triple.com;
 import java.util.ArrayList;
 
 public class Admin {
-    private String userName;
+    private String userName;// small change for githup
     private String password;
     private boolean loggedIn;
 
@@ -140,20 +140,16 @@ public class Admin {
         Database.addArticle(article);
     }
 
-    public void  createInstructorPlan(String name, String type, double price, String basicBenefit)
-    {
-        if(loggedIn)
-        {
-            PlanInstructor planInstructor=new PlanInstructor(name, type, price, basicBenefit);
+    public void createInstructorPlan(String name, String type, double price, String basicBenefit) {
+        if (loggedIn) {
+            PlanInstructor planInstructor = new PlanInstructor(name, type, price, basicBenefit);
             Database.addPlanToInstructors(planInstructor);
         }
     }
 
-    public void createClientPlan(String name, String type, double price, String basicBenefit)
-    {
-        if(loggedIn)
-        {
-            PlanClient planClient=new PlanClient(name, type, price, basicBenefit);
+    public void createClientPlan(String name, String type, double price, String basicBenefit) {
+        if (loggedIn) {
+            PlanClient planClient = new PlanClient(name, type, price, basicBenefit);
             Database.addPlanToClient(planClient);
         }
     }
