@@ -1,7 +1,7 @@
 package triple.com;
 
 import triple.com.Admin;
-import triple.com.Database;
+import triple.com.DatabaseService;
 import triple.com.Instructor;
 import triple.com.Program;
 import io.cucumber.java.Before;
@@ -14,7 +14,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
-
 
 public class InstructorSteps {
     private Instructor instructor;
@@ -46,7 +45,7 @@ public class InstructorSteps {
 
     @Then("New program related to me is added to the database")
     public void newProgramRelatedToMeIsAddedToTheDatabase() {
-        Program programInDB = Database.getProgramById(program.getProgramId());
+        Program programInDB = DatabaseService.getProgramById(program.getProgramId());
         assert (program.getProgramId() == programInDB.getProgramId());
     }
 
@@ -58,7 +57,7 @@ public class InstructorSteps {
 
     @Then("The update will be reflected on the system")
     public void The_update_will_be_reflected_on_the_system() {
-        Program programInDB = Database.getProgramById(program.getProgramId());
+        Program programInDB = DatabaseService.getProgramById(program.getProgramId());
         assert (programInDB.getProgramId() == program.getProgramId());
 
     }
@@ -76,7 +75,7 @@ public class InstructorSteps {
 
         System.out.println("after deletion//////////////////////////////////");
         admin.TrackActivePrograms();
-        assertNull(Database.getProgramById(program.getProgramId()));
+        assertNull(DatabaseService.getProgramById(program.getProgramId()));
     }
 
     @Given("I am an Instructor Again")

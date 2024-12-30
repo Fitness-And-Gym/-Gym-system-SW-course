@@ -32,7 +32,7 @@ public class Admin {
     public Client createClientAccount(String name, String password) {
         if (loggedIn) {
             Client client = new Client(name, password);
-            Database.addClient(client);
+            DatabaseService.addClient(client);
             return client;
         } else {
             // system.out.println("Admin is not logged in, cannot create client.");
@@ -42,7 +42,7 @@ public class Admin {
 
     public ArrayList<Program> seeStatistics() {
         if (loggedIn) {
-            return Database.getPopularPrograms();
+            return DatabaseService.getPopularPrograms();
         } else {
             // system.out.println("Admin is not logged in, cannot see statistics.");
             return null;
@@ -54,7 +54,7 @@ public class Admin {
     }
 
     public Client updateClient(String clientId, String updatedName, String updatedPassword) {
-        Client myClient = Database.getClientById(clientId);
+        Client myClient = DatabaseService.getClientById(clientId);
         if (myClient != null) {
             myClient.updateName(updatedName);
             myClient.updatePassword(updatedPassword);
@@ -64,7 +64,7 @@ public class Admin {
     }
 
     public void deactivateClient(String clientId) {
-        Client myClient = Database.getClientById(clientId);
+        Client myClient = DatabaseService.getClientById(clientId);
         if (myClient != null) {
             myClient.setStatus("invalid");
         } else {
@@ -73,27 +73,28 @@ public class Admin {
     }
 
     public void acceptInstructor(String instructorId) {
-        Instructor myInstructor = Database.getInstructorRequestById(instructorId);// how to remove it in database and
-                                                                                  // then try to read it
+        Instructor myInstructor = DatabaseService.getInstructorRequestById(instructorId);// how to remove it in
+                                                                                         // DatabaseService and
+        // then try to read it
         if (myInstructor != null) {
             myInstructor.setStatus("valid");
-            Database.addInstructor(myInstructor);
+            DatabaseService.addInstructor(myInstructor);
         }
 
     }
 
     public void rejectInstructor(String instructorId) {
-        Instructor myInstructor = Database.getInstructorRequestById(instructorId);
+        Instructor myInstructor = DatabaseService.getInstructorRequestById(instructorId);
         if (myInstructor != null) {
             myInstructor.setStatus("invalid");
-            Database.addDeclinedInstructors(myInstructor);
+            DatabaseService.addDeclinedInstructors(myInstructor);
         }
 
     }
 
     public Instructor pullInstructorRequest() {
         if (loggedIn) {
-            return Database.processRequest();
+            return DatabaseService.processRequest();
         }
         System.out.println("Admin must login first**");
         return null;
@@ -109,7 +110,7 @@ public class Admin {
     public String TrackActivePrograms() {
         StringBuilder report = new StringBuilder("Track Active Programs\n");
 
-        for (Program program : Database.getPrograms()) {
+        for (Program program : DatabaseService.getPrograms()) {
             report.append(program.generateReportForAdmin()).append("\n");
         }
         System.out.println(report);
@@ -119,7 +120,7 @@ public class Admin {
     public String TrackCompletedPrograms() {
         StringBuilder report = new StringBuilder("Track Completed Programs\n");
 
-        for (Program program : Database.CompletedPrograms) {
+        for (Program program : DatabaseService.getCompletedPrograms()) {
             report.append(program.generateReportForAdmin()).append("\n");
         }
         System.out.println(report);
@@ -127,8 +128,8 @@ public class Admin {
     }
 
     public Article getPendingArticle() {// return the oldest request
-        if (Database.articleRequests.size() != 0) {
-            Article oldestRequest = Database.articleRequests.remove(0);
+        if (DatabaseService.getArticleRequests().size() != 0) {
+            Article oldestRequest = DatabaseService.removeArticle();
             return oldestRequest;
         }
         return null;
@@ -136,31 +137,31 @@ public class Admin {
 
     public void acceptArticle(Article article) {
         article.setApproved(true);
-        Database.articleRequests.remove(article);
-        Database.addArticle(article);
+        DatabaseService.removeArticleRequest(article);
+        DatabaseService.addArticle(article);
     }
 
     public void createInstructorPlan(String name, String type, double price, String basicBenefit) {
         if (loggedIn) {
             PlanInstructor planInstructor = new PlanInstructor(name, type, price, basicBenefit);
-            Database.addPlanToInstructors(planInstructor);
+            DatabaseService.addPlanToInstructors(planInstructor);
         }
     }
 
     public void createClientPlan(String name, String type, double price, String basicBenefit) {
         if (loggedIn) {
             PlanClient planClient = new PlanClient(name, type, price, basicBenefit);
-            Database.addPlanToClient(planClient);
+            DatabaseService.addPlanToClient(planClient);
         }
     }
 
     public void rejectArticle(Article article) {
         article.setApproved(false);
-        Database.articleRequests.remove(article);
+        DatabaseService.removeArticleRequest(article);
     }
 
     public String readFeedbacks() {
-        ArrayList<Feedback> feeds = Database.getFeeds();
+        ArrayList<Feedback> feeds = DatabaseService.getFeeds();
         StringBuilder allFeedback = new StringBuilder();
 
         for (Feedback feed : feeds) {
@@ -176,7 +177,7 @@ public class Admin {
     public String seePlansForClient() {
         StringBuilder allPlanDetails = new StringBuilder();
 
-        for (PlanClient plan : Database.getPlansClient()) {
+        for (PlanClient plan : DatabaseService.getPlansClient()) {
             allPlanDetails.append(plan.getPlanDetails()).append("\n");
         }
         System.out.println("\nPlans available for clients\n" + "------------------------------------\n");
@@ -187,14 +188,12 @@ public class Admin {
     public String seePlansForInstructors() {
         StringBuilder allPlanDetails = new StringBuilder();
 
-        for (PlanInstructor plan : Database.getPlansInstructors()) {
+        for (PlanInstructor plan : DatabaseService.getPlansInstructors()) {
             allPlanDetails.append(plan.getPlanDetails()).append("\n");
         }
         System.out.println("\nPlans available for Instructors\n" + "------------------------------------\n");
         System.out.println(allPlanDetails.toString());
         return allPlanDetails.toString();
     }
-
-    
 
 }

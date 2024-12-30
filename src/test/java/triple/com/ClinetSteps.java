@@ -69,7 +69,7 @@ public class ClinetSteps {
                                                                                                                       // this
                                                                                                                       // test
 
-        Database.populateMockProgramsWithGoals();
+        DatabaseService.populateMockProgramsWithGoals();
         programs = client.filterProgramsByDifficulty("Beginner");// (B)Beginner (I)Intermediate (A)Advanced
         client.printPrograms(programs);
 

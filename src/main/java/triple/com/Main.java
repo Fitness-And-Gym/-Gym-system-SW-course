@@ -12,12 +12,12 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
         // Initialize the DB
-        Database.createMockData();
-        Database.populateMockPrograms();
-        Database.populateMockArticles();
-        Database.populateMockCompletedPrograms();
-        Database.populateMockFeedbacks();
-        Database.populateMockPlans();
+        DatabaseService.createMockData();
+        DatabaseService.populateMockPrograms();
+        DatabaseService.populateMockArticles();
+        DatabaseService.populateMockCompletedPrograms();
+        DatabaseService.populateMockFeedbacks();
+        DatabaseService.populateMockPlans();
 
         System.out.println("\nWelcome to our Fitness Gym!");
         Scanner scanner = new Scanner(System.in);
@@ -91,7 +91,7 @@ public class Main {
         // System.out.print("Enter password: ");
         // String password = scanner.next();
 
-        Client client = Database.getClientByName("tom");
+        Client client = DatabaseService.getClientByName("tom");
         // if (client.getPassword().equals(password)) {
         if (true) {
             System.out.println("Your login successful!");
@@ -178,7 +178,7 @@ public class Main {
         System.out.print("Enter password: ");
         String password = scanner.next();
 
-        Instructor instructor = Database.getInstructorByName(username);
+        Instructor instructor = DatabaseService.getInstructorByName(username);
         if (instructor.getPassword().equals(password)) {
             System.out.println("Your Logged In");
 
@@ -392,7 +392,7 @@ public class Main {
     }
 
     public static void adminOption3(Scanner scanner, Admin admin) {
-        Database.printClientsTable();
+        DatabaseService.printClientsTable();
         System.out.println("enter client Id to update");
         String clientId = scanner.next();
         System.out.println("New user Name:");
@@ -408,7 +408,7 @@ public class Main {
     }
 
     public static void adminOption4(Scanner scanner, Admin admin) {
-        Database.printClientsTable();
+        DatabaseService.printClientsTable();
         System.out.println("Are you sure to deactivate client with Id=");
         String clientId = scanner.next();
         admin.deactivateClient(clientId);
@@ -418,7 +418,7 @@ public class Main {
     public static void adminOption5(Scanner scanner, Admin admin) {
         Instructor instructor = admin.pullInstructorRequest();
         if (instructor != null) {
-            int requestsNumber = Database.getAllRequests().size();
+            int requestsNumber = DatabaseService.getAllRequests().size();
             System.out.println("You have " + requestsNumber + "pending requests = >");
             System.out.println("REQUEST: Instructor Id:" + instructor.getId() + "| Instructor Name:"
                     + instructor.getName() + " | Status" + instructor.getStatus());
@@ -470,17 +470,17 @@ public class Main {
     }
 
     public static void adminOption12() {
-        Database.printInstructorsTable();
+        DatabaseService.printInstructorsTable();
     }
 
     public static void adminOption13() {
-        Database.printDeclinedInstructorsTable();
+        DatabaseService.printDeclinedInstructorsTable();
     }
 
     public static void adminOption14(Scanner scanner, Admin admin) {
         Article article = admin.getPendingArticle();
         if (article != null) {
-            int articlesNumber = Database.articleRequests.size() + 1;// why the number of articles less by 1
+            int articlesNumber = DatabaseService.getArticleRequests().size() + 1;// why the number of articles less by 1
             System.out.println("You have " + articlesNumber + "pending articles = >");
             System.out.println("Article: Article Id:" + article.getId() + "\n Author:"
                     + article.getAuthor().getName() + " \n creation date" + article.getSubmissionDate() + "\nTitle: "
@@ -502,17 +502,17 @@ public class Main {
     }
 
     public static void adminOption15() {
-        Database.printClientsTable();
+        DatabaseService.printClientsTable();
 
     }
 
     public static void adminOption16() {
-        Database.printArticlesRequests();
+        DatabaseService.printArticlesRequests();
 
     }
 
     public static void adminOption17() {
-        Database.printArticles();
+        DatabaseService.printArticles();
 
     }
 
@@ -614,7 +614,7 @@ public class Main {
         System.out.print("Enter Plan number= ");
         int planNumber = scanner.nextInt();
 
-        PlanClient plan = Database.getClientPlanByNumber(planNumber - 1);
+        PlanClient plan = DatabaseService.getClientPlanByNumber(planNumber - 1);
 
         client.changeSubscription(plan);
 

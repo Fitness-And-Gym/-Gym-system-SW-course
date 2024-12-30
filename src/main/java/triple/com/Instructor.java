@@ -23,8 +23,8 @@ public class Instructor {
         this.loggedIn = false;
         this.programs = new ArrayList<>();
         this.status = "pending";
-        this.plan = Database.basicPlanInstructor;
-        Database.basicPlanInstructor.subscribeInstructor(this);
+        this.plan = DatabaseService.getBasicPlanInstructor();
+        DatabaseService.getBasicPlanInstructor().subscribeInstructor(this);
         this.instructorId = "I" + idCounter++;
         sendRequest();
     }
@@ -32,7 +32,7 @@ public class Instructor {
     // Be carful when creating a new instructor account it will be invalid you must
     // send a request to admin.
     public void sendRequest() {
-        Database.sendRequest(this);
+        DatabaseService.sendRequest(this);
     }
 
     public String getName() {
@@ -57,12 +57,12 @@ public class Instructor {
 
     // TO DO: check if the account is valid
     public Instructor login(String name, String password) {
-        for (Instructor instructor : Database.getInstructors()) {
+        for (Instructor instructor : DatabaseService.getInstructors()) {
             if (instructor.getName().equals(name) && instructor.getPassword().equals(password)) {
                 instructor.setLoggedIn(true); // Set the loggedIn flag for the matched instructor
 
                 System.out.println("Instructor logged in successfully!");
-                return instructor; 
+                return instructor;
             }
         }
         System.out.println("Invalid credentials!"); // If no match is found
@@ -71,21 +71,21 @@ public class Instructor {
     }
 
     public Program updateProgramTitle(String title, String programId) {
-        Program program = Database.getProgramById(programId);
+        Program program = DatabaseService.getProgramById(programId);
         program.updateTitle(title);
         return program;
     }
 
     public Program updateProgramFees(int fees, String programId) {
-        Program program = Database.getProgramById(programId);
+        Program program = DatabaseService.getProgramById(programId);
         program.updateFees(fees);
         return program;
     }
 
     public void deleteMyProgram(String programId) {
-        Program program = Database.getProgramById(programId);
+        Program program = DatabaseService.getProgramById(programId);
         if (program.getInstructor().equals(this))
-            Database.deleteProgram(program);
+            DatabaseService.deleteProgram(program);
         else {
             System.out.println("didn't call the delete program func");
         }
@@ -95,7 +95,7 @@ public class Instructor {
         if (loggedIn) {
             Program program = new Program(this, fees, title, duration, difficulty);
             programs.add(program);
-            Database.addProgram(program);
+            DatabaseService.addProgram(program);
             System.out.println("Program created successfully: " + title);
             return program;
         } else {
@@ -105,7 +105,7 @@ public class Instructor {
     }
 
     public void addGoalToProgram(String programId, String type, double startValue, double targetValue) {
-        Program program = Database.getProgramById(programId);
+        Program program = DatabaseService.getProgramById(programId);
         program.addProgramGoal(new Progress(type, startValue, targetValue));
     }
 
@@ -130,7 +130,7 @@ public class Instructor {
 
     public void setStatus(String status) {
         if (status == "valid" || status == "invalid")
-            Database.getInstructorRequestById(this.instructorId);// to remove request from pending
+            DatabaseService.getInstructorRequestById(this.instructorId);// to remove request from pending
         this.status = status;
     }
 
@@ -158,14 +158,14 @@ public class Instructor {
 
     public void deleteSubscription() {
         this.plan.cancelInstructorSubscription(this);
-        this.plan = Database.basicPlanInstructor;
+        this.plan = DatabaseService.getBasicPlanInstructor();
     }
 
     // public Article createArticle(String title,String content){
     // if(status=="valid")
     // {
     // Article article=new Article(title,content);
-    // Database.addPendingArticle(article);
+    // DatabaseService.addPendingArticle(article);
     // return article;
     // }
     // return null;

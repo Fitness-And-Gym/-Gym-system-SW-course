@@ -2,7 +2,7 @@ package triple.com;
 
 import java.util.Date;
 
-import triple.com.Database;
+import triple.com.DatabaseService;
 import triple.com.Instructor;
 
 public class Article {
@@ -24,7 +24,7 @@ public class Article {
         this.submissionDate = new Date();
         this.isApproved = false; // Default to false until admin approval
         this.type = type;
-        Database.articleRequests.add(this);
+        DatabaseService.addArticleRequest(this);
     }
 
     // Getters and Setters
@@ -73,9 +73,9 @@ public class Article {
     }
 
     public void setApproved(boolean approved) {
-        if (approved ) {
-            Database.articleRequests.remove(this);
-            Database.addArticle(this);
+        if (approved) {
+            DatabaseService.removeArticleRequest(this);
+            DatabaseService.addArticle(this);
         }
         isApproved = approved;
     }

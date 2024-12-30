@@ -45,7 +45,7 @@ public class Program {
         this.attendanceRecords = new HashMap<>();
         this.programGoals = new ArrayList<>();
         this.completed = false;
-        Database.addProgram(this);
+        DatabaseService.addProgram(this);
 
         // system.out.println("Program created successfully with ID: " + this.id);
     }
@@ -60,8 +60,8 @@ public class Program {
 
     public void markAsCompleted() {
         this.completed = true;
-        Database.getPrograms().remove(this);
-        Database.CompletedPrograms.add(this);
+        DatabaseService.removeProgram(this);
+        DatabaseService.addCompletedProgram(this);
     }
 
     public List<Progress> getProgramGoals() {

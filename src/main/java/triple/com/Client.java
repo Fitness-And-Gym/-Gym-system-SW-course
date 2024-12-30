@@ -28,9 +28,9 @@ public class Client {
         this.progressByGoal = new ArrayList<>();
         this.clientId = "C" + idCounter++;
         this.status = "valid";
-        this.plan = Database.basicPlanClient;
-        Database.basicPlanClient.subscribeClient(this);
-        Database.addClient(this);
+        this.plan = DatabaseService.getBasicPlanClient();
+        DatabaseService.getBasicPlanClient().subscribeClient(this);
+        DatabaseService.addClient(this);
 
     }
 
@@ -83,7 +83,7 @@ public class Client {
     }
 
     public void enrollInProgram(String programId) {
-        Program selectedProgram = Database.getProgramById(programId);
+        Program selectedProgram = DatabaseService.getProgramById(programId);
         if (selectedProgram != null && !clientPrograms.contains(selectedProgram)) {
             clientPrograms.add(selectedProgram);
             selectedProgram.enrollClient(this);
@@ -127,7 +127,7 @@ public class Client {
     public void writeFeedback(String feedbackType, String message) {
         Feedback temp = new Feedback(feedbackType, message, this);
         clientFeeds.add(temp);
-        Database.addFeed(temp);
+        DatabaseService.addFeed(temp);
     }
 
     // by index choose the plan to participate in no need for id since only few
@@ -140,7 +140,7 @@ public class Client {
 
     public void deleteSubscription() {
         this.plan.cancelClientSubscription(this);
-        this.plan = Database.basicPlanClient;
+        this.plan = DatabaseService.getBasicPlanClient();
     }
 
     @Override
@@ -186,7 +186,7 @@ public class Client {
 
     // public void sendMessage(String recipientId, String content) {
     // Message message = new Message(this.clientId, recipientId, content);
-    // Database.addMessage(message); // Store message in the database
+    // DatabaseService.addMessage(message); // Store message in the database
     // System.out.println("Message sent to " + recipientId + ": " + content);
     // }
 
@@ -256,7 +256,7 @@ public class Client {
     public ArrayList<Program> filterProgramsByDifficulty(String difficulty) {
         ArrayList<Program> filteredPrograms = new ArrayList<>();
 
-        for (Program program : Database.getPrograms()) {
+        for (Program program : DatabaseService.getPrograms()) {
             if (program.getDifficulty().equalsIgnoreCase(difficulty)) {
                 filteredPrograms.add(program);
             }
@@ -268,7 +268,7 @@ public class Client {
     public ArrayList<Program> filterProgramsByGoal(String goal) {
         ArrayList<Program> filteredPrograms = new ArrayList<>();
 
-        for (Program program : Database.getPrograms()) {
+        for (Program program : DatabaseService.getPrograms()) {
             for (Progress progress : program.getProgramGoals())
                 if (progress.getGoalType().equalsIgnoreCase(goal)) {
                     filteredPrograms.add(program);

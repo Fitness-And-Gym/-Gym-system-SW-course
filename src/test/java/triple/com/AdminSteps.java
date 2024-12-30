@@ -84,7 +84,7 @@ public class AdminSteps {
 
     @Then("New user Account will be stored in the database")
     public void NewUserAccountWillBeStoredInTheDatabase() {
-        Client clientFromDataBase = Database.getClientByName(newClient.getClientName());
+        Client clientFromDataBase = DatabaseService.getClientByName(newClient.getClientName());
 
         if (clientFromDataBase != null) {
             String actualPassword = clientFromDataBase.getPassword();
@@ -138,7 +138,7 @@ public class AdminSteps {
 
     @Then("New instructor Account will be stored in the database")
     public void newInstructorAccountWillBeStoredInTheDatabase() {
-        Instructor actualInstructor = Database.getInstructorById(instructorUser.getId());
+        Instructor actualInstructor = DatabaseService.getInstructorById(instructorUser.getId());
         assertEquals(instructorUser.getId(), actualInstructor.getId());
     }
 
@@ -194,7 +194,7 @@ public class AdminSteps {
     @Then("I can retrieve the most popular programs in my system.")
     public void iCanRetrieveTheMostPopularProgramsInMySystem() {
 
-        Database.createMockData();// mock data is stored in the database the popular program has 3 enrollments
+        DatabaseService.createMockData();// mock data is stored in the database the popular program has 3 enrollments
         ArrayList<Program> retrievedPrograms = adminUser.seeStatistics();
 
         assertNotNull("Retrieved programs list is null.", retrievedPrograms);
@@ -207,15 +207,15 @@ public class AdminSteps {
 
     @Given("I have several programs created.")
     public void I_have_several_programs_created() {
-        // Create a mock program and add it to the Database
+        // Create a mock program and add it to the DatabaseService
         instructorUser = new Instructor("John Doe", "I123");
         instructorUser.setStatus("valid");
-        Database.addInstructor(instructorUser);
+        DatabaseService.addInstructor(instructorUser);
         program = new Program(instructorUser, 12, "Fit in your pants", 4, "Beginner");
 
         // Add the program to the mock database
-        Database.addProgram(program);
-        Database.addEnrollmentsToProgram(program);
+        DatabaseService.addProgram(program);
+        DatabaseService.addEnrollmentsToProgram(program);
         program.viewAllEnrollments();
     }
 
@@ -269,18 +269,18 @@ public class AdminSteps {
         // Check the functionality of progress from enrolled Programs works
         instructorUser = new Instructor("John Doe", "I123");
         instructorUser.setStatus("valid");
-        Database.addInstructor(instructorUser);
+        DatabaseService.addInstructor(instructorUser);
         program = new Program(instructorUser, 12, "Fit in your pants", 4, "Beginner");
 
-        Database.addProgram(program);
-        Database.addEnrollmentsToProgram(program);
+        DatabaseService.addProgram(program);
+        DatabaseService.addEnrollmentsToProgram(program);
         Progress tempProgress = new Progress("fitness", 100, 50);
         program.addProgramGoal(tempProgress);
         newClient.enrollInProgram(program.getProgramId());
         newClient.displayGoalProgress();
         System.out.println("passed the progress test.");
 
-        Database.populateMockCompletedPrograms();
+        DatabaseService.populateMockCompletedPrograms();
         adminUser.TrackActivePrograms();
         adminUser.TrackCompletedPrograms();
     }
@@ -290,7 +290,7 @@ public class AdminSteps {
 
     @Given("There is completed and Active programs in the system")
     public void thereIsCompletedAndActiveProgramsInTheSystem() {
-        Database.populateMockCompletedPrograms();
+        DatabaseService.populateMockCompletedPrograms();
 
     }
 
@@ -335,7 +335,7 @@ public class AdminSteps {
 
     @Given("There is Articles pending for approval in the system")
     public void thereIsArticlesPendingForApprovalInTheSystem() {
-        Database.populateMockArticles();
+        DatabaseService.populateMockArticles();
 
     }
 
@@ -353,7 +353,7 @@ public class AdminSteps {
     @Then("The article will be available for users")
     public void theArticleWillBeAvailableForUsers() {
         assertTrue(article.isApproved());
-        Article actual = Database.searchArticleById(article.getId());
+        Article actual = DatabaseService.searchArticleById(article.getId());
         assertNotNull("Article should not be null", actual);
 
     }
@@ -369,7 +369,7 @@ public class AdminSteps {
     @Then("Then the article will be drop form system")
     public void thenTheArticleWillBeDropFormSystem() {
         assertFalse(article.isApproved());
-        Article actual = Database.searchArticleById(article.getId());
+        Article actual = DatabaseService.searchArticleById(article.getId());
         assertNull("Article should be null", actual);
 
     }
@@ -379,7 +379,7 @@ public class AdminSteps {
 
     @Given("There is feedbacks  ,complaints and suggestions in the system need to see as admin")
     public void thereIsFeedbacksComplaintsAndSuggestionsInTheSystemNeedToSeeAsAdmin() {
-        Database.populateMockFeedbacks();
+        DatabaseService.populateMockFeedbacks();
     }
 
     @When("I ask for clients last feedbacks")
@@ -406,7 +406,7 @@ public class AdminSteps {
     @Given("The clients and Instructors have plans subscription.")
     public void theClientsAndInstructorsHavePlansSubscription() {
         adminUser.login("admin", "admin");
-        Database.populateMockPlans();
+        DatabaseService.populateMockPlans();
     }
 
     @When("I want to see  plans for clients .")

@@ -13,16 +13,69 @@ public class Database {
     private static ArrayList<Client> clients = new ArrayList<>();
     private static ArrayList<Instructor> registrationRequests = new ArrayList<>();
     private static ArrayList<Instructor> declinedInstructors = new ArrayList<>();
-    public static ArrayList<Article> articleRequests = new ArrayList<>();
+    private static ArrayList<Article> articleRequests = new ArrayList<>();
     private static ArrayList<Program> programs = new ArrayList<>();
-    public static ArrayList<Program> CompletedPrograms = new ArrayList<>();
+    private static ArrayList<Program> CompletedPrograms = new ArrayList<>();
     private static ArrayList<Instructor> instructors = new ArrayList<>();
-    public static ArrayList<Article> articles = new ArrayList<>();
+    private static ArrayList<Article> articles = new ArrayList<>();
     private static ArrayList<Feedback> feeds = new ArrayList<>();
     private static ArrayList<PlanClient> plansClient = new ArrayList<>();
     private static ArrayList<PlanInstructor> plansInstructors = new ArrayList<>();
-    public static PlanClient basicPlanClient = new PlanClient("Basic", "free", 0, "Limited access");
-    public static PlanInstructor basicPlanInstructor = new PlanInstructor("Basic", "free", 0, "Limited access");
+    private static PlanClient basicPlanClient = new PlanClient("Basic", "free", 0, "Limited access");
+    private static PlanInstructor basicPlanInstructor = new PlanInstructor("Basic", "free", 0, "Limited access");
+
+    public static void addArticleRequest(Article article) {
+        articleRequests.add(article);
+    }
+
+    public static void addCompletedProgram(Program program) {
+        CompletedPrograms.add(program);
+    }
+
+    public static void removeProgram(Program program) {
+        programs.remove(program);
+    }
+
+    public static void removeArticleRequest(Article article) {
+        articleRequests.remove(article);
+    }
+
+    public static Article removeArticle() {
+        Article oldestRequest = articleRequests.remove(0);
+        return oldestRequest;
+    }
+
+    public static PlanClient getBasicPlanClient() {
+        return basicPlanClient;
+    }
+
+    public static PlanInstructor getBasicPlanInstructor() {
+        return basicPlanInstructor;
+    }
+
+    public static ArrayList<Article> getArticleRequests() {
+        return articleRequests;
+    }
+
+    public static ArrayList<Article> getArticles() {
+        return articles;
+    }
+
+    public static ArrayList<Client> getClients() {
+        return clients;
+    }
+
+    public static ArrayList<Instructor> getDeclinedInstructors() {
+        return declinedInstructors;
+    }
+
+    public static ArrayList<Instructor> getRegistrationRequests() {
+        return registrationRequests;
+    }
+
+    public static ArrayList<Program> getCompletedPrograms() {
+        return CompletedPrograms;
+    }
 
     public static PlanClient getClientPlanByNumber(int number) {
         return plansClient.get(number);
@@ -280,7 +333,7 @@ public class Database {
         System.out.println(
                 "------------------------------------------------------------------------------------------------");
 
-        for (Article article : Database.articles) {
+        for (Article article : articles) {
             String formattedDate = dateFormatter.format(article.getSubmissionDate());
 
             String truncatedContent = article.getContent();
@@ -309,7 +362,7 @@ public class Database {
         System.out.println(
                 "------------------------------------------------------------------------------------------------");
 
-        for (Article article : Database.articleRequests) {
+        for (Article article : articleRequests) {
             String formattedDate = dateFormatter.format(article.getSubmissionDate());
 
             String truncatedContent = article.getContent();
@@ -329,7 +382,7 @@ public class Database {
     }
 
     public static void printClientsTable() {
-        ArrayList<Client> clients = Database.getAllClients();
+        ArrayList<Client> clients = DatabaseService.getAllClients();
 
         if (clients.isEmpty()) {
             System.out.println("No clients found.");
