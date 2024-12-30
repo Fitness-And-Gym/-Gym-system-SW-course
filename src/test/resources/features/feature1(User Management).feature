@@ -56,7 +56,9 @@ Feature: User Management
 
 
 #Scenario Three
+  Scenario: Admin logs out and is not allowed to create a client account
+    When Admin logout
+    Then Admin is not allowed to create Client account
 
-# Monitor user activity and engagement statistics.
 
 

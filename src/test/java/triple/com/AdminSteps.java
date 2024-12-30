@@ -194,6 +194,7 @@ public class AdminSteps {
     @Then("I can retrieve the most popular programs in my system.")
     public void iCanRetrieveTheMostPopularProgramsInMySystem() {
 
+        adminUser.login("admin", "admin");
         DatabaseService.createMockData();// mock data is stored in the database the popular program has 3 enrollments
         ArrayList<Program> retrievedPrograms = adminUser.seeStatistics();
 
@@ -421,14 +422,16 @@ public class AdminSteps {
 
     // Tests For Uncovered Lines
 
-    @When("Admin logout ")
-    public void adminLogout() {
+    @When("Admin logout")
+    public void Admin_logout() {
         adminUser.logout();
     }
 
     @Then("Admin is not allowed to create Client account")
     public void adminNotAuthenticated() {
         assertNull(adminUser.createClientAccount("client", "123"));
+        adminUser.login("admin", "admin");// to not effect other tests
+
     }
 
 }
