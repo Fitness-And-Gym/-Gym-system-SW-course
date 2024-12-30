@@ -11,7 +11,15 @@ import java.util.List;
 //PS C:\Users\dell\OneDrive\Desktop\software\Fitness-Project-SE-course\src\main\java> java triple.com.Main
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Welcome to our Fitness Gym!");
+        // Initialize the DB
+        Database.createMockData();
+        Database.populateMockPrograms();
+        Database.populateMockArticles();
+        Database.populateMockCompletedPrograms();
+        Database.populateMockFeedbacks();
+        Database.populateMockPlans();
+
+        System.out.println("\nWelcome to our Fitness Gym!");
         Scanner scanner = new Scanner(System.in);
 
         // Display login options
@@ -28,7 +36,7 @@ public class Main {
                     clientSignUp(scanner);
                     break;
                 case 2:
-                    System.out.println("You selected: Instructor");
+                    instructorSignUp(scanner);
                     break;
 
                 default:
@@ -44,11 +52,9 @@ public class Main {
             switch (choice) {
                 case 1:
                     clientLogin(scanner);
-                    // Add user login logic here
                     break;
                 case 2:
-                    System.out.println("You selected: Instructor");
-                    // Add instructor login logic here
+                    instructorLogin(scanner);
                     break;
                 case 3:
                     adminLogin(scanner);
@@ -60,7 +66,6 @@ public class Main {
             System.out.println("Not valid option try again");
         }
 
-        // Close the scanner
         scanner.close();
     }
 
@@ -89,12 +94,7 @@ public class Main {
         Client client = Database.getClientByName(username);
         if (client.getPassword().equals(password)) {
             System.out.println("Your login successful!");
-            Database.createMockData();
-            Database.populateMockPrograms();
-            Database.populateMockArticles();
-            Database.populateMockCompletedPrograms();
-            Database.populateMockFeedbacks();
-            Database.populateMockPlans();
+
             while (true) {
                 System.out
                         .println("===================================================================================");
@@ -108,6 +108,7 @@ public class Main {
                 System.out.println("7 - TrackCompletedPrograms");
                 System.out.println("8 - Track on going programs");
                 System.out.println("9 - read Feed backs");
+                System.out.println("<--Go back (enter anything)");
 
                 // almost every thing is ready
                 // add benefit for a plan
@@ -134,8 +135,88 @@ public class Main {
                         break;
 
                     default:
-                        System.out.print("Not found option");
+                        main(null);
+                        break;
+                }
+            }
+        } else
 
+        {
+            System.out.println("Invalid client credentials. Please try again.");
+        }
+
+    }
+
+    private static void instructorSignUp(Scanner scanner) {
+
+        System.out.print("Enter username: ");
+        String username = scanner.next();
+
+        System.out.print("Enter  password: ");
+        String password = scanner.next();
+
+        Instructor instructor = new Instructor(username, password);// automatically sends request to admin
+        System.out.println(" Pending request sent to admin........");
+        System.out.println("1-Go back <- ");
+        int goBack = scanner.nextInt();
+        if (goBack == 1)
+            main(null);
+        return;
+    }
+
+    private static void instructorLogin(Scanner scanner) {
+
+        System.out.print("Enter username: ");
+        String username = scanner.next();
+
+        System.out.print("Enter password: ");
+        String password = scanner.next();
+
+        Instructor instructor = Database.getInstructorByName(username);
+        if (instructor.getPassword().equals(password)) {
+            System.out.println("Your Logged In");
+
+            while (true) {
+                System.out
+                        .println("===================================================================================");
+                System.out.println("Start your journey :");
+                System.out.println("1 - createClientAccount");
+                System.out.println("2 - see the most popular programs");
+                System.out.println("3 - updateClient");
+                System.out.println("4 - deactivateClient");
+                System.out.println("5 - check instructors requests box!");
+                System.out.println("6 - createInstructorAccount");
+                System.out.println("7 - TrackCompletedPrograms");
+                System.out.println("8 - Track on going programs");
+                System.out.println("9 - read Feed backs");
+                System.out.println("<--Go back (enter anything)");
+
+                // almost every thing is ready
+                // add benefit for a plan
+                int option = scanner.nextInt();
+                switch (option) {
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+
+                        break;
+                    case 4:
+                        break;
+                    case 5:
+                        break;
+                    case 6:
+                        break;
+                    case 7:
+                        break;
+                    case 8:
+                        break;
+                    case 9:
+                        break;
+
+                    default:
+                        main(null);
                         break;
                 }
             }
@@ -162,12 +243,7 @@ public class Main {
 
         if (admin.getLogin()) {
             System.out.println("Admin login successful!");
-            Database.createMockData();
-            Database.populateMockPrograms();
-            Database.populateMockArticles();
-            Database.populateMockCompletedPrograms();
-            Database.populateMockFeedbacks();
-            Database.populateMockPlans();
+
             while (true) {
                 System.out
                         .println("===================================================================================");
@@ -192,6 +268,8 @@ public class Main {
                 System.out.println("17 - see Articles");
                 System.out.println("18 - create new plan for Instructors");
                 System.out.println("19 - create new plan for clients");
+                System.out.println("<--Go back (enter anything)");
+
                 // almost every thing is ready
                 // add benefit for a plan
                 int option = scanner.nextInt();
@@ -259,8 +337,7 @@ public class Main {
                         adminOption19(scanner, admin);
                         break;
                     default:
-                        System.out.print("Not found option");
-
+                        main(null);
                         break;
                 }
             }

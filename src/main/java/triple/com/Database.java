@@ -163,6 +163,14 @@ public class Database {
         return null;
     }
 
+    public static Instructor getInstructorByName(String instructorName) {
+        for (Instructor instructor : instructors) {
+            if (instructor.getName().equals(instructorName))//assuming unique instructor name
+                return instructor;
+        }
+        return null;
+    }
+
     public static Client getClientById(String clientId) {
         for (Client client : clients) {
             if (client.getClientId().toLowerCase().equals(clientId.toLowerCase())) {
@@ -754,7 +762,7 @@ public class Database {
         addInstructor(instructor3);
 
         // Create mock programs
-        Program program1 = new Program(instructor1,100, "Weight Loss 101", 6, "Beginner");
+        Program program1 = new Program(instructor1, 100, "Weight Loss 101", 6, "Beginner");
         Program program2 = new Program(instructor2, 700, "Muscle Gain Pro", 8, "Intermediate");
         Program program3 = new Program(instructor3, 80, "Yoga for Flexibility", 4, "Advanced");
 
@@ -775,8 +783,6 @@ public class Database {
         addEnrollmentsToProgram(program3);
         addEnrollmentsToProgram(program2);
         addEnrollmentsToProgram(program1);
-
-
 
     }
 }
