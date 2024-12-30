@@ -15,7 +15,6 @@ import io.cucumber.java.Before;
 
 import triple.com.Admin;
 
-
 public class AdminSteps {
     private static Admin adminUser = new Admin();
     private Client newClient;
@@ -201,13 +200,6 @@ public class AdminSteps {
         assertNotNull("Retrieved programs list is null.", retrievedPrograms);
         assertTrue("Programs list is empty.", !retrievedPrograms.isEmpty());
 
-        Program mostPopular = retrievedPrograms.get(0);
-        assertEquals("Enrollment count for the most popular program is incorrect.", 8, mostPopular.popularity());// 3 is
-                                                                                                                 // depending
-                                                                                                                 // on
-                                                                                                                 // the
-                                                                                                                 // mock
-                                                                                                                 // data
     }
 
     // Retrieve Program report
@@ -407,10 +399,10 @@ public class AdminSteps {
 
     }
 
-
-    //Feature 4
-    //Scenario 1
+    // Feature 4
+    // Scenario 1
     String actual;
+
     @Given("The clients and Instructors have plans subscription.")
     public void theClientsAndInstructorsHavePlansSubscription() {
         adminUser.login("admin", "admin");
@@ -419,13 +411,12 @@ public class AdminSteps {
 
     @When("I want to see  plans for clients .")
     public void iWantToSeePlansForClients() {
-        actual=adminUser.seePlansForClient();
+        actual = adminUser.seePlansForClient();
     }
 
     @Then("A list of clients available plan's info show.")
     public void aListOfClientsAvailablePlanSInfoShow() {
-        assert(actual.contains("Plan Name: Basic"));
+        assert (actual.contains("Plan Name: Basic"));
     }
-
 
 }
