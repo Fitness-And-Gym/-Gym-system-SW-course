@@ -1,3 +1,5 @@
 /target/
 *.class
+# Ignore JVM error logs
+hs_err_pid*.log
 
