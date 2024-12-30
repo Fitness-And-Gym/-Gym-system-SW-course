@@ -9,6 +9,8 @@ import java.util.List;
 
 //PS C:\Users\dell\OneDrive\Desktop\software\Fitness-Project-SE-course\src\main\java> javac triple/com/*.java
 //PS C:\Users\dell\OneDrive\Desktop\software\Fitness-Project-SE-course\src\main\java> java triple.com.Main
+//mvn clean verify
+
 public class Main {
     static final String enterUserName = "Enter username: ";
     static final String lineSeparator = "===================================================================================";
