@@ -2,44 +2,80 @@ package triple.com;
 
 import java.util.Date;
 
-import triple.com.Client;
-import triple.com.DatabaseService;
-
+/**
+ * The Feedback class represents feedback submitted by clients. It stores information
+ * about the type of feedback, the content of the message, the client who submitted it,
+ * and the timestamp of when the feedback was provided.
+ */
 public class Feedback {
+
     private static int idCounter = 1;
     private String id;
-    private Client author; // The ID of the user who provided the feedback
-    private String feedbackType; // Type of feedback (e.g., complaint, suggestion, etc.)
-    private String message; // The actual feedback message
-    private Date timestamp; // The time when the feedback was submitted
+    private Client author;
+    private String feedbackType;
+    private String message;
+    private Date timestamp;
 
-    // Constructor
+    /**
+     * Constructs a Feedback object with the specified type, message, and author.
+     * The feedback is automatically added to the database.
+     *
+     * @param feedbackType the type of feedback (e.g., complaint, suggestion)
+     * @param message the content of the feedback message
+     * @param author the client who is submitting the feedback
+     */
     public Feedback(String feedbackType, String message, Client author) {
-        this.id = "F" + idCounter++;
+        this.id = "F" + idCounter++; // Generate unique ID for feedback
         this.feedbackType = feedbackType;
         this.message = message;
-        this.timestamp = new Date();
+        this.timestamp = new Date(); // Set the current date and time as timestamp
         this.author = author;
-        DatabaseService.addFeed(this);
+        DatabaseService.addFeed(this); // Add the feedback to the database
     }
 
     // Getters and Setters
+
+    /**
+     * Returns the unique identifier for the feedback.
+     *
+     * @return the feedback ID
+     */
     public String getId() {
         return id;
     }
 
+    /**
+     * Returns the type of feedback (e.g., complaint, suggestion).
+     *
+     * @return the feedback type
+     */
     public String getFeedbackType() {
         return feedbackType;
     }
 
+    /**
+     * Returns the message content of the feedback.
+     *
+     * @return the feedback message
+     */
     public String getMessage() {
         return message;
     }
 
+    /**
+     * Returns the timestamp of when the feedback was submitted.
+     *
+     * @return the timestamp of the feedback submission
+     */
     public Date getTimestamp() {
         return timestamp;
     }
 
+    /**
+     * Formats and prints the feedback details as a string.
+     *
+     * @return the formatted feedback details
+     */
     public String printFeedback() {
         return "------------------------------------\n" +
                 "Feedback Type  : " + feedbackType + "\n" +
@@ -48,5 +84,4 @@ public class Feedback {
                 "Timestamp      : " + timestamp + "\n" +
                 "------------------------------------";
     }
-
 }

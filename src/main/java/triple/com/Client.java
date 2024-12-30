@@ -5,34 +5,88 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+/**
+ * Represents a client in the system, with functionality to manage programs, goals, feedback, dietary preferences,
+ * and subscription plans.
+ */
 public class Client {
+    /**
+     * A unique counter to generate unique client IDs.
+     */
     private static int idCounter = 1;
+
+    /**
+     * The unique identifier for the client.
+     */
     private String clientId;
+
+    /**
+     * The name of the client.
+     */
     private String clientName;
+
+    /**
+     * The password of the client.
+     */
     private String password;
+
+    /**
+     * A list of programs the client is enrolled in.
+     */
     private ArrayList<Program> clientPrograms = new ArrayList<>();
+
+    /**
+     * A list of feedback provided by the client.
+     */
     private ArrayList<Feedback> clientFeeds = new ArrayList<>();
+
+    /**
+     * The inbox containing messages for the client.
+     */
     private ArrayList<Message> inbox = new ArrayList<>();
+
+    /**
+     * A list of dietary preferences for the client.
+     */
     private ArrayList<String> dietaryPreferences = new ArrayList<>();
 
+    /**
+     * A list of the client's progress, organized by goal.
+     */
     private List<Progress> progressByGoal;
-    private String status;// Might Has Only the value 'invalid'/'valid'
+
+    /**
+     * The current status of the client, which can be either 'valid' or 'invalid'.
+     */
+    private String status; // Might have only the value 'invalid'/'valid'
+
+    /**
+     * The subscription plan of the client.
+     */
     private PlanClient plan;
-    // Diatry restrictions
 
-    // let the user input his name and password and search for it in the database
+    // Dietary restrictions would be managed later
 
+    /**
+     * Constructor to create a new Client object with the given client name and password.
+     * This constructor initializes the client ID, sets the initial status as 'valid',
+     * subscribes the client to the basic plan, and adds the client to the database.
+     *
+     * @param clientName the name of the client
+     * @param password the password for the client
+     */
     public Client(String clientName, String password) {
         this.clientName = clientName;
         this.password = password;
         this.progressByGoal = new ArrayList<>();
-        this.clientId = "C" + idCounter++;
-        this.status = "valid";
-        this.plan = DatabaseService.getBasicPlanClient();
-        DatabaseService.getBasicPlanClient().subscribeClient(this);
-        DatabaseService.addClient(this);
-
+        this.clientId = "C" + idCounter++;  // Generate unique client ID
+        this.status = "valid";  // Set initial status to 'valid'
+        this.plan = DatabaseService.getBasicPlanClient();  // Set the default plan
+        DatabaseService.getBasicPlanClient().subscribeClient(this);  // Subscribe client to the plan
+        DatabaseService.addClient(this);  // Add client to the database
     }
+
 
     public String getClientName() {
         return clientName;
@@ -82,6 +136,13 @@ public class Client {
         this.status = status;
     }
 
+    /**
+     * Enrolls the client in a program by its program ID.
+     * If the program is valid and the client is not already enrolled,
+     * the client will be added to the program's list of enrolled clients.
+     *
+     * @param programId the ID of the program to enroll the client in
+     */
     public void enrollInProgram(String programId) {
         Program selectedProgram = DatabaseService.getProgramById(programId);
         if (selectedProgram != null && !clientPrograms.contains(selectedProgram)) {
@@ -90,24 +151,45 @@ public class Client {
         }
     }
 
-    // Enables Client to create progress
+    /**
+     * Sets a goal for the client with a specific goal type, starting value, and target value.
+     * The new goal is added to the client's progress list.
+     *
+     * @param goalType the type of the goal (e.g., weight loss, muscle gain)
+     * @param startValue the starting value for the goal
+     * @param targetValue the target value to achieve
+     * @return the created Progress object
+     */
     public Progress setGoal(String goalType, double startValue, double targetValue) {
         Progress progress = new Progress(goalType, startValue, targetValue);
         progressByGoal.add(progress);
         return progress;
     }
 
-    // Enables Program to add progress to enrollments
+    /**
+     * Adds a progress goal to the client's list of goals for a specific program.
+     *
+     * @param progress the Progress object to be added
+     */
     public void setGoalForAProgram(Progress progress) {
         progressByGoal.add(progress);
     }
 
-    public void displayGaolProgressIn(int goalNumber) {// a specified method
+    /**
+     * Displays the progress summary of a specified goal based on its index in the goal list.
+     *
+     * @param goalNumber the index of the goal in the list
+     */
+    public void displayGaolProgressIn(int goalNumber) {
         Progress progress = progressByGoal.get(goalNumber);
         String summery = progress.getProgressSummary();
         System.out.println(summery);
     }
 
+    /**
+     * Displays the progress summary for all of the client's goals.
+     * If no goals are set, a message indicating this is printed.
+     */
     public void displayGoalProgress() {
         if (progressByGoal.isEmpty()) {
             System.out.println("No goals set for this client.");
@@ -118,26 +200,46 @@ public class Client {
         }
     }
 
-    public Progress updateGoalProgress(int goalNumber, double newValue)// goal number indicates the index of goal in the
-    {
+    /**
+     * Updates the progress of a specified goal by its index in the list.
+     * The new value is applied to the selected goal.
+     *
+     * @param goalNumber the index of the goal in the list
+     * @param newValue the new value to update the goal's progress
+     * @return the updated Progress object
+     */
+    public Progress updateGoalProgress(int goalNumber, double newValue) {
         progressByGoal.get(goalNumber).updateProgress(newValue);
         return progressByGoal.get(goalNumber);
     }
 
+    /**
+     * Allows the client to provide feedback with a specified feedback type and message.
+     * The feedback is stored in the client's feedback list and also added to the database.
+     *
+     * @param feedbackType the type of feedback (e.g., complaint, suggestion, etc.)
+     * @param message the feedback message
+     */
     public void writeFeedback(String feedbackType, String message) {
         Feedback temp = new Feedback(feedbackType, message, this);
         clientFeeds.add(temp);
         DatabaseService.addFeed(temp);
     }
 
-    // by index choose the plan to participate in no need for id since only few
-    // plans
+    /**
+     * Changes the client's subscription plan. The client's current plan is canceled, and the new plan is applied.
+     *
+     * @param plan the new PlanClient to subscribe the client to
+     */
     public void changeSubscription(PlanClient plan) {
         this.plan.cancelClientSubscription(this);
         this.plan = plan;
         plan.subscribeClient(this);
     }
 
+    /**
+     * Cancels the client's current subscription and resets their plan to the basic plan.
+     */
     public void deleteSubscription() {
         this.plan.cancelClientSubscription(this);
         this.plan = DatabaseService.getBasicPlanClient();
@@ -209,14 +311,27 @@ public class Client {
         return inbox;
     }
 
+    /**
+     * Replies to an original message with the specified reply content.
+     * The reply message is sent to the original message sender ( instructor).
+     *
+     * @param originalMessage the message to reply to
+     * @param replyContent the content of the reply
+     * @return the reply message
+     */
     public Message replyToMessage(Message originalMessage, String replyContent) {
         Message reply = new Message("Re: " + originalMessage.getTitle(), replyContent,
                 originalMessage.getSender(), clientId);
-        originalMessage.getSender().receiveMessage(reply);// sender is instructor
+        originalMessage.getSender().receiveMessage(reply);
         return reply;
     }
 
-    // Add a dietary preference to the list
+    /**
+     * Adds a dietary preference to the client's dietary preferences list.
+     * If the preference already exists, it will not be added again.
+     *
+     * @param preference the dietary preference to add
+     */
     public void addDietaryPreference(String preference) {
         if (!dietaryPreferences.contains(preference)) {
             dietaryPreferences.add(preference);
@@ -226,7 +341,12 @@ public class Client {
         }
     }
 
-    // Delete a dietary preference from the list
+    /**
+     * Removes a dietary preference from the client's list.
+     * If the preference does not exist, a message will be displayed.
+     *
+     * @param preference the dietary preference to remove
+     */
     public void deleteDietaryPreference(String preference) {
         if (dietaryPreferences.contains(preference)) {
             dietaryPreferences.remove(preference);
@@ -236,12 +356,18 @@ public class Client {
         }
     }
 
-    // Get the list of dietary preferences
+    /**
+     * Returns the list of the client's dietary preferences.
+     *
+     * @return the dietary preferences list
+     */
     public ArrayList<String> getDietaryPreferences() {
         return dietaryPreferences;
     }
 
-    // Print all dietary preferences
+    /**
+     * Prints all of the client's dietary preferences if exist.
+     */
     public void printDietaryPreferences() {
         if (dietaryPreferences.isEmpty()) {
             System.out.println("No dietary preferences set.");
@@ -253,6 +379,12 @@ public class Client {
         }
     }
 
+    /**
+     * Filters and returns a list of programs based on the specified difficulty.
+     *
+     * @param difficulty the difficulty level ( Beginner Intermediate Advanced)
+     * @return a list of programs with the specified difficulty
+     */
     public ArrayList<Program> filterProgramsByDifficulty(String difficulty) {
         ArrayList<Program> filteredPrograms = new ArrayList<>();
 
@@ -265,15 +397,22 @@ public class Client {
         return filteredPrograms;
     }
 
+    /**
+     * Filters and returns a list of programs based on the specified goal type.
+     *
+     * @param goal the goal type (e.g., "weight loss", "muscle gain")
+     * @return a list of programs with the specified goal
+     */
     public ArrayList<Program> filterProgramsByGoal(String goal) {
         ArrayList<Program> filteredPrograms = new ArrayList<>();
 
         for (Program program : DatabaseService.getPrograms()) {
-            for (Progress progress : program.getProgramGoals())
+            for (Progress progress : program.getProgramGoals()) {
                 if (progress.getGoalType().equalsIgnoreCase(goal)) {
                     filteredPrograms.add(program);
                     break;
                 }
+            }
         }
 
         return filteredPrograms;

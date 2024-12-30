@@ -3,7 +3,11 @@ package triple.com;
 import java.util.ArrayList;
 
 import javax.xml.crypto.Data;
-
+/**
+ * The DatabaseService class serves as a middle layer
+ * to let other classes interact with the real Database
+ * DatabaseService is the only class with direct access to Database class
+ */
 public class DatabaseService {
     public static PlanClient getClientPlanByNumber(int number) {
         return Database.getClientPlanByNumber(number);

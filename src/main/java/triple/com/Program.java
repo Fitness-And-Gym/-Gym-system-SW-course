@@ -8,6 +8,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * The Program class represents a training program offered by an instructor.
+ * It manages the enrollment of clients, tracks attendance, and generates reports
+ * on program performance such as revenue and attendance.
+ */
 public class Program {
     // TO DO : add videos and images array for program added by instructor
     // TO DO : have a schedule for how many session in a week and in which day and
@@ -18,13 +23,24 @@ public class Program {
     private Set<Client> enrolledClients;
     private final String programId;
     public String title;
-    private String difficulty;// Beginner Intermediate Advanced
-    private int duration;// in weeks
+    private String difficulty; // Beginner, Intermediate, Advanced
+    private int duration; // in weeks
     public int fees;
-    private Map<Client, List<Boolean>> attendanceRecords;// assuming one session per week
-    private List<Progress> programGoals;// The Ideal clients that are going to enroll and the outcome
+    private Map<Client, List<Boolean>> attendanceRecords; // assuming one session per week
+    private List<Progress> programGoals; // The Ideal clients that are going to enroll and the outcome
     private boolean completed;
 
+    /**
+     * Constructs a new Program with the specified details.
+     *
+     * @param instructor the instructor offering the program
+     * @param fees the cost of the program
+     * @param title the title of the program
+     * @param duration the duration of the program in weeks
+     * @param difficulty the difficulty level of the program
+     * @throws IllegalArgumentException if the instructor is null
+     * @throws IllegalStateException if the instructor is not authorized to create a program
+     */
     public Program(Instructor instructor, int fees, String title, int duration, String difficulty) {
         if (instructor == null) {
             throw new IllegalArgumentException("Instructor cannot be null.");
@@ -46,36 +62,67 @@ public class Program {
         this.programGoals = new ArrayList<>();
         this.completed = false;
         DatabaseService.addProgram(this);
-
-        // system.out.println("Program created successfully with ID: " + this.id);
     }
 
+    /**
+     * Updates the title of the program.
+     *
+     * @param title the new title for the program
+     */
     public void updateTitle(String title) {
         this.title = title;
     }
 
+    /**
+     * Updates the fees of the program.
+     *
+     * @param fees the new fees for the program
+     */
     public void updateFees(int fees) {
         this.fees = fees;
     }
 
+    /**
+     * Marks the program as completed.
+     */
     public void markAsCompleted() {
         this.completed = true;
         DatabaseService.removeProgram(this);
         DatabaseService.addCompletedProgram(this);
     }
 
+    /**
+     * Returns the list of program goals.
+     *
+     * @return a list of progress objects representing the program goals
+     */
     public List<Progress> getProgramGoals() {
         return programGoals;
     }
 
+    /**
+     * Checks if the program has been completed.
+     *
+     * @return true if the program is completed, false otherwise
+     */
     public boolean isCompleted() {
         return this.completed;
     }
 
+    /**
+     * Adds a goal to the program.
+     *
+     * @param progress the goal to add to the program
+     */
     public void addProgramGoal(Progress progress) {
         programGoals.add(progress);
     }
 
+    /**
+     * Enrolls a client into the program.
+     *
+     * @param client the client to enroll
+     */
     public void enrollClient(Client client) {
         if (!enrolledClients.contains(client)) {
             enrolledClients.add(client);
@@ -96,46 +143,99 @@ public class Program {
         }
     }
 
+    /**
+     * Returns the set of clients currently enrolled in the program.
+     *
+     * @return a set of clients enrolled in the program
+     */
     public Set<Client> getEnrolledClients() {
         return enrolledClients;
     }
 
+    /**
+     * Returns the popularity of the program, based on the number of enrollments.
+     *
+     * @return the number of clients enrolled in the program
+     */
     public int popularity() {
         return enrollments;
     }
 
+    /**
+     * Returns the instructor of the program.
+     *
+     * @return the instructor of the program
+     */
     public Instructor getInstructor() {
         return instructor;
     }
 
+    /**
+     * Returns the program ID.
+     *
+     * @return the unique ID of the program
+     */
     public String getProgramId() {
         return programId;
     }
 
+    /**
+     * Returns the title of the program.
+     *
+     * @return the title of the program
+     */
     public String getTitle() {
         return title;
     }
 
+    /**
+     * Sets the title of the program.
+     *
+     * @param name the new title for the program
+     */
     public void setTitle(String name) {
         this.title = name;
     }
 
+    /**
+     * Returns the duration of the program in weeks.
+     *
+     * @return the duration of the program
+     */
     public int getDuration() {
         return duration;
     }
 
+    /**
+     * Returns the difficulty of the program.
+     *
+     * @return the difficulty level of the program
+     */
     public String getDifficulty() {
         return difficulty;
     }
 
+    /**
+     * Sets the number of enrollments for the program.
+     *
+     * @param enrollments the new number of enrollments
+     */
     public void setEnrollments(int enrollments) {
         this.enrollments = enrollments;
     }
 
+    /**
+     * Returns the number of enrollments in the program.
+     *
+     * @return the number of clients enrolled in the program
+     */
     public int getEnrollments() {
         return enrollments;
     }
 
+    /**
+     * Displays the details of all enrollments in the program.
+     */
     public void viewAllEnrollments() {
         if (enrollments == 0) {
             System.out.println("No enrollments found for the program: " + title);
@@ -149,6 +249,13 @@ public class Program {
         }
     }
 
+    /**
+     * Marks attendance for a client in a specific week.
+     *
+     * @param client the client whose attendance is being marked
+     * @param week the week for which attendance is being marked
+     * @param attended true if the client attended, false otherwise
+     */
     public void markAttendance(Client client, int week, boolean attended) {
         if (!enrolledClients.contains(client)) {
             System.out.println("Client is not enrolled in this program.");
@@ -166,7 +273,12 @@ public class Program {
                 + (attended ? "Present" : "Absent") + ".");
     }
 
-    // Get Attendance of the client //Not Used Yet May be deleted
+    /**
+     * Returns the attendance records of a client.
+     *
+     * @param client the client whose attendance records are being retrieved
+     * @return a list of booleans representing the attendance in each week
+     */
     public List<Boolean> getAttendance(Client client) {
         if (!enrolledClients.contains(client)) {
             System.out.println("Client is not enrolled in this program.");
@@ -175,6 +287,9 @@ public class Program {
         return attendanceRecords.get(client);
     }
 
+    /**
+     * Displays the attendance details for all clients enrolled in the program.
+     */
     public void viewAttendance() {
         if (enrolledClients.isEmpty()) {
             System.out.println("No clients enrolled in the program.");
@@ -191,6 +306,11 @@ public class Program {
         }
     }
 
+    /**
+     * Calculates the overall attendance percentage for the program.
+     *
+     * @return the attendance percentage for the entire program
+     */
     public double calculateProgramAttendance() {
         int totalAttendedSessions = 0;
         int totalSessions = enrolledClients.size() * duration;
@@ -211,14 +331,16 @@ public class Program {
         return programAttendancePercentage;
     }
 
+    /**
+     * Generates a report for the program, including details on revenue, attendance, and client progress.
+     *
+     * @return a string representing the program's detailed report
+     */
     public String generateReport() {
         StringBuilder report = new StringBuilder();
 
         double revenue = enrollments * fees;
         double attendancePercent = calculateProgramAttendance();
-
-        // Calculate overall goal progress (average progress of all clients)
-        // double overallProgress = calculateOverallGoalProgress();
 
         report.append("----- Program Report -----\n")
                 .append("Program: ").append(title).append("\n")
@@ -236,7 +358,6 @@ public class Program {
                 report.append(" - Client Name: ").append(client.getClientName()).append("\n")
                         .append("   Client ID: ").append(client.getClientId()).append("\n");
 
-                // Calculate attendance statistics
                 List<Boolean> attendance = attendanceRecords.get(client);
                 if (attendance != null) {
                     int attendedSessions = 0;
@@ -262,14 +383,16 @@ public class Program {
         return report.toString();
     }
 
+    /**
+     * Generates a report for the program, suitable for admin use.
+     *
+     * @return a string representing a summary report for the program
+     */
     public String generateReportForAdmin() {
         StringBuilder report = new StringBuilder();
 
         double revenue = enrollments * fees;
         double attendancePercent = calculateProgramAttendance();
-
-        // Calculate overall goal progress (average progress of all clients)
-        // double overallProgress = calculateOverallGoalProgress();
 
         report.append("----- Program Report -----\n")
                 .append("Program: ").append(title).append("\n")
@@ -283,5 +406,4 @@ public class Program {
 
         return report.toString();
     }
-
 }

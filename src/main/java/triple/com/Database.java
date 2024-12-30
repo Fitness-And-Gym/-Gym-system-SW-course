@@ -9,22 +9,35 @@ import java.util.Random;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * The Database class serves as a mock database for storing various entities
+ * such as clients, instructors, articles, programs, feedback, and plans. It
+ * handles the storage and management of these entities in static ArrayLists.
+ * This class simulates database operations like adding, removing, and retrieving
+ * objects.
+ */
 public class Database {
-    private static ArrayList<Client> clients = new ArrayList<>();
-    private static ArrayList<Instructor> registrationRequests = new ArrayList<>();
-    private static ArrayList<Instructor> declinedInstructors = new ArrayList<>();
-    private static ArrayList<Article> articleRequests = new ArrayList<>();
-    private static ArrayList<Program> programs = new ArrayList<>();
-    private static ArrayList<Program> CompletedPrograms = new ArrayList<>();
-    private static ArrayList<Instructor> instructors = new ArrayList<>();
-    private static ArrayList<Article> articles = new ArrayList<>();
-    private static ArrayList<Feedback> feeds = new ArrayList<>();
-    private static ArrayList<PlanClient> plansClient = new ArrayList<>();
-    private static ArrayList<PlanInstructor> plansInstructors = new ArrayList<>();
+
+    // Static lists to hold the different entities
+    private static ArrayList<Client> clients = new ArrayList<>(); // List of registered clients
+    private static ArrayList<Instructor> registrationRequests = new ArrayList<>(); // List of instructor registration requests
+    private static ArrayList<Instructor> declinedInstructors = new ArrayList<>(); // List of declined instructors
+    private static ArrayList<Article> articleRequests = new ArrayList<>(); // List of article submission requests
+    private static ArrayList<Program> programs = new ArrayList<>(); // List of programs
+    private static ArrayList<Program> CompletedPrograms = new ArrayList<>(); // List of completed programs
+    private static ArrayList<Instructor> instructors = new ArrayList<>(); // List of registered instructors
+    private static ArrayList<Article> articles = new ArrayList<>(); // List of approved articles
+    private static ArrayList<Feedback> feeds = new ArrayList<>(); // List of feedback submissions
+    private static ArrayList<PlanClient> plansClient = new ArrayList<>(); // List of client plans
+    private static ArrayList<PlanInstructor> plansInstructors = new ArrayList<>(); // List of instructor plans
+
+    // Static instances of basic plans for clients and instructors
     private static PlanClient basicPlanClient = new PlanClient("Basic", "free", 0, "Limited access");
     private static PlanInstructor basicPlanInstructor = new PlanInstructor("Basic", "free", 0, "Limited access");
 
-    public static void addArticleRequest(Article article) {
+    // Constructor and methods to manage the entities would be here...
+
+public static void addArticleRequest(Article article) {
         articleRequests.add(article);
     }
 
