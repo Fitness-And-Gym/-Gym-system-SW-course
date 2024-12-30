@@ -10,6 +10,11 @@ import java.util.List;
 //PS C:\Users\dell\OneDrive\Desktop\software\Fitness-Project-SE-course\src\main\java> javac triple/com/*.java
 //PS C:\Users\dell\OneDrive\Desktop\software\Fitness-Project-SE-course\src\main\java> java triple.com.Main
 public class Main {
+    static final String enterUserName = "Enter username: ";
+    static final String lineSeparator = "===================================================================================";
+    static final String goBack = "<--Go back (enter 0)";
+    static final String adminCredentials = "admin";
+
     public static void main(String[] args) {
         // Initialize the DB
         DatabaseService.createMockData();
@@ -71,7 +76,7 @@ public class Main {
 
     private static void clientSignUp(Scanner scanner) {
 
-        System.out.print("Enter username: ");
+        System.out.print(enterUserName);
         String username = scanner.next();
 
         System.out.print("Enter  password: ");
@@ -85,7 +90,7 @@ public class Main {
 
     private static void clientLogin(Scanner scanner) {
 
-        // System.out.print("Enter username: ");
+        // System.out.print(enterUserName);
         // String username = scanner.next();
 
         // System.out.print("Enter password: ");
@@ -98,7 +103,7 @@ public class Main {
 
             while (true) {
                 System.out
-                        .println("===================================================================================");
+                        .println(lineSeparator);
                 System.out.println("Start your journey :");
                 System.out.println("1 - change user Name");
                 System.out.println("2 - Enroll in program");
@@ -106,10 +111,8 @@ public class Main {
                 System.out.println("4 - update Goal Progress");
                 System.out.println("5 - see my goals");
                 System.out.println("6 - change Subscription");
-                System.out.println("7 - TrackCompletedPrograms");
-                System.out.println("8 - Track on going programs");
-                System.out.println("9 - read Feed backs");
-                System.out.println("<--Go back (enter 0)");
+
+                System.out.println(goBack);
 
                 // almost every thing is ready
                 // add benefit for a plan
@@ -155,7 +158,7 @@ public class Main {
 
     private static void instructorSignUp(Scanner scanner) {
 
-        System.out.print("Enter username: ");
+        System.out.print(enterUserName);
         String username = scanner.next();
 
         System.out.print("Enter  password: ");
@@ -163,7 +166,7 @@ public class Main {
 
         Instructor instructor = new Instructor(username, password);// automatically sends request to admin
         System.out.println(" Pending request sent to admin........");
-        System.out.println("<--Go back (enter 0)");
+        System.out.println(goBack);
         int goBack = scanner.nextInt();
         if (goBack == 0)
             main(null);
@@ -172,7 +175,7 @@ public class Main {
 
     private static void instructorLogin(Scanner scanner) {
 
-        System.out.print("Enter username: ");
+        System.out.print(enterUserName);
         String username = scanner.next();
 
         System.out.print("Enter password: ");
@@ -184,18 +187,11 @@ public class Main {
 
             while (true) {
                 System.out
-                        .println("===================================================================================");
+                        .println(lineSeparator);
                 System.out.println("Start your journey :");
-                System.out.println("1 - createClientAccount");
-                System.out.println("2 - see the most popular programs");
-                System.out.println("3 - updateClient");
-                System.out.println("4 - deactivateClient");
-                System.out.println("5 - check instructors requests box!");
-                System.out.println("6 - createInstructorAccount");
-                System.out.println("7 - TrackCompletedPrograms");
-                System.out.println("8 - Track on going programs");
-                System.out.println("9 - read Feed backs");
-                System.out.println("<--Go back (enter 0)");
+                System.out.println("1 - create program");
+
+                System.out.println(goBack);
 
                 // almost every thing is ready
                 // add benefit for a plan
@@ -245,14 +241,14 @@ public class Main {
         String password = scanner.next();
 
         admin.login(username, password);
-        admin.login("admin", "admin");
+        admin.login(adminCredentials, adminCredentials);
 
         if (admin.getLogin()) {
             System.out.println("Admin login successful!");
 
             while (true) {
                 System.out
-                        .println("===================================================================================");
+                        .println(lineSeparator);
 
                 System.out.println("Please choose action :");
                 System.out.println("1 - createClientAccount");
@@ -274,7 +270,7 @@ public class Main {
                 System.out.println("17 - see Articles");
                 System.out.println("18 - create new plan for Instructors");
                 System.out.println("19 - create new plan for clients");
-                System.out.println("<--Go back (enter 0)");
+                System.out.println(goBack);
 
                 // almost every thing is ready
                 // add benefit for a plan
@@ -562,7 +558,7 @@ public class Main {
 
     public static void clientOption2(Scanner scanner, Client client) {
         Admin admin = new Admin();
-        admin.login("admin", "admin");
+        admin.login(adminCredentials, adminCredentials);
         admin.TrackActivePrograms();
         System.out.print("Enter Program ID= ");
         String programId = scanner.next();
@@ -608,7 +604,7 @@ public class Main {
 
     public static void clientOption6(Scanner scanner, Client client) {
         Admin admin = new Admin();
-        admin.login("admin", "admin");
+        admin.login(adminCredentials, adminCredentials);
         admin.seePlansForClient();
 
         System.out.print("Enter Plan number= ");
