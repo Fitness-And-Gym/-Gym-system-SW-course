@@ -59,14 +59,12 @@ public class InstructorSteps {
     public void The_update_will_be_reflected_on_the_system() {
         Program programInDB = DatabaseService.getProgramById(program.getProgramId());
         assert (programInDB.getProgramId() == program.getProgramId());
-
-    }
+ }
 
     @When("I delete the program")
     public void I_delete_the_program() {
         System.out.println("before deletion//////////////////////////////");
         admin.TrackActivePrograms();
-
         instructor.deleteMyProgram(program.getProgramId());
     }
 

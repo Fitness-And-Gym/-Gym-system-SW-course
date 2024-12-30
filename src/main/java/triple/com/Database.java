@@ -40,15 +40,6 @@ public class Database {
         articleRequests.remove(article);
     }
 
-    public static Article removeArticleRequest() {
-        return articleRequests.remove(0);
-    }
-
-    public static Article removeArticle() {
-        Article oldestRequest = articleRequests.remove(0);
-        return oldestRequest;
-    }
-
     public static PlanClient getBasicPlanClient() {
         return basicPlanClient;
     }
@@ -59,22 +50,6 @@ public class Database {
 
     public static ArrayList<Article> getArticleRequests() {
         return articleRequests;
-    }
-
-    public static ArrayList<Article> getArticles() {
-        return articles;
-    }
-
-    public static ArrayList<Client> getClients() {
-        return clients;
-    }
-
-    public static ArrayList<Instructor> getDeclinedInstructors() {
-        return declinedInstructors;
-    }
-
-    public static ArrayList<Instructor> getRegistrationRequests() {
-        return registrationRequests;
     }
 
     public static ArrayList<Program> getCompletedPrograms() {
@@ -116,7 +91,6 @@ public class Database {
         System.out.printf("%-10s %-20s %-15s  %-15s %n",
                 "ID", "Name", "Password", "Status");
         System.out.println("------------------------------------------------------------------------------------");
-
         for (Instructor instructor : declinedInstructors) {
             System.out.printf("%-10s %-20s %-15s  %-15s %n",
                     instructor.getId(),
@@ -126,14 +100,14 @@ public class Database {
         }
     }
 
-    public static void deleteProgramById(String programId) {
-        Program program = getProgramById(programId);
-        if (program != null) {
-            programs.remove(program);
-            System.out.println("program to delete issssss db by id" + program.getTitle());
-        }
-
-    }
+    // there is a duplicate function in the Instructor
+    // public static void deleteProgramById(String programId) {
+    // Program program = getProgramById(programId);
+    // if (program != null) {
+    // programs.remove(program);
+    // System.out.println("program to delete title" + program.getTitle());
+    // }
+    // }
 
     public static void deleteProgram(Program program) {
         if (programs.contains(program)) {
@@ -215,14 +189,15 @@ public class Database {
         return null;
     }
 
-    public static Article getArticleById(String articleId) {
-        for (Article article : articles) {
-            if (article.getId().toLowerCase().equals(articleId.toLowerCase())) {
-                return article;
-            }
-        }
-        return null;
-    }
+    // May be used in instructor main menu
+    // public static Article getArticleById(String articleId) {
+    // for (Article article : articles) {
+    // if (article.getId().toLowerCase().equals(articleId.toLowerCase())) {
+    // return article;
+    // }
+    // }
+    // return null;
+    // }
 
     public static Article getArticleRequestById(String articleId) {
         for (Article article : articleRequests) {
@@ -254,7 +229,6 @@ public class Database {
             System.out.println("Instructors requests box empty!");
             return null;
         }
-
         Instructor oldestRequest = registrationRequests.get(0);
         return oldestRequest;
     }
@@ -336,14 +310,15 @@ public class Database {
         return null;
     }
 
-    public static Article searchPendingArticleById(String id) {
-        for (Article article : articleRequests) {
-            if (article.getId().equals(id)) {
-                return article;
-            }
-        }
-        return null;
-    }
+    //May be used in instructor menu
+    // public static Article searchPendingArticleById(String id) {
+    //     for (Article article : articleRequests) {
+    //         if (article.getId().equals(id)) {
+    //             return article;
+    //         }
+    //     }
+    //     return null;
+    // }
 
     public static void addArticle(Article article) {
         if (!articles.contains(article)) {

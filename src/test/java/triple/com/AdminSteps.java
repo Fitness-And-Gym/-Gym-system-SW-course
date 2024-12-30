@@ -42,6 +42,7 @@ public class AdminSteps {
         adminUser.login(userName, password);
         actualLog = adminUser.getLogin();
         System.out.println("When step: Login attempt completed with status: " + actualLog);
+        assertNull("There is requests in the database", adminUser.pullInstructorRequest());
     }
 
     @Then("I will be signed in as Admin")
@@ -142,6 +143,14 @@ public class AdminSteps {
     public void newInstructorAccountWillBeStoredInTheDatabase() {
         Instructor actualInstructor = DatabaseService.getInstructorById(instructorUser.getId());
         assertEquals(instructorUser.getId(), actualInstructor.getId());
+
+        // Check existing by name
+        instructorUser = adminUser.createInstructorAccount("unique name", "123");
+        Instructor actualInstructor2 = DatabaseService.getInstructorByName("unique name");
+
+        assertNotNull(actualInstructor2);
+        assertEquals(instructorUser.getId(), actualInstructor2.getId());
+
     }
 
     @Given("A instructor account with name {string} and password {string} exists")
@@ -505,6 +514,19 @@ public class AdminSteps {
         assertNull(instructorUser);
         adminUser.login("admin", "admin");// to not effect other tests
 
+    }
+
+    @Then("Print function executes without Exceptions")
+    public void Print_function_executes_without_Exceptions() {
+        try {
+            DatabaseService.printInstructorsTable();
+            DatabaseService.printDeclinedInstructorsTable();
+            DatabaseService.printArticles();
+            DatabaseService.printArticlesRequests();
+            DatabaseService.printClientsTable();
+        } catch (Exception e) {
+            throw new AssertionError("Method threw an exception: " + e.getMessage());
+        }
     }
 
 }

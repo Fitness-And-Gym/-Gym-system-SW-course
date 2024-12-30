@@ -64,6 +64,10 @@ Feature: User Management
     Then Admin is not allowed to see statistics
     Then Admin is not auth to pull Instructor Request
 
+#Scenario Four
+Scenario: Admin request a printed Instructors/Clients/Articles table
+      Then Print function executes without Exceptions
+
 
 
 

@@ -25,9 +25,6 @@ public class DatabaseService {
         Database.printDeclinedInstructorsTable();
     }
 
-    public static void deleteProgramById(String programId) {
-        Database.deleteProgramById(programId);
-    }
 
     public static void deleteProgram(Program program) {
         Database.deleteProgram(program);
@@ -121,9 +118,7 @@ public class DatabaseService {
         return Database.searchArticleById(id);
     }
 
-    public static Article searchPendingArticleById(String id) {
-        return Database.searchPendingArticleById(id);
-    }
+
 
     public static void addArticle(Article article) {
         Database.addArticle(article);
@@ -174,29 +169,15 @@ public class DatabaseService {
         return Database.getArticleRequests();
     }
 
-    public static ArrayList<Article> getArticles() {
-        return Database.getArticles();
-    }
 
-    public static ArrayList<Instructor> getDeclinedInstructors() {
-        return Database.getDeclinedInstructors();
-    }
 
-    public static ArrayList<Instructor> getRegistrationRequests() {
-        return Database.getRegistrationRequests();
-    }
 
-    public static Article removeArticle() {
-        return Database.removeArticle();
-    }
 
     public static void removeArticleRequest(Article article) {
         Database.removeArticleRequest(article);
     }
 
-    public static Article removeArticleRequest() {
-        return Database.removeArticleRequest();
-    }
+
 
     public static void removeProgram(Program program) {
         Database.removeProgram(program);
@@ -210,9 +191,9 @@ public class DatabaseService {
         Database.addArticleRequest(article);
     }
 
-    public static Article getArticleById(String articleId) {
-        return Database.getArticleById(articleId);
-    }
+    // public static Article getArticleById(String articleId) {
+    //     return Database.getArticleById(articleId);
+    // }
 
     public static Article getArticleRequestById(String articleId) {
         return Database.getArticleRequestById(articleId);
