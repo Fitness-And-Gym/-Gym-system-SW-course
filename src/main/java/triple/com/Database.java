@@ -40,6 +40,10 @@ public class Database {
         articleRequests.remove(article);
     }
 
+    public static Article removeArticleRequest() {
+        return articleRequests.remove(0);
+    }
+
     public static Article removeArticle() {
         Article oldestRequest = articleRequests.remove(0);
         return oldestRequest;
@@ -216,6 +220,19 @@ public class Database {
             }
         }
         return null;
+    }
+
+    public static Article getArticleRequestById(String articleId) {
+        for (Article article : articleRequests) {
+            if (article.getId().toLowerCase().equals(articleId.toLowerCase())) {
+                return article;
+            }
+        }
+        return null;
+    }
+
+    public static Article getLastArticleRequest() {
+        return articleRequests.get(0);
     }
 
     // Instructor database manipulation

@@ -129,14 +129,14 @@ public class Admin {
 
     public Article getPendingArticle() {// return the oldest request
         if (DatabaseService.getArticleRequests().size() != 0) {
-            Article oldestRequest = DatabaseService.removeArticle();
+            Article oldestRequest = DatabaseService.getLastArticleRequest();
             return oldestRequest;
         }
         return null;
     }
 
     public void acceptArticle(String articleId) {
-        Article article = DatabaseService.getArticleById(articleId);
+        Article article = DatabaseService.getArticleRequestById(articleId);
         article.setApproved(true);
         DatabaseService.removeArticleRequest(article);
         DatabaseService.addArticle(article);
@@ -157,7 +157,7 @@ public class Admin {
     }
 
     public void rejectArticle(String articleId) {
-        Article article = DatabaseService.getArticleById(articleId);
+        Article article = DatabaseService.getArticleRequestById(articleId);
         article.setApproved(false);
         DatabaseService.removeArticleRequest(article);
     }

@@ -194,6 +194,10 @@ public class DatabaseService {
         Database.removeArticleRequest(article);
     }
 
+    public static Article removeArticleRequest() {
+        return Database.removeArticleRequest();
+    }
+
     public static void removeProgram(Program program) {
         Database.removeProgram(program);
     }
@@ -208,6 +212,14 @@ public class DatabaseService {
 
     public static Article getArticleById(String articleId) {
         return Database.getArticleById(articleId);
+    }
+
+    public static Article getArticleRequestById(String articleId) {
+        return Database.getArticleRequestById(articleId);
+    }
+
+    public static Article getLastArticleRequest() {
+        return Database.getLastArticleRequest();
     }
 
     // mock
