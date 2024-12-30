@@ -518,6 +518,8 @@ public class AdminSteps {
 
     @Then("Print function executes without Exceptions")
     public void Print_function_executes_without_Exceptions() {
+        DatabaseService.populateMockArticles();
+        DatabaseService.populateMockPrograms();
         try {
             DatabaseService.printInstructorsTable();
             DatabaseService.printDeclinedInstructorsTable();

@@ -327,10 +327,7 @@ public class Database {
     }
 
     public static void printArticles() {
-        // Date formatter for "MMM yyyy" (e.g., "Dec 2024")
         SimpleDateFormat dateFormatter = new SimpleDateFormat("MMM yyyy");
-
-        // Header row with column names
         System.out.printf("%-10s %-20s %-15s %-15s %-30s %-20s %-10s%n",
                 "ID", "Author", "Date", "Type", "Title", "Content", "Approved");
         System.out.println(
