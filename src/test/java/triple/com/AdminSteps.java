@@ -419,4 +419,16 @@ public class AdminSteps {
         assert (actual.contains("Plan Name: Basic"));
     }
 
+    // Tests For Uncovered Lines
+
+    @When("Admin logout ")
+    public void adminLogout() {
+        adminUser.logout();
+    }
+
+    @Then("Admin is not allowed to create Client account")
+    public void adminNotAuthenticated() {
+        assertNull(adminUser.createClientAccount("client", "123"));
+    }
+
 }

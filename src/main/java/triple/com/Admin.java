@@ -7,16 +7,12 @@ public class Admin {
     private String password;
     private boolean loggedIn;
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
     public boolean getLogin() {
         return loggedIn;
+    }
+
+    public void logout() {
+        loggedIn = false;
     }
 
     public void login(String userName, String password) {
