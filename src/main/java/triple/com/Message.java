@@ -4,13 +4,13 @@ public class Message {
     private String title;
     private String content;
     private Instructor instructor;
-    private Client client;
+    private String clientId;
 
-    public Message(String title, String content, Instructor instructor, Client client) {
+    public Message(String title, String content, Instructor instructor, String clientId) {
         this.title = title;
         this.content = content;
         this.instructor = instructor;
-        this.client = client;
+        this.clientId = clientId;
     }
 
     public String getTitle() {
@@ -25,7 +25,7 @@ public class Message {
         return instructor;
     }
 
-    public Client getRecipient() {
-        return client;
-    }
+    // public Client getRecipient() {
+    // return clientId;
+    // }
 }

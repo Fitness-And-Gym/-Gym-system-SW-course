@@ -187,7 +187,7 @@ public class Instructor {
     }
 
     public Message sendMessage(Client recipient, String title, String content) {
-        Message message = new Message(title, content, this, recipient);
+        Message message = new Message(title, content, this, recipient.getClientId());
         recipient.receiveMessage(message);
         return message;
     }

@@ -211,7 +211,7 @@ public class Client {
 
     public Message replyToMessage(Message originalMessage, String replyContent) {
         Message reply = new Message("Re: " + originalMessage.getTitle(), replyContent,
-                originalMessage.getSender(), this);
+                originalMessage.getSender(), clientId);
         originalMessage.getSender().receiveMessage(reply);// sender is instructor
         return reply;
     }
