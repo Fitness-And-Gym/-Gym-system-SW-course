@@ -135,7 +135,8 @@ public class Admin {
         return null;
     }
 
-    public void acceptArticle(Article article) {
+    public void acceptArticle(String articleId) {
+        Article article = DatabaseService.getArticleById(articleId);
         article.setApproved(true);
         DatabaseService.removeArticleRequest(article);
         DatabaseService.addArticle(article);
@@ -155,7 +156,8 @@ public class Admin {
         }
     }
 
-    public void rejectArticle(Article article) {
+    public void rejectArticle(String articleId) {
+        Article article = DatabaseService.getArticleById(articleId);
         article.setApproved(false);
         DatabaseService.removeArticleRequest(article);
     }

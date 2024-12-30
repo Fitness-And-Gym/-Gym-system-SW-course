@@ -209,6 +209,15 @@ public class Database {
         return null;
     }
 
+    public static Article getArticleById(String articleId) {
+        for (Article article : articles) {
+            if (article.getId().toLowerCase().equals(articleId.toLowerCase())) {
+                return article;
+            }
+        }
+        return null;
+    }
+
     // Instructor database manipulation
 
     public static ArrayList<Instructor> getAllRequests() {

@@ -488,11 +488,11 @@ public class Main {
             System.err.println("Approve (1) / Decline (0)");
             int approve = scanner.nextInt();
             if (approve == 1) {
-                admin.acceptArticle(article);
+                admin.acceptArticle(article.getId());
                 System.out.println(
                         "Article publish successfully! \n pending articles: " + (articlesNumber - 1));
             } else if (approve == 0) {
-                admin.rejectArticle(article);
+                admin.rejectArticle(article.getId());
                 System.out.println("declined one article pending articles: " + (articlesNumber - 1));
             } else
                 System.out.println("still pending articles=> " + (articlesNumber));

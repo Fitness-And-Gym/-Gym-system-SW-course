@@ -346,7 +346,7 @@ public class AdminSteps {
 
     @When("I approve the article and publish it")
     public void iApproveTheArticleAndPublishIt() {
-        adminUser.acceptArticle(article);
+        adminUser.acceptArticle(article.getId());
 
     }
 
@@ -362,7 +362,7 @@ public class AdminSteps {
     public void iRejectTheArticleAndDiscard() {
         article = adminUser.getPendingArticle();
 
-        adminUser.rejectArticle(article);
+        adminUser.rejectArticle(article.getId());
 
     }
 

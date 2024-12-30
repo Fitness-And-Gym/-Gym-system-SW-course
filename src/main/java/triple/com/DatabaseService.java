@@ -2,6 +2,8 @@ package triple.com;
 
 import java.util.ArrayList;
 
+import javax.xml.crypto.Data;
+
 public class DatabaseService {
     public static PlanClient getClientPlanByNumber(int number) {
         return Database.getClientPlanByNumber(number);
@@ -202,6 +204,10 @@ public class DatabaseService {
 
     public static void addArticleRequest(Article article) {
         Database.addArticleRequest(article);
+    }
+
+    public static Article getArticleById(String articleId) {
+        return Database.getArticleById(articleId);
     }
 
     // mock
