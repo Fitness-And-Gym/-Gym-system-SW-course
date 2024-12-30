@@ -1,0 +1,232 @@
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (mmap) failed to map 130023424 bytes for G1 virtual space
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   The process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+#   JVM is running with Unscaled Compressed Oops mode in which the Java heap is
+#     placed in the first 4GB address space. The Java Heap base address is the
+#     maximum limit for the native heap growth. Please use -XX:HeapBaseMinAddress
+#     to set the Java Heap base and to place the Java Heap above 4GB virtual address.
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (os_windows.cpp:3613), pid=14256, tid=13728
+#
+# JRE version:  (17.0.10+7) (build )
+# Java VM: OpenJDK 64-Bit Server VM (17.0.10+7-adhoc..jdk17u, mixed mode, sharing, tiered, compressed oops, compressed class ptrs, g1 gc, windows-amd64)
+# No core dump will be written. Minidumps are not enabled by default on client versions of Windows
+#
+
+---------------  S U M M A R Y ------------
+
+Command Line: -javaagent:C:\\Users\\dell\\.m2\\repository\\org\\jacoco\\org.jacoco.agent\\0.8.10\\org.jacoco.agent-0.8.10-runtime.jar=destfile=C:\\Users\\dell\\OneDrive\\Desktop\\software\\Fitness-Project-SE-course\\target\\jacoco.exec C:\Users\dell\AppData\Local\Temp\surefire5449924873655852131\surefirebooter-20241230085351078_3.jar C:\Users\dell\AppData\Local\Temp\surefire5449924873655852131 2024-12-30T08-53-50_928-jvmRun1 surefire-20241230085351078_1tmp surefire_0-20241230085351078_2tmp
+
+Host: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz, 8 cores, 7G,  Windows 11 , 64 bit Build 22621 (10.0.22621.4391)
+Time: Mon Dec 30 08:53:51 2024 West Bank Gaza Standard Time elapsed time: 0.012231 seconds (0d 0h 0m 0s)
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x0000015c69870450):  JavaThread "Unknown thread" [_thread_in_vm, id=13728, stack(0x0000000350c00000,0x0000000350d00000)]
+
+Stack: [0x0000000350c00000,0x0000000350d00000]
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [jvm.dll+0x67d6e9]
+V  [jvm.dll+0x834dca]
+V  [jvm.dll+0x83688e]
+V  [jvm.dll+0x836ef3]
+V  [jvm.dll+0x247bdf]
+V  [jvm.dll+0x67a529]
+V  [jvm.dll+0x66ef9a]
+V  [jvm.dll+0x307a6b]
+V  [jvm.dll+0x30ef16]
+V  [jvm.dll+0x35ec3e]
+V  [jvm.dll+0x35ee6f]
+V  [jvm.dll+0x2de668]
+V  [jvm.dll+0x2df5d4]
+V  [jvm.dll+0x806661]
+V  [jvm.dll+0x36caf1]
+V  [jvm.dll+0x7e50f6]
+V  [jvm.dll+0x3f033f]
+V  [jvm.dll+0x3f1f71]
+C  [jli.dll+0x528f]
+C  [ucrtbase.dll+0x29333]
+C  [KERNEL32.DLL+0x1259d]
+C  [ntdll.dll+0x5af38]
+
+
+---------------  P R O C E S S  ---------------
+
+Threads class SMR info:
+_java_thread_list=0x00007ff9e4bdee98, length=0, elements={
+}
+
+Java Threads: ( => current thread )
+
+Other Threads:
+  0x0000015c698cbbc0 GCTaskThread "GC Thread#0" [stack: 0x0000000350d00000,0x0000000350e00000] [id=13344]
+  0x0000015c698dc290 ConcurrentGCThread "G1 Main Marker" [stack: 0x0000000350e00000,0x0000000350f00000] [id=7144]
+  0x0000015c698debc0 ConcurrentGCThread "G1 Conc#0" [stack: 0x0000000350f00000,0x0000000351000000] [id=5272]
+
+[error occurred during error reporting (printing all threads), id 0xc0000005, EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x00007ff9e439f0a7]
+
+VM state: not at safepoint (not fully initialized)
+
+VM Mutex/Monitor currently owned by a thread:  ([mutex/lock_event])
+[0x0000015c6986bef0] Heap_lock - owner thread: 0x0000015c69870450
+
+Heap address: 0x0000000084400000, size: 1980 MB, Compressed Oops mode: 32-bit
+
+CDS archive(s) mapped at: [0x0000000000000000-0x0000000000000000-0x0000000000000000), size 0, SharedBaseAddress: 0x0000000800000000, ArchiveRelocationMode: 1.
+Narrow klass base: 0x0000000000000000, Narrow klass shift: 0, Narrow klass range: 0x0
+
+GC Precious Log:
+<Empty>
+
+Heap:
+ garbage-first heap   total 0K, used 0K [0x0000000084400000, 0x0000000100000000)
+  region size 1024K, 0 young (0K), 0 survivors (0K)
+
+[error occurred during error reporting (printing heap information), id 0xc0000005, EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x00007ff9e4787359]
+
+GC Heap History (0 events):
+No events
+
+Dll operation events (1 events):
+Event: 0.007 Loaded shared library C:\Program Files\OpenLogic\jdk-17.0.10.7-hotspot\bin\java.dll
+
+Deoptimization events (0 events):
+No events
+
+Classes unloaded (0 events):
+No events
+
+Classes redefined (0 events):
+No events
+
+Internal exceptions (0 events):
+No events
+
+VM Operations (0 events):
+No events
+
+Events (0 events):
+No events
+
+
+Dynamic libraries:
+0x00007ff642830000 - 0x00007ff64283e000 	C:\Program Files\OpenLogic\jdk-17.0.10.7-hotspot\bin\java.exe
+0x00007ffa61e50000 - 0x00007ffa62067000 	C:\WINDOWS\SYSTEM32\ntdll.dll
+0x00007ffa61570000 - 0x00007ffa61634000 	C:\WINDOWS\System32\KERNEL32.DLL
+0x00007ffa5f3e0000 - 0x00007ffa5f79a000 	C:\WINDOWS\System32\KERNELBASE.dll
+0x00007ffa5fa30000 - 0x00007ffa5fb41000 	C:\WINDOWS\System32\ucrtbase.dll
+0x00007ffa3d9b0000 - 0x00007ffa3d9cb000 	C:\Program Files\OpenLogic\jdk-17.0.10.7-hotspot\bin\VCRUNTIME140.dll
+0x00007ffa3ca90000 - 0x00007ffa3caa7000 	C:\Program Files\OpenLogic\jdk-17.0.10.7-hotspot\bin\jli.dll
+0x00007ffa601a0000 - 0x00007ffa6034e000 	C:\WINDOWS\System32\USER32.dll
+0x00007ffa5f1e0000 - 0x00007ffa5f206000 	C:\WINDOWS\System32\win32u.dll
+0x00007ffa39370000 - 0x00007ffa39602000 	C:\WINDOWS\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.22621.4541_none_2710d1c57384c085\COMCTL32.dll
+0x00007ffa610a0000 - 0x00007ffa610c9000 	C:\WINDOWS\System32\GDI32.dll
+0x00007ffa61460000 - 0x00007ffa61507000 	C:\WINDOWS\System32\msvcrt.dll
+0x00007ffa5f210000 - 0x00007ffa5f32b000 	C:\WINDOWS\System32\gdi32full.dll
+0x00007ffa5f7a0000 - 0x00007ffa5f83a000 	C:\WINDOWS\System32\msvcp_win.dll
+0x00007ffa61dd0000 - 0x00007ffa61e01000 	C:\WINDOWS\System32\IMM32.DLL
+0x00007ffa52eb0000 - 0x00007ffa52ebc000 	C:\Program Files\OpenLogic\jdk-17.0.10.7-hotspot\bin\vcruntime140_1.dll
+0x00007ffa1adb0000 - 0x00007ffa1ae3d000 	C:\Program Files\OpenLogic\jdk-17.0.10.7-hotspot\bin\msvcp140.dll
+0x00007ff9e40b0000 - 0x00007ff9e4d12000 	C:\Program Files\OpenLogic\jdk-17.0.10.7-hotspot\bin\server\jvm.dll
+0x00007ffa61900000 - 0x00007ffa619b2000 	C:\WINDOWS\System32\ADVAPI32.dll
+0x00007ffa61850000 - 0x00007ffa618f7000 	C:\WINDOWS\System32\sechost.dll
+0x00007ffa5f3b0000 - 0x00007ffa5f3d8000 	C:\WINDOWS\System32\bcrypt.dll
+0x00007ffa610d0000 - 0x00007ffa611e4000 	C:\WINDOWS\System32\RPCRT4.dll
+0x00007ffa582d0000 - 0x00007ffa582d9000 	C:\WINDOWS\SYSTEM32\WSOCK32.dll
+0x00007ffa5df70000 - 0x00007ffa5dfbd000 	C:\WINDOWS\SYSTEM32\POWRPROF.dll
+0x00007ffa54ea0000 - 0x00007ffa54eaa000 	C:\WINDOWS\SYSTEM32\VERSION.dll
+0x00007ffa55190000 - 0x00007ffa551c4000 	C:\WINDOWS\SYSTEM32\WINMM.dll
+0x00007ffa60390000 - 0x00007ffa60401000 	C:\WINDOWS\System32\WS2_32.dll
+0x00007ffa5df50000 - 0x00007ffa5df63000 	C:\WINDOWS\SYSTEM32\UMPDC.dll
+0x00007ffa5e210000 - 0x00007ffa5e228000 	C:\WINDOWS\SYSTEM32\kernel.appcore.dll
+0x00007ffa52e70000 - 0x00007ffa52e7a000 	C:\Program Files\OpenLogic\jdk-17.0.10.7-hotspot\bin\jimage.dll
+0x00007ffa5c920000 - 0x00007ffa5cb52000 	C:\WINDOWS\SYSTEM32\DBGHELP.DLL
+0x00007ffa60410000 - 0x00007ffa6079f000 	C:\WINDOWS\System32\combase.dll
+0x00007ffa61cf0000 - 0x00007ffa61dc7000 	C:\WINDOWS\System32\OLEAUT32.dll
+0x00007ffa329e0000 - 0x00007ffa32a12000 	C:\WINDOWS\SYSTEM32\dbgcore.DLL
+0x00007ffa5f330000 - 0x00007ffa5f3ab000 	C:\WINDOWS\System32\bcryptPrimitives.dll
+0x00007ffa49d40000 - 0x00007ffa49d4e000 	C:\Program Files\OpenLogic\jdk-17.0.10.7-hotspot\bin\instrument.dll
+0x00007ffa33410000 - 0x00007ffa33435000 	C:\Program Files\OpenLogic\jdk-17.0.10.7-hotspot\bin\java.dll
+
+dbghelp: loaded successfully - version: 4.0.5 - missing functions: none
+symbol engine: initialized successfully - sym options: 0x614 - pdb path: .;C:\Program Files\OpenLogic\jdk-17.0.10.7-hotspot\bin;C:\WINDOWS\SYSTEM32;C:\WINDOWS\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.22621.4541_none_2710d1c57384c085;C:\Program Files\OpenLogic\jdk-17.0.10.7-hotspot\bin\server
+
+VM Arguments:
+jvm_args: -javaagent:C:\\Users\\dell\\.m2\\repository\\org\\jacoco\\org.jacoco.agent\\0.8.10\\org.jacoco.agent-0.8.10-runtime.jar=destfile=C:\\Users\\dell\\OneDrive\\Desktop\\software\\Fitness-Project-SE-course\\target\\jacoco.exec 
+java_command: C:\Users\dell\AppData\Local\Temp\surefire5449924873655852131\surefirebooter-20241230085351078_3.jar C:\Users\dell\AppData\Local\Temp\surefire5449924873655852131 2024-12-30T08-53-50_928-jvmRun1 surefire-20241230085351078_1tmp surefire_0-20241230085351078_2tmp
+java_class_path (initial): C:\Users\dell\AppData\Local\Temp\surefire5449924873655852131\surefirebooter-20241230085351078_3.jar
+Launcher Type: SUN_STANDARD
+
+[Global flags]
+     intx CICompilerCount                          = 4                                         {product} {ergonomic}
+     uint ConcGCThreads                            = 2                                         {product} {ergonomic}
+     uint G1ConcRefinementThreads                  = 8                                         {product} {ergonomic}
+   size_t G1HeapRegionSize                         = 1048576                                   {product} {ergonomic}
+    uintx GCDrainStackTargetSize                   = 64                                        {product} {ergonomic}
+   size_t InitialHeapSize                          = 130023424                                 {product} {ergonomic}
+   size_t MarkStackSize                            = 4194304                                   {product} {ergonomic}
+   size_t MaxHeapSize                              = 2076180480                                {product} {ergonomic}
+   size_t MinHeapDeltaBytes                        = 1048576                                   {product} {ergonomic}
+   size_t MinHeapSize                              = 8388608                                   {product} {ergonomic}
+    uintx NonNMethodCodeHeapSize                   = 5839372                                {pd product} {ergonomic}
+    uintx NonProfiledCodeHeapSize                  = 122909434                              {pd product} {ergonomic}
+    uintx ProfiledCodeHeapSize                     = 122909434                              {pd product} {ergonomic}
+    uintx ReservedCodeCacheSize                    = 251658240                              {pd product} {ergonomic}
+     bool SegmentedCodeCache                       = true                                      {product} {ergonomic}
+   size_t SoftMaxHeapSize                          = 2076180480                             {manageable} {ergonomic}
+     bool UseCompressedClassPointers               = true                           {product lp64_product} {ergonomic}
+     bool UseCompressedOops                        = true                           {product lp64_product} {ergonomic}
+     bool UseG1GC                                  = true                                      {product} {ergonomic}
+     bool UseLargePagesIndividualAllocation        = false                                  {pd product} {ergonomic}
+
+Logging:
+Log output configuration:
+ #0: stdout all=warning uptime,level,tags
+ #1: stderr all=off uptime,level,tags
+
+Environment Variables:
+JAVA_HOME=C:\Program Files\OpenLogic\jdk-17.0.10.7-hotspot\
+PATH=C:\Program Files\Volta\;C:\Program Files\OpenLogic\jdk-17.0.10.7-hotspot\bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\dotnet\;C:\MinGW\bin;C:\Program Files\Git\cmd;C:\Users\dell\AppData\Local\Android\Sdk\platform-tools;C:\Users\dell\AppData\Local\Android\Sdk;C:\ProgramData\chocolatey\bin;C:\Program Files\nodejs\;C:\opencv\build\x64\vc16\bin;C:\Program Files\MongoDB\mongosh-2.3.1-win32-x64\mongosh-2.3.1-win32-x64\bin;C:\ProgramData\chocolatey\lib\maven\apache-maven-3.9.9\bin;;C:\Program Files (x86)\Microchip\xc8\v1.37\bin;C:\Program Files (x86)\Microchip\xc8\v1.45\bin;C:\Users\dell\AppData\Local\Volta\bin;C:\Users\dell\AppData\Local\Android\Sdk;C:\Users\dell\AppData\Local\Android\Sdk\tools;C:\Users\dell\AppData\Local\Android\Sdk\platform-tools;C:\Users\dell\AppData\Local\Microsoft\WindowsApps;C:\Microsoft VS Code\bin;C:\Users\dell\AppData\Local\Android\Sdk\platform-tools;C:\Users\dell\AppData\Local\Android\Sdk\tools\bin;C:\Users\dell\AppData\Local\Android\Sdk\emulator;C:\Users\dell\AppData\Roaming\npm;C:\Program Files\OpenLogic\jdk-17.0.10.7-hotspot\bin;
+USERNAME=dell
+LANG=en_US.UTF-8
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 140 Stepping 1, GenuineIntel
+TMP=C:\Users\dell\AppData\Local\Temp
+TEMP=C:\Users\dell\AppData\Local\Temp
+
+
+
+Periodic native trim disabled
+
+
+---------------  S Y S T E M  ---------------
+
+OS:
+ Windows 11 , 64 bit Build 22621 (10.0.22621.4391)
+OS uptime: 1 days 18:36 hours
+Hyper-V role detected
+
+CPU: total 8 (initial active 8) (4 cores per cpu, 2 threads per core) family 6 model 140 stepping 1 microcode 0xb8, cx8, cmov, fxsr, ht, mmx, 3dnowpref, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, lzcnt, tsc, tscinvbit, avx, avx2, aes, erms, clmul, bmi1, bmi2, adx, avx512f, avx512dq, avx512cd, avx512bw, avx512vl, sha, fma, vzeroupper, avx512_vpopcntdq, avx512_vpclmulqdq, avx512_vaes, avx512_vnni, clflush, clflushopt, clwb, avx512_vbmi2, avx512_vbmi, hv
+Processor Information for all 8 processors :
+  Max Mhz: 2419, Current Mhz: 2419, Mhz Limit: 2419
+
+Memory: 4k page, system-wide physical 7918M (667M free)
+TotalPageFile size 9966M (AvailPageFile size 95M)
+current process WorkingSet (physical memory assigned to process): 11M, peak: 11M
+current process commit charge ("private bytes"): 60M, peak: 184M
+
+vm_info: OpenJDK 64-Bit Server VM (17.0.10+7-adhoc..jdk17u) for windows-amd64 JRE (17.0.10+7-adhoc..jdk17u), built on Jan 24 2024 08:51:31 by "" with MS VC++ 16.10 / 16.11 (VS2019)
+
+END.

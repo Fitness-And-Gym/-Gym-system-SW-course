@@ -128,8 +128,10 @@ public class Database {
 
     public static void deleteProgramById(String programId) {
         Program program = getProgramById(programId);
-        programs.remove(program);
-        System.out.println("program to delete issssss db by id" + program.getTitle());
+        if (program != null) {
+            programs.remove(program);
+            System.out.println("program to delete issssss db by id" + program.getTitle());
+        }
 
     }
 
