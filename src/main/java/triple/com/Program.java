@@ -8,20 +8,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-
 public class Program {
-    //TO DO : add videos and images array for program added by instructor
-    //TO DO : have a schedule for how many session in  a week and in which day and time
+    // TO DO : add videos and images array for program added by instructor
+    // TO DO : have a schedule for how many session in a week and in which day and
+    // time
     private static int idCounter = 1;
     private int enrollments;
     private Instructor instructor;
     private Set<Client> enrolledClients;
     private final String programId;
     public String title;
-    private String difficulty;//Beginner Intermediate Advanced
+    private String difficulty;// Beginner Intermediate Advanced
     private int duration;// in weeks
     public int fees;
-    private Map<Client, List<Boolean>> attendanceRecords;//assuming one session per week
+    private Map<Client, List<Boolean>> attendanceRecords;// assuming one session per week
     private List<Progress> programGoals;// The Ideal clients that are going to enroll and the outcome
     private boolean completed;
 
@@ -44,19 +44,19 @@ public class Program {
         this.difficulty = difficulty;
         this.attendanceRecords = new HashMap<>();
         this.programGoals = new ArrayList<>();
-        this.completed=false;
+        this.completed = false;
         Database.addProgram(this);
 
         // system.out.println("Program created successfully with ID: " + this.id);
     }
 
     public void updateTitle(String title) {
-       this.title=title;
+        this.title = title;
     }
 
     public void updateFees(int fees) {
-        this.fees=fees;
-     }
+        this.fees = fees;
+    }
 
     public void markAsCompleted() {
         this.completed = true;
@@ -67,6 +67,7 @@ public class Program {
     public List<Progress> getProgramGoals() {
         return programGoals;
     }
+
     public boolean isCompleted() {
         return this.completed;
     }
@@ -76,7 +77,8 @@ public class Program {
     }
 
     public void enrollClient(Client client) {
-        if (enrolledClients.add(client)) {
+        if (!enrolledClients.contains(client)) {
+            enrolledClients.add(client);
             enrollments++;
             client.enrollInProgram(this.programId);
             for (Progress progress : programGoals) {
@@ -277,14 +279,9 @@ public class Program {
                 .append(" - Revenue: $").append(revenue).append("\n")
                 .append(" - Attendance: %").append(attendancePercent).append("\n");
 
-
         report.append("-------------------------");
 
         return report.toString();
     }
-
-
-
-
 
 }

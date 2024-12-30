@@ -15,15 +15,12 @@ public class Client {
     private ArrayList<Message> inbox = new ArrayList<>();
     private ArrayList<String> dietaryPreferences = new ArrayList<>();
 
-    private List<Progress> progressByGoal;// there must be a plan field
+    private List<Progress> progressByGoal;
     private String status;// Might Has Only the value 'invalid'/'valid'
-    private int loginCount = 0;
     private PlanClient plan;
     // Diatry restrictions
 
     // let the user input his name and password and search for it in the database
-
-
 
     public Client(String clientName, String password) {
         this.clientName = clientName;
@@ -37,16 +34,16 @@ public class Client {
 
     }
 
-    public int getLoginCount() {
-        return loginCount;
-    }
-
     public String getClientName() {
         return clientName;
     }
 
     public String getPassword() {
         return password;
+    }
+
+    public List<Progress> getGoals() {
+        return progressByGoal;
     }
 
     public void updateName(String newName) {
@@ -87,11 +84,9 @@ public class Client {
 
     public void enrollInProgram(String programId) {
         Program selectedProgram = Database.getProgramById(programId);
-        if (selectedProgram != null) {
+        if (selectedProgram != null && !clientPrograms.contains(selectedProgram)) {
             clientPrograms.add(selectedProgram);
             selectedProgram.enrollClient(this);
-        } else {
-            System.out.println("Program not found!");
         }
     }
 
@@ -118,14 +113,13 @@ public class Client {
             System.out.println("No goals set for this client.");
         } else {
             for (int i = 0; i < progressByGoal.size(); i++) {
-                System.out.println(progressByGoal.get(i).getProgressSummary());
+                System.out.println("ID:" + i + "\t" + progressByGoal.get(i).getProgressSummary());
             }
         }
     }
 
     public Progress updateGoalProgress(int goalNumber, double newValue)// goal number indicates the index of goal in the
-                                                                       // progressGoals list shown to the user
-    {// here you can add the printf and scanf
+    {
         progressByGoal.get(goalNumber).updateProgress(newValue);
         return progressByGoal.get(goalNumber);
     }
@@ -157,7 +151,6 @@ public class Client {
         sb.append("Name: ").append(clientName).append("\n");
         sb.append("Password: ").append("********").append("\n"); // Masked for security
         sb.append("Status: ").append(status).append("\n");
-        sb.append("Login Count: ").append(loginCount).append("\n");
         sb.append("Plan: ").append(plan.getName()).append("\n");
 
         sb.append("Enrolled Programs:\n");

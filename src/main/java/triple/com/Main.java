@@ -85,47 +85,53 @@ public class Main {
 
     private static void clientLogin(Scanner scanner) {
 
-        System.out.print("Enter username: ");
-        String username = scanner.next();
+        // System.out.print("Enter username: ");
+        // String username = scanner.next();
 
-        System.out.print("Enter  password: ");
-        String password = scanner.next();
+        // System.out.print("Enter password: ");
+        // String password = scanner.next();
 
-        Client client = Database.getClientByName(username);
-        if (client.getPassword().equals(password)) {
+        Client client = Database.getClientByName("tom");
+        // if (client.getPassword().equals(password)) {
+        if (true) {
             System.out.println("Your login successful!");
 
             while (true) {
                 System.out
                         .println("===================================================================================");
                 System.out.println("Start your journey :");
-                System.out.println("1 - createClientAccount");
-                System.out.println("2 - see the most popular programs");
-                System.out.println("3 - updateClient");
-                System.out.println("4 - deactivateClient");
-                System.out.println("5 - check instructors requests box!");
-                System.out.println("6 - createInstructorAccount");
+                System.out.println("1 - change user Name");
+                System.out.println("2 - Enroll in program");
+                System.out.println("3 - Set Goal today");
+                System.out.println("4 - update Goal Progress");
+                System.out.println("5 - see my goals");
+                System.out.println("6 - change Subscription");
                 System.out.println("7 - TrackCompletedPrograms");
                 System.out.println("8 - Track on going programs");
                 System.out.println("9 - read Feed backs");
-                System.out.println("<--Go back (enter anything)");
+                System.out.println("<--Go back (enter 0)");
 
                 // almost every thing is ready
                 // add benefit for a plan
                 int option = scanner.nextInt();
                 switch (option) {
                     case 1:
+                        clientOption1(scanner, client);
                         break;
                     case 2:
+                        clientOption2(scanner, client);
                         break;
                     case 3:
-
+                        clientOption3(scanner, client);
                         break;
                     case 4:
+                        clientOption4(scanner, client);
                         break;
                     case 5:
+                        clientOption5(scanner, client);
                         break;
                     case 6:
+                        clientOption6(scanner, client);
                         break;
                     case 7:
                         break;
@@ -157,9 +163,9 @@ public class Main {
 
         Instructor instructor = new Instructor(username, password);// automatically sends request to admin
         System.out.println(" Pending request sent to admin........");
-        System.out.println("1-Go back <- ");
+        System.out.println("<--Go back (enter 0)");
         int goBack = scanner.nextInt();
-        if (goBack == 1)
+        if (goBack == 0)
             main(null);
         return;
     }
@@ -189,7 +195,7 @@ public class Main {
                 System.out.println("7 - TrackCompletedPrograms");
                 System.out.println("8 - Track on going programs");
                 System.out.println("9 - read Feed backs");
-                System.out.println("<--Go back (enter anything)");
+                System.out.println("<--Go back (enter 0)");
 
                 // almost every thing is ready
                 // add benefit for a plan
@@ -268,7 +274,7 @@ public class Main {
                 System.out.println("17 - see Articles");
                 System.out.println("18 - create new plan for Instructors");
                 System.out.println("19 - create new plan for clients");
-                System.out.println("<--Go back (enter anything)");
+                System.out.println("<--Go back (enter 0)");
 
                 // almost every thing is ready
                 // add benefit for a plan
@@ -544,4 +550,74 @@ public class Main {
 
     }
 
+    public static void clientOption1(Scanner scanner, Client client) {
+
+        System.out.print("Enter new username: ");
+        String username = scanner.next();
+        client.updateName(username);
+        System.out.println("Updated userName successfully!");
+        System.out.print(client.toString());
+
+    }
+
+    public static void clientOption2(Scanner scanner, Client client) {
+        Admin admin = new Admin();
+        admin.login("admin", "admin");
+        admin.TrackActivePrograms();
+        System.out.print("Enter Program ID= ");
+        String programId = scanner.next();
+        client.enrollInProgram(programId);
+        System.out.print(client.toString());
+
+    }
+
+    public static void clientOption3(Scanner scanner, Client client) {
+        System.out.print("Enter Goal title: ");
+        String title = scanner.next();
+
+        System.out.print("Enter your current state value: ");
+        double current = scanner.nextDouble();
+
+        System.out.print("Enter your Target value: ");
+        double target = scanner.nextDouble();
+
+        client.setGoal(title, current, target);
+        System.out.println("===YOUR GOALS=== ");
+        client.displayGoalProgress();
+    }
+
+    public static void clientOption4(Scanner scanner, Client client) {
+        client.displayGoalProgress();
+        if (client.getGoals().size() != 0) {
+            System.out.print("Enter Goal Id= ");
+            int progressNumber = scanner.nextInt();
+
+            System.out.print("Enter status update value: ");
+            double updateValue = scanner.nextDouble();
+
+            client.updateGoalProgress(progressNumber, updateValue);
+            client.displayGoalProgress();
+        } else
+            System.out.println("set Goals first");
+
+    }
+
+    public static void clientOption5(Scanner scanner, Client client) {
+        client.displayGoalProgress();
+    }
+
+    public static void clientOption6(Scanner scanner, Client client) {
+        Admin admin = new Admin();
+        admin.login("admin", "admin");
+        admin.seePlansForClient();
+
+        System.out.print("Enter Plan number= ");
+        int planNumber = scanner.nextInt();
+
+        PlanClient plan = Database.getClientPlanByNumber(planNumber - 1);
+
+        client.changeSubscription(plan);
+
+        System.out.print(client.toString());
+    }
 }

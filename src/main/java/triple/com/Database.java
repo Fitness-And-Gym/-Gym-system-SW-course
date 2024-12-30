@@ -23,34 +23,10 @@ public class Database {
     private static ArrayList<PlanInstructor> plansInstructors = new ArrayList<>();
     public static PlanClient basicPlanClient = new PlanClient("Basic", "free", 0, "Limited access");
     public static PlanInstructor basicPlanInstructor = new PlanInstructor("Basic", "free", 0, "Limited access");
-    // private static ArrayList<Message> messages = new ArrayList<>();
 
-    // public static void addMessage(Message message) {
-    // messages.add(message);
-    // // Deliver the message to the recipient
-    // deliverMessage(message);
-    // }
-
-    // private static void deliverMessage(Message message) {
-    // // Check if the recipient is a Client
-    // for (Client client : getClients()) {
-    // if (client.getClientId().equals(message.getRecipientId())) {
-    // client.receiveMessage(message);
-    // return;
-    // }
-    // }
-
-    // // Check if the recipient is an Instructor
-    // for (Instructor instructor : getInstructors()) {
-    // if (instructor.getId().equals(message.getRecipientId())) {
-    // instructor.receiveMessage(message);
-    // return;
-    // }
-    // }
-
-    // System.out.println("Recipient not found for message: " +
-    // message.getContent());
-    // }
+    public static PlanClient getClientPlanByNumber(int number) {
+        return plansClient.get(number);
+    }
 
     public static ArrayList<Program> getPrograms() {
         return programs;
@@ -165,7 +141,7 @@ public class Database {
 
     public static Instructor getInstructorByName(String instructorName) {
         for (Instructor instructor : instructors) {
-            if (instructor.getName().equals(instructorName))//assuming unique instructor name
+            if (instructor.getName().equals(instructorName))// assuming unique instructor name
                 return instructor;
         }
         return null;
@@ -456,6 +432,7 @@ public class Database {
         Program program1 = new Program(instructor1, 500, "Yoga Basics", 8, "Beginner");
         Program program2 = new Program(instructor2, 700, "Advanced Cardio", 12, "Intermediate");
         Program program3 = new Program(instructor3, 1000, "Weightlifting Pro", 16, "Advanced");
+        Program program4 = new Program(instructor3, 1000, "Weightlifting Easy", 16, "Beginner");
 
         // Add programs to the database (done automatically in Program constructor)
 
@@ -496,6 +473,7 @@ public class Database {
         program2.addProgramGoal(progress2);
         program3.addProgramGoal(progress4);
         program3.addProgramGoal(progress1);
+        program4.addProgramGoal(progress1);
 
         addEnrollmentsToProgram(program3);
         addEnrollmentsToProgram(program2);
@@ -570,6 +548,7 @@ public class Database {
         Client client3 = new Client("Sam Smith", "password789");
         Client client4 = new Client("Anna Brown", "password321");
         Client client5 = new Client("Tom White", "password654");
+        Client client6 = new Client("tom", "123");
 
         // Enroll clients into programs
         program.enrollClient(client1);
@@ -577,6 +556,7 @@ public class Database {
         program.enrollClient(client3);
         program.enrollClient(client4);
         program.enrollClient(client5);
+        program.enrollClient(client6);
 
         Random random = new Random();
         for (Client client : program.getEnrolledClients()) {
