@@ -449,10 +449,15 @@ public class Database {
         instructor2.setStatus("valid");
         instructor3.setStatus("valid");
 
-        Admin admin = new Admin();
-        admin.rejectInstructor(instructor4.getId());
-        admin.rejectInstructor(instructor5.getId());
-        admin.rejectInstructor(instructor6.getId());
+        // Admin admin = new Admin();
+        instructor4.setStatus("invalid");
+        addDeclinedInstructors(instructor4);
+
+        instructor5.setStatus("invalid");
+        addDeclinedInstructors(instructor5);
+
+        instructor6.setStatus("invalid");
+        addDeclinedInstructors(instructor6);
 
         // Create programs with instructors
         Program program1 = new Program(instructor1, 12, "Full body burn", 12, "mid");// these must be in try catch block
