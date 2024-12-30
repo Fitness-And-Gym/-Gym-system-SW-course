@@ -45,10 +45,6 @@ public class Admin {
         }
     }
 
-    public void checkClientProgress(Client client) {
-        client.displayGoalProgress();
-    }
-
     public Client updateClient(String clientId, String updatedName, String updatedPassword) {
         Client myClient = DatabaseService.getClientById(clientId);
         if (myClient != null) {

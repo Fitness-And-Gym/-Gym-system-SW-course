@@ -126,7 +126,9 @@ public class AdminSteps {
 
     @Then("The client account should be marked as deactivated")
     public void theClientAccountShouldBeMarkedAsDeactivated() {
+        adminUser.deactivateClient("wrong id");// wrong id is not a problem
         assertEquals(newClient.getStatus(), "invalid");
+
     }
 
     // Add Instructor
@@ -177,6 +179,7 @@ public class AdminSteps {
     public void aNewInstructorRegistrationRequestIsReceived() {
         instructorUser = new Instructor("Ali", "123");
         instructorUser.sendRequest();
+
     }
 
     @Then("I approve the instructor account status to valid.")
@@ -189,6 +192,26 @@ public class AdminSteps {
                 + instructorUser.getStatus());
 
         assert instructorUser.getStatus().equals("valid") : "Failed approval";
+    }
+
+    @When("another instructor registration request is received")
+    public void anotherInstructorRegistrationRequestIsReceived() {
+        instructorUser = new Instructor("Alma", "123");
+        instructorUser.sendRequest();
+    }
+
+    @Then("I reject the instructor account status to invalid.")
+    public void iRejectTheInstructorAccountStatusToInvalid() {
+        adminUser.rejectInstructor(instructorUser.getId());
+        adminUser.rejectInstructor("wrong id");
+        assert instructorUser.getStatus().equals("invalid") : "Failed approval";
+
+        instructorUser = new Instructor("Alma", "123");
+        instructorUser.sendRequest();
+
+        instructorUser = adminUser.pullInstructorRequest();
+        assertNotNull(instructorUser);
+
     }
 
     @Then("I can retrieve the most popular programs in my system.")
@@ -401,7 +424,7 @@ public class AdminSteps {
     }
 
     // Feature 4
-    // Scenario 1
+    // SCENARIO 1
     String actual;
 
     @Given("The clients and Instructors have plans subscription.")
@@ -420,6 +443,44 @@ public class AdminSteps {
         assert (actual.contains("Plan Name: Basic"));
     }
 
+    @When("I want to see  plans for instructors .")
+    public void iWantToSeePlansForInstructors() {
+        actual = adminUser.seePlansForInstructors();
+
+    }
+
+    @Then("A list of instructors available plan's info show.")
+    public void aListOfInstructorsAvailablePlanSInfoShow() {
+        assert (actual.contains("Plan Name: Basic"));
+
+    }
+
+    // SCENARIO 2
+    @When("I create new client plan with new details.")
+    public void iCreateNewClientPlanWithNewDetails() {
+        adminUser.createClientPlan("Test plan", "free", 0, "benefit one");
+    }
+
+    @Then("Plan is available for clients in the database.")
+    public void planIsAvailableForClientsInTheDatabase() {
+        PlanClient planClient = DatabaseService.getClientPlanByNumber(0);
+        assertEquals(planClient.getName(), "Test plan");
+    }
+
+    // SCENARIO 3
+
+    @When("I create new instructor plan with new details.")
+    public void iCreateNewInstructorPlanWithNewDetails() {
+        adminUser.createInstructorPlan("Test plan", "free", 0, "benefit one");
+
+    }
+
+    @Then("Plan is available for instructor in the database.")
+    public void planIsAvailableForInstructorInTheDatabase() {
+        PlanInstructor planInstructor = DatabaseService.getPlansInstructors().get(0);
+        assertEquals(planInstructor.getName(), "Test plan");
+    }
+
     // Tests For Uncovered Lines
 
     @When("Admin logout")
@@ -430,6 +491,18 @@ public class AdminSteps {
     @Then("Admin is not allowed to create Client account")
     public void adminNotAuthenticated() {
         assertNull(adminUser.createClientAccount("client", "123"));
+
+    }
+
+    @Then("Admin is not allowed to see statistics")
+    public void Admin_is_not_allowed_to_see_statistics() {
+        assertNull(adminUser.seeStatistics());
+    }
+
+    @Then("Admin is not auth to pull Instructor Request")
+    public void Admin_is_not_auth_to_pull_Instructor_Request() {
+        instructorUser = adminUser.pullInstructorRequest();
+        assertNull(instructorUser);
         adminUser.login("admin", "admin");// to not effect other tests
 
     }

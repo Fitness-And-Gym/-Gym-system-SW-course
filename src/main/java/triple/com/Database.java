@@ -159,13 +159,13 @@ public class Database {
 
     public static void addPlanToClient(PlanClient plan) {
         if (!plansClient.contains(plan))
-            plansClient.add(plan);
+            plansClient.add(0, plan);
         System.out.println("Plan added to Client plans: " + plan.getName());
     }
 
     public static void addPlanToInstructors(PlanInstructor plan) {
         if (!plansInstructors.contains(plan))
-            plansInstructors.add(plan);
+            plansInstructors.add(0, plan);
         System.out.println("Plan added to Instructor plans: " + plan.getName());
     }
 

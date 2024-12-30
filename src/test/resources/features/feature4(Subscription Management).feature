@@ -15,7 +15,18 @@ Scenario: Manage subscription plans for clients and instructors
     Given The clients and Instructors have plans subscription.
     When I want to see  plans for clients .
     Then A list of clients available plan's info show.
+    When I want to see  plans for instructors .
+    Then A list of instructors available plan's info show.
 
+Scenario: Create client plan
+    When I create new client plan with new details.
+    Then Plan is available for clients in the database.
+
+
+
+Scenario: Create instructor plan
+    When I create new instructor plan with new details.
+    Then Plan is available for instructor in the database.
 
 
 

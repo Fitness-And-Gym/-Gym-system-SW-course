@@ -53,12 +53,18 @@ Feature: User Management
   Scenario: Approve a new instructor registration
       When a new instructor registration request is received
       Then I approve the instructor account status to valid.
+      When another instructor registration request is received
+      Then I reject the instructor account status to invalid.
 
 
 #Scenario Three
   Scenario: Admin logs out and is not allowed to create a client account
     When Admin logout
     Then Admin is not allowed to create Client account
+    Then Admin is not allowed to see statistics
+    Then Admin is not auth to pull Instructor Request
+
+
 
 
 
