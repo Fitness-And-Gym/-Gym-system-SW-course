@@ -99,9 +99,10 @@ public class Main {
         Client client = DatabaseService.getClientByName("tom");
         // if (client.getPassword().equals(password)) {
         if (true) {
+            boolean exit = true;
             System.out.println("Your login successful!");
 
-            while (true) {
+            while (exit) {
                 System.out
                         .println(lineSeparator);
                 System.out.println("Start your journey :");
@@ -144,10 +145,12 @@ public class Main {
                         break;
 
                     default:
-                        main(null);
+                        exit = false;
                         break;
                 }
+
             }
+            main(null);
         } else
 
         {
@@ -183,9 +186,11 @@ public class Main {
 
         Instructor instructor = DatabaseService.getInstructorByName(username);
         if (instructor.getPassword().equals(password)) {
+            boolean exit = true;
+
             System.out.println("Your Logged In");
 
-            while (true) {
+            while (exit) {
                 System.out
                         .println(lineSeparator);
                 System.out.println("Start your journey :");
@@ -218,10 +223,12 @@ public class Main {
                         break;
 
                     default:
-                        main(null);
+                        exit = false;
                         break;
                 }
             }
+            main(null);
+
         } else
 
         {
@@ -244,12 +251,12 @@ public class Main {
         admin.login(adminCredentials, adminCredentials);
 
         if (admin.getLogin()) {
+            boolean exit = true;
             System.out.println("Admin login successful!");
 
-            while (true) {
-                System.out
-                        .println(lineSeparator);
+            while (exit) {
 
+                System.out.println(lineSeparator);
                 System.out.println("Please choose action :");
                 System.out.println("1 - createClientAccount");
                 System.out.println("2 - see the most popular programs");
@@ -339,11 +346,11 @@ public class Main {
                         adminOption19(scanner, admin);
                         break;
                     default:
-                        main(null);
+                        exit = false;
                         break;
                 }
             }
-
+            main(null);
         } else {
             System.out.println("Invalid admin credentials. Please try again.");
         }
