@@ -46,8 +46,7 @@ public class Admin {
      * @param password the password for login
      */
     public void login(String userName, String password) {
-        try (InputStream inputStream = new FileInputStream(
-                "C:\\Users\\dell\\OneDrive\\Desktop\\software\\Fitness-Project-SE-course\\src\\main\\java\\triple\\com\\config.yaml")) {
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("config.yaml")) {
             Yaml yaml = new Yaml();
 
             Map<String, String> obj = yaml.load(inputStream);
