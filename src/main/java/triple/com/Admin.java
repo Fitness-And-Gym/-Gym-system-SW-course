@@ -40,7 +40,10 @@ public class Admin {
      * @param password the password for login
      */
     public void login(String userName, String password) {
-        if ("admin".equals(userName) && "admin".equals(password)) {
+        String adminName = "admin";
+        String adminPassword = "admin";
+
+        if (userName.equals(adminName) && password.equals(adminPassword)) {
             loggedIn = true;
             this.userName = userName;
             this.password = password;
