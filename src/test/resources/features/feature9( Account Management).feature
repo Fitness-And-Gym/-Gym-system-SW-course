@@ -12,3 +12,8 @@ Feature: Account Management
     Given I am a registered client
     When I add dietary preferences "Vegetarian"
     Then my profile should include "Vegetarian" as my dietary preference
+
+    Scenario: Display  information I request as a client
+        Given I am a registered client
+        When I want to display a Goal
+        Then A print function performed with no exceptions

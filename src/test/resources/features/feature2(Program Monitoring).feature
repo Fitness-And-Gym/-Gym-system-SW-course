@@ -21,6 +21,8 @@ Feature: Program Monitoring
     And the client has a weight loss goal from 80kg to 65kg
     When I update the client's weight to 75kg
     Then the progress should show "33.33%"
+    When empty progress list in some client
+    Then display Goal progress will print error message
 
 
 #Scenario three

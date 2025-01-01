@@ -10,3 +10,5 @@ Feature: Client-Instructor Messaging
     When I delete a message from my inbox
     Then The message no longer appears in my inbox
     And The message remains in the client's inbox
+
+

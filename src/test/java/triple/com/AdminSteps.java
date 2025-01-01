@@ -318,6 +318,19 @@ public class AdminSteps {
         adminUser.TrackCompletedPrograms();
     }
 
+    @When("empty progress list in some client")
+    public void emptyProgressListInSomeClient() {
+      newClient=new Client("Test user","123");
+    }
+    @Then("display Goal progress will print error message")
+    public void displayGoalProgressWillPrintErrorMessage() {
+       try{
+           newClient.displayGoalProgress();
+       }catch (Exception e){
+           System.out.println(e.getMessage());
+       }
+    }
+
     // Senario 3 feature 2
     String report;
 

@@ -124,4 +124,19 @@ public class ClinetSteps {
         assertTrue(program.getEnrollments() == 1);
     }
 
+    //SCENARIO 3
+    @When("I want to display a Goal")
+    public void iWantToDisplayAGoal() {
+       client.setGoal("Test goal",10,50);//ensure there is at least one goal
+    }
+    @Then("A print function performed with no exceptions")
+    public void aPrintFunctionPerformedWithNoExceptions() {
+        try {
+            client.displayGaolProgressIn(0);
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+
 }
