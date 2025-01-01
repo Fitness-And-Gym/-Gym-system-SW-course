@@ -54,7 +54,23 @@ public class ClinetSteps {
     @Then("my profile should include {string} as my dietary preference")
     public void myProfileShouldIncludeAsMyDietaryPreference(String expectedPreference) {
         assertTrue(client.getDietaryPreferences().contains(expectedPreference));
-        System.out.println("hello from client");
+    }
+
+    @When("I delete the {string} dietary preference")
+    public void I_delete_the_dietary_preference(String s) {
+        client.deleteDietaryPreference(s);
+    }
+
+    @Then("my dietary preference will be updated to not include {string}")
+    public void my_dietary_preference_will_be_updated_to_not_include(String deletedPreference) {
+        assertFalse(client.getDietaryPreferences().contains(deletedPreference));
+        // make sure you can print the preferences
+        try {
+            client.printDietaryPreferences();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 
     // feature 10
@@ -124,19 +140,73 @@ public class ClinetSteps {
         assertTrue(program.getEnrollments() == 1);
     }
 
-    //SCENARIO 3
-    @When("I want to display a Goal")
-    public void iWantToDisplayAGoal() {
-       client.setGoal("Test goal",10,50);//ensure there is at least one goal
-    }
-    @Then("A print function performed with no exceptions")
-    public void aPrintFunctionPerformedWithNoExceptions() {
+    // SCENARIO 3
+
+    String summery;
+
+    @When("I want to see my profile summery")
+    public void I_want_to_see_my_profile_summery() {
+        client.updateName("Ali");
         try {
-            client.displayGaolProgressIn(0);
-        }catch (Exception e) {
+            summery = client.toString();
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
+    @Then("All {string} information will be displayed without errors")
+    public void All_information_will_be_displayed_without_errors(String name) {
+        assertTrue(summery.contains(name));
+    }
+
+    PlanClient planClient;
+
+    // SCENARIO 4
+    @When("I subscribe to a paid  plan")
+    public void iSubscribeToAPaidPlan() {
+        planClient = DatabaseService.getPlansClient().get(1);
+        client.changeSubscription(planClient);
+    }
+
+    @Then("My subscription will be changed from Basic")
+    public void mySubscriptionWillBeChangedFromBasic() {
+        assertSame(client.getPlan(), planClient);
+    }
+
+    @When("I cancel my subscription")
+    public void iCancelMySubscription() {
+        client.deleteSubscription();
+    }
+
+    @Then("The plan will be Basic")
+    public void thePlanWillBeBasic() {
+        assertSame(DatabaseService.getBasicPlanClient(), client.getPlan());
+    }
+
+    // SCENARIO 5
+    String actual;
+
+    @When("I set {string} Goal with initial value {double} and target value {double}")
+    public void iSetGoalWithInitialValueAndTargetValue(String title, Double current, Double target) {
+        client.setGoal(title, current, target);
+    }
+
+    @Then("I can see the {string} Goal in my profile")
+    public void I_can_see_the_Goal_in_my_profile(String title) {
+        actual = client.displayGaolProgressIn(0);
+        assertTrue(actual.contains(title));
+    }
+
+    @When("I update the goal progress to {double}")
+    public void iUpdateTheGoalProgressTo(double update) {
+        client.updateGoalProgress(0, update);
+    }
+
+    @Then("I can see current value of {int} and progress percent calculated")
+    public void iCanSeeCurrentValueOfAndProgressPercentCalculated(Integer int1) {
+        actual = client.displayGaolProgressIn(0);
+        assertTrue(actual.contains(int1.toString()));
+
+    }
 
 }

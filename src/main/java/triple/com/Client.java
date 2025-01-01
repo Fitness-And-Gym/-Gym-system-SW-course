@@ -5,9 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 /**
- * Represents a client in the system, with functionality to manage programs, goals, feedback, dietary preferences,
+ * Represents a client in the system, with functionality to manage programs,
+ * goals, feedback, dietary preferences,
  * and subscription plans.
  */
 public class Client {
@@ -69,24 +69,25 @@ public class Client {
     // Dietary restrictions would be managed later
 
     /**
-     * Constructor to create a new Client object with the given client name and password.
-     * This constructor initializes the client ID, sets the initial status as 'valid',
+     * Constructor to create a new Client object with the given client name and
+     * password.
+     * This constructor initializes the client ID, sets the initial status as
+     * 'valid',
      * subscribes the client to the basic plan, and adds the client to the database.
      *
      * @param clientName the name of the client
-     * @param password the password for the client
+     * @param password   the password for the client
      */
     public Client(String clientName, String password) {
         this.clientName = clientName;
         this.password = password;
         this.progressByGoal = new ArrayList<>();
-        this.clientId = "C" + idCounter++;  // Generate unique client ID
-        this.status = "valid";  // Set initial status to 'valid'
-        this.plan = DatabaseService.getBasicPlanClient();  // Set the default plan
-        DatabaseService.getBasicPlanClient().subscribeClient(this);  // Subscribe client to the plan
-        DatabaseService.addClient(this);  // Add client to the database
+        this.clientId = "C" + idCounter++; // Generate unique client ID
+        this.status = "valid"; // Set initial status to 'valid'
+        this.plan = DatabaseService.getBasicPlanClient(); // Set the default plan
+        DatabaseService.getBasicPlanClient().subscribeClient(this); // Subscribe client to the plan
+        DatabaseService.addClient(this); // Add client to the database
     }
-
 
     public String getClientName() {
         return clientName;
@@ -152,11 +153,12 @@ public class Client {
     }
 
     /**
-     * Sets a goal for the client with a specific goal type, starting value, and target value.
+     * Sets a goal for the client with a specific goal type, starting value, and
+     * target value.
      * The new goal is added to the client's progress list.
      *
-     * @param goalType the type of the goal (e.g., weight loss, muscle gain)
-     * @param startValue the starting value for the goal
+     * @param goalType    the type of the goal (e.g., weight loss, muscle gain)
+     * @param startValue  the starting value for the goal
      * @param targetValue the target value to achieve
      * @return the created Progress object
      */
@@ -172,18 +174,20 @@ public class Client {
      * @param progress the Progress object to be added
      */
     public void setGoalForAProgram(Progress progress) {
-        progressByGoal.add(progress);
+        progressByGoal.add(0, progress);
     }
 
     /**
-     * Displays the progress summary of a specified goal based on its index in the goal list.
+     * Displays the progress summary of a specified goal based on its index in the
+     * goal list.
      *
      * @param goalNumber the index of the goal in the list
      */
-    public void displayGaolProgressIn(int goalNumber) {
+    public String displayGaolProgressIn(int goalNumber) {
         Progress progress = progressByGoal.get(goalNumber);
         String summery = progress.getProgressSummary();
         System.out.println(summery);
+        return summery;
     }
 
     /**
@@ -205,7 +209,7 @@ public class Client {
      * The new value is applied to the selected goal.
      *
      * @param goalNumber the index of the goal in the list
-     * @param newValue the new value to update the goal's progress
+     * @param newValue   the new value to update the goal's progress
      * @return the updated Progress object
      */
     public Progress updateGoalProgress(int goalNumber, double newValue) {
@@ -214,11 +218,13 @@ public class Client {
     }
 
     /**
-     * Allows the client to provide feedback with a specified feedback type and message.
-     * The feedback is stored in the client's feedback list and also added to the database.
+     * Allows the client to provide feedback with a specified feedback type and
+     * message.
+     * The feedback is stored in the client's feedback list and also added to the
+     * database.
      *
      * @param feedbackType the type of feedback (e.g., complaint, suggestion, etc.)
-     * @param message the feedback message
+     * @param message      the feedback message
      */
     public void writeFeedback(String feedbackType, String message) {
         Feedback temp = new Feedback(feedbackType, message, this);
@@ -227,7 +233,8 @@ public class Client {
     }
 
     /**
-     * Changes the client's subscription plan. The client's current plan is canceled, and the new plan is applied.
+     * Changes the client's subscription plan. The client's current plan is
+     * canceled, and the new plan is applied.
      *
      * @param plan the new PlanClient to subscribe the client to
      */
@@ -238,7 +245,8 @@ public class Client {
     }
 
     /**
-     * Cancels the client's current subscription and resets their plan to the basic plan.
+     * Cancels the client's current subscription and resets their plan to the basic
+     * plan.
      */
     public void deleteSubscription() {
         this.plan.cancelClientSubscription(this);
@@ -316,7 +324,7 @@ public class Client {
      * The reply message is sent to the original message sender ( instructor).
      *
      * @param originalMessage the message to reply to
-     * @param replyContent the content of the reply
+     * @param replyContent    the content of the reply
      * @return the reply message
      */
     public Message replyToMessage(Message originalMessage, String replyContent) {
