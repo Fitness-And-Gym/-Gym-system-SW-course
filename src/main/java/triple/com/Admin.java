@@ -47,6 +47,10 @@ public class Admin {
      */
     public void login(String userName, String password) {
         try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("config.yaml")) {
+            if (inputStream == null) {
+                throw new IOException("Resource 'config.yaml' not found");
+            }
+
             Yaml yaml = new Yaml();
 
             Map<String, String> obj = yaml.load(inputStream);
@@ -65,7 +69,9 @@ public class Admin {
             }
 
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            System.err.println("Error reading configuration: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Unexpected error: " + e.getMessage());
         }
 
     }
@@ -310,8 +316,10 @@ public class Admin {
     public String seePlansForClient() {
         StringBuilder allPlanDetails = new StringBuilder();
 
+        int planNumber = 1;
         for (PlanClient plan : DatabaseService.getPlansClient()) {
-            allPlanDetails.append(plan.getPlanDetails()).append("\n");
+            allPlanDetails.append(planNumber++ + " . ").append(plan.getPlanDetails()).append("\n");
+
         }
         System.out.println("\nPlans available for clients\n" + "------------------------------------\n");
         System.out.println(allPlanDetails.toString());
@@ -325,9 +333,10 @@ public class Admin {
      */
     public String seePlansForInstructors() {
         StringBuilder allPlanDetails = new StringBuilder();
+        int planNumber = 1;
 
         for (PlanInstructor plan : DatabaseService.getPlansInstructors()) {
-            allPlanDetails.append(plan.getPlanDetails()).append("\n");
+            allPlanDetails.append(planNumber++ + " . ").append(plan.getPlanDetails()).append("\n");
         }
         System.out.println("\nPlans available for Instructors\n" + "------------------------------------\n");
         System.out.println(allPlanDetails.toString());

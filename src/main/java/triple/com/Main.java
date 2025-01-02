@@ -2,6 +2,7 @@ package triple.com;
 
 import java.util.Scanner;
 
+import javax.sql.DataSource;
 import javax.xml.crypto.Data;
 
 import java.util.ArrayList;
@@ -114,13 +115,14 @@ public class Main {
                 System.out.println("5 - see my goals");
                 System.out.println("6 - change Subscription");
                 System.out.println("7 - Check inbox");
-                System.out.println("8 - Read pulished articles");
+                System.out.println("8 - Read published articles");
                 System.out.println("9 - Add Dietary Preference");
                 System.out.println("10- Delete Dietary Preference");
                 System.out.println("11 - Write Feedback");
                 System.out.println("12 - Filter Programs By Difficulty");
                 System.out.println("13 - Filter Programs ByGoal");
-                System.out.println("14- View my Feeds");
+                System.out.println("14 -  View my Feeds");
+                System.out.println("15 -  Open conversation with Instructor");
 
                 // write feedback about an instructor
                 System.out.println(goBack);
@@ -153,7 +155,8 @@ public class Main {
                         break;
                     case 8:
                         break;
-                    case 9:
+                    case 15:
+                        clientOption15(scanner, client);
                         break;
 
                     default:
@@ -203,36 +206,37 @@ public class Main {
         Instructor instructor = DatabaseService.getInstructorByName(username);
 
         if (instructor != null && instructor.getPassword().equals(password)) {
+            instructor.login(username, password);
+
             boolean exit = true;
             DatabaseService.sendMockMessages(instructor);
             System.out.println("Your Logged In");
-
             while (exit) {
                 System.out.println(lineSeparator);
                 System.out.println("Start your journey :");
                 System.out.println("1 - create program");
                 System.out.println("2 - Check inbox");
-                System.out.println("3 - Send message to clients");
+                System.out.println("3 - Send messages to clients");
                 System.out.println("4 - My Programs");
-                System.out.println("5 - Enter attendence");
+                System.out.println("5 - Enter attendance");
                 System.out.println("6 - Write and Publish  Article ,Tip ,Recipe");
-                System.out.println("7 - Change Subscribtion");
-                System.out.println("8 - Cancle Subscribtion ");
-                System.out.println("9 - ");
+                System.out.println("7 - Change Subscription");
+                System.out.println("8 - Cancel Subscription ");
+                // System.out.println("9 - ");
 
                 System.out.println(goBack);
 
-                // almost every thing is ready
-                // add benefit for a plan
                 int option = scanner.nextInt();
                 switch (option) {
                     case 1:
+                        instructorOption1(scanner, instructor);
+
                         break;
                     case 2:
                         instructorOption2(scanner, instructor);
                         break;
                     case 3:
-
+                        instructorOption3(scanner, instructor);
                         break;
                     case 4:
                         instructorOption4(scanner, instructor);
@@ -271,9 +275,9 @@ public class Main {
 
         System.out.print("Enter admin password: ");
         String password = scanner.next();
+        System.out.println(username + password);
 
         admin.login(username, password);
-        admin.login(adminCredentials, adminCredentials);
 
         if (admin.getLogin()) {
             boolean exit = true;
@@ -302,10 +306,10 @@ public class Main {
                 System.out.println("17 - see Articles");
                 System.out.println("18 - create new plan for Instructors");
                 System.out.println("19 - create new plan for clients");
+                System.out.println("20 - Add benefit for a plan");
+
                 System.out.println(goBack);
 
-                // almost every thing is ready
-                // add benefit for a plan
                 int option = scanner.nextInt();
                 switch (option) {
                     case 1:
@@ -369,6 +373,9 @@ public class Main {
                         break;
                     case 19:
                         adminOption19(scanner, admin);
+                        break;
+                    case 20:
+                        adminOption20(scanner, admin);
                         break;
                     default:
                         exit = false;
@@ -491,10 +498,44 @@ public class Main {
 
     public static void adminOption10(Admin admin) {
         admin.seePlansForClient();
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter the number of the plan you want to add a benefit to(-1 to go back):");
+        int planNumber;
+
+        try {
+            planNumber = scanner.nextInt();
+            if (planNumber == -1)
+                return;
+            PlanClient planClient = DatabaseService.getPlansClient().get(planNumber - 1);
+            scanner.nextLine();
+            addBenefit(admin, planClient);
+            System.out.println(planClient.getPlanDetails());
+
+        } catch (Exception e) {
+            System.out.println("Invalid input. Please enter a valid plan number.");
+        }
+
     }
 
     public static void adminOption11(Admin admin) {
         admin.seePlansForInstructors();
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter the number of the plan you want to add a benefit to(-1 to go back):");
+        int planNumber;
+
+        try {
+            planNumber = scanner.nextInt();
+            if (planNumber == -1)
+                return;
+            PlanInstructor planInstructor = DatabaseService.getPlansInstructors().get(planNumber - 1);
+            scanner.nextLine();
+            addBenefit(admin, planInstructor);
+            System.out.println(planInstructor.getPlanDetails());
+        } catch (Exception e) {
+            System.out.println("Invalid input. Please enter a valid plan number.");
+        }
     }
 
     public static void adminOption12() {
@@ -576,6 +617,34 @@ public class Main {
     public static void adminOption19(Scanner scanner, Admin admin) {
         adminOption18(admin, true);// choose plan for client
 
+    }
+
+    public static void adminOption20(Scanner scanner, Admin admin) {
+        System.out.print("Plan For Client(1)/Instructor(2) :");
+        Integer isClient = scanner.nextInt();
+        scanner.nextLine();
+        if (isClient == 1) {
+            adminOption10(admin);
+        } else {
+            adminOption11(admin);
+        }
+    }
+
+    public static void addBenefit(Admin admin, Plan plan) {
+        Scanner scanner = new Scanner(System.in);
+        Boolean shouldAddMore = true;
+        while (shouldAddMore) {
+
+            System.out.print("Enter benefit description (# to stop):");
+            String benefit = scanner.nextLine();
+
+            if (benefit.equals("#")) {
+                shouldAddMore = false;
+                continue;
+            }
+
+            plan.addBenefit(benefit);
+        }
     }
 
     public static void clientOption1(Scanner scanner, Client client) {
@@ -677,7 +746,56 @@ public class Main {
         }
     }
 
+    public static void clientOption15(Scanner scanner, Client client) {
+        scanner.nextLine(); // Clear the buffer
+
+        DatabaseService.printInstructorsTable();
+
+        System.out.print("Enter instructor Id to open conversation with: ");
+        String instructorId = scanner.next();
+
+        try {
+            Instructor instructor = DatabaseService.getInstructorById(instructorId);
+            if (instructor != null) {
+                System.out.println("Open conversation with " + instructor.getName() + " : ");
+
+                System.out.print("Enter Message title: ");
+                String title = scanner.next();
+
+                System.out.print("Enter Message content: ");
+                String content = scanner.next();
+
+                client.sendMessage(instructorId.toUpperCase(), title, content);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Enter Valid Id " + e.getMessage());
+        }
+    }
+
     // INSTRUCTOR OPTIONS
+    public static void instructorOption1(Scanner scanner, Instructor instructor) {
+        scanner.nextLine();// clear buffer
+
+        System.out.println("Enter Program Name: ");
+        String title = scanner.nextLine();
+
+        System.out.println("Enter Program fees: ");
+        int fees = scanner.nextInt();
+
+        System.out.println("Enter Program duration(in weeks): ");
+        int duration = scanner.nextInt();
+
+        scanner.nextLine();// clear buffer
+
+        System.out.println("Enter Program difficulty(Beginner, Intermediate, Advanced): ");
+        String difficulty = scanner.nextLine();
+
+        Program program = instructor.createProgram(fees, title, duration, difficulty);
+        System.out.println(program.generateReport());
+
+    }
+
     public static void instructorOption2(Scanner scanner, Instructor instructor) {
 
         instructor.viewMessages();
@@ -703,6 +821,34 @@ public class Main {
                 instructor.replyToMessage(message, content);
             }
 
+        }
+    }
+
+    public static void instructorOption3(Scanner scanner, Instructor instructor) {
+
+        scanner.nextLine(); // Clear the buffer
+
+        DatabaseService.printClientsTable();
+
+        System.out.print("Enter client Id to open conversation with: ");
+        String clientId = scanner.next();
+
+        try {
+            Client client = DatabaseService.getClientById(clientId);
+            if (client != null) {
+                System.out.println("Open conversation with " + client.getClientName() + " : ");
+
+                System.out.print("Enter Message title: ");
+                String title = scanner.next();
+
+                System.out.print("Enter Message content: ");
+                String content = scanner.next();
+
+                instructor.sendMessage(clientId.toUpperCase(), title, content);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Enter Valid Id " + e.getMessage());
         }
     }
 

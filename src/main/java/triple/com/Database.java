@@ -197,7 +197,7 @@ public class Database {
 
     public static Client getClientById(String clientId) {
         for (Client client : clients) {
-            if (client.getClientId().toLowerCase().equals(clientId.toLowerCase())) {
+            if (client.getClientId().equalsIgnoreCase(clientId)) {
                 return client;
             }
         }
@@ -260,7 +260,7 @@ public class Database {
 
     public static Instructor getInstructorById(String instructorId) {
         for (Instructor instructor : instructors) {
-            if (instructor.getId().equals(instructorId)) {
+            if (instructor.getId().equalsIgnoreCase(instructorId)) {
                 return instructor;
             }
         }

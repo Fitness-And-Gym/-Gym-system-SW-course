@@ -10,7 +10,8 @@ import java.util.Set;
 
 /**
  * The Program class represents a training program offered by an instructor.
- * It manages the enrollment of clients, tracks attendance, and generates reports
+ * It manages the enrollment of clients, tracks attendance, and generates
+ * reports
  * on program performance such as revenue and attendance.
  */
 public class Program {
@@ -34,12 +35,13 @@ public class Program {
      * Constructs a new Program with the specified details.
      *
      * @param instructor the instructor offering the program
-     * @param fees the cost of the program
-     * @param title the title of the program
-     * @param duration the duration of the program in weeks
+     * @param fees       the cost of the program
+     * @param title      the title of the program
+     * @param duration   the duration of the program in weeks
      * @param difficulty the difficulty level of the program
      * @throws IllegalArgumentException if the instructor is null
-     * @throws IllegalStateException if the instructor is not authorized to create a program
+     * @throws IllegalStateException    if the instructor is not authorized to
+     *                                  create a program
      */
     public Program(Instructor instructor, int fees, String title, int duration, String difficulty) {
         if (instructor == null) {
@@ -252,8 +254,8 @@ public class Program {
     /**
      * Marks attendance for a client in a specific week.
      *
-     * @param client the client whose attendance is being marked
-     * @param week the week for which attendance is being marked
+     * @param client   the client whose attendance is being marked
+     * @param week     the week for which attendance is being marked
      * @param attended true if the client attended, false otherwise
      */
     public void markAttendance(Client client, int week, boolean attended) {
@@ -332,7 +334,8 @@ public class Program {
     }
 
     /**
-     * Generates a report for the program, including details on revenue, attendance, and client progress.
+     * Generates a report for the program, including details on revenue, attendance,
+     * and client progress.
      *
      * @return a string representing the program's detailed report
      */
@@ -344,6 +347,7 @@ public class Program {
 
         report.append("----- Program Report -----\n")
                 .append("Program: ").append(title).append("\n")
+                .append(" - Duration(weeks): ").append(duration).append("\n")
                 .append(" - Program ID: ").append(programId).append("\n")
                 .append(" - Instructor: ").append(instructor.getName()).append("\n")
                 .append(" - Enrollments: ").append(enrollments).append("\n")

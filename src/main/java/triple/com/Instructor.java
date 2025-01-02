@@ -27,6 +27,7 @@ public class Instructor {
     public List<Program> getPrograms() {
         return programs;
     }
+
     private List<Program> programs; // List of programs associated with the instructor
 
     /**
@@ -249,9 +250,9 @@ public class Instructor {
      * @param status the new status to be set (either "valid" or "invalid")
      */
     public void setStatus(String status) {
-        if (status == "valid" || status == "invalid")
+        if (status.equals("valid") || status.equals("invalid"))
             DatabaseService.getInstructorRequestById(this.instructorId); // to remove request from pending
-        if (status == "valid") {
+        if (status.equals("valid")) {
             DatabaseService.addInstructor(this);
         }
         this.status = status;
@@ -349,11 +350,11 @@ public class Instructor {
      * @return the sent message
      */
 
-    public Message sendMessage(String recipientId, String title, String content) {// can send to all instructors
-        Message message = new Message(title, content, instructorId, recipientId);// display list of instructors to
-                                                                                 // choose
+    public Message sendMessage(String recipientId, String title, String content) {
 
-        System.out.println("Message sent to " + recipientId + ": " + content);
+        Message message = new Message(title, content, instructorId, recipientId);
+
+        System.out.println("Message sent to " + recipientId + ": " + title);
         return message;
     }
 

@@ -21,7 +21,7 @@ public class Message {
      * @param receiver the ID of the receiver receiving the message
      */
     public Message(String title, String content, String sender, String receiver) {// clients Id start with c and
-                                                                                  // instructor id start with i
+        // instructor id start with i
         this.title = title;
         this.content = content;
         this.sender = sender;
@@ -31,7 +31,10 @@ public class Message {
     }
 
     public void putInbox() {
+
         Boolean isRecipientClient = receiver.charAt(0) == 'C' ? true : false;
+        System.out.println(
+                "sender ID=" + sender + "recip ID=" + receiver + "isReciptionetClient=" + isRecipientClient.toString());
         if (isRecipientClient)// add message to client inbox
         {
             Client client = DatabaseService.getClientById(receiver);

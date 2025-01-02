@@ -297,7 +297,7 @@ public class Client {
     public Message sendMessage(String recipientId, String title, String content) {// can send to all instructors
         Message message = new Message(title, content, clientId, recipientId);// display list of instructors to choose
 
-        System.out.println("Message sent to " + recipientId + ": " + content);
+        System.out.println("Message sent to " + recipientId + ": " + title);
         return message;
     }
 
