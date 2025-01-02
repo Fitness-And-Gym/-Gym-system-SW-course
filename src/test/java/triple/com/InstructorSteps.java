@@ -59,7 +59,7 @@ public class InstructorSteps {
     public void The_update_will_be_reflected_on_the_system() {
         Program programInDB = DatabaseService.getProgramById(program.getProgramId());
         assert (programInDB.getProgramId() == program.getProgramId());
- }
+    }
 
     @When("I delete the program")
     public void I_delete_the_program() {
@@ -86,41 +86,29 @@ public class InstructorSteps {
 
     }
 
-    @When("I send a message to the client with a title and content")
-    public void iSendAMessageToTheClientWithATitleAndContent() {
-        message = instructor.sendMessage(client, "Welcome", "Hello, welcome to the program!");
+    @When("I send a message to the client titeled {string} and content {string}")
+    public void iSendAMessageToTheClientTiteledAndContent(String title, String content) {
+        message = instructor.sendMessage(client.getClientId(), title, content);
     }
 
-    @Then("The message is added to the client's inbox")
-    public void theMessageIsAddedToTheClientsInbox() {
-        assertNotNull(message);
+    @Then("The {string} is added to the client's inbox")
+    public void theIsAddedToTheClientSInbox(String string) {
         assertTrue(client.getInbox().contains(message));
     }
 
-    @When("the client replies to the message")
-    public void the_client_replies_to_the_message() {
-        reply = client.replyToMessage(message, "Thank you for the welcome!");
+    @When("the client replies to {string} by message with content {string}")
+    public void the_client_replies_to_by_message_with_content(String s, String s2) {
+        reply = client.replyToMessage(message, s2);
     }
 
-    @Then("The reply is added to my inbox")
-    public void theReplyIsAddedToMyInbox() {
-        assertNotNull(reply);
+    @Then("The {string} reply is added to my inbox")
+    public void theReplyIsAddedToMyInbox(String string) {
         assertTrue(instructor.getInbox().contains(reply));
     }
 
-    @When("I delete a message from my inbox")
-    public void iDeleteAMessageFromMyInbox() {
-        instructor.deleteMessage(message);
-    }
-
-    @Then("The message no longer appears in my inbox")
-    public void theMessageNoLongerAppearsInMyInbox() {
-        assertFalse(instructor.getInbox().contains(message));
-    }
-
-    @Then("The message remains in the client's inbox")
-    public void theMessageRemainsInTheClientsInbox() {
-        assertTrue(client.getInbox().contains(message));
+    @Then("{string} will be deleted from client inbox")
+    public void willBeDeletedFromClientInbox(String string) {
+        assertFalse(client.getInbox().contains(message));
     }
 
 }

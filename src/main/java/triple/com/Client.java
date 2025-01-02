@@ -294,19 +294,25 @@ public class Client {
         return sb.toString();
     }
 
-    // public void sendMessage(String recipientId, String content) {
-    // Message message = new Message(this.clientId, recipientId, content);
-    // DatabaseService.addMessage(message); // Store message in the database
-    // System.out.println("Message sent to " + recipientId + ": " + content);
-    // }
+    public Message sendMessage(String recipientId, String title, String content) {// can send to all instructors
+        Message message = new Message(title, content, clientId, recipientId);// display list of instructors to choose
+
+        System.out.println("Message sent to " + recipientId + ": " + content);
+        return message;
+    }
 
     public void viewMessages() {
         if (inbox.isEmpty()) {
             System.out.println("No messages received.");
         } else {
             System.out.println("Messages for " + clientName + ":");
+            int i = 1;
             for (Message message : inbox) {
-                System.out.println(message);
+                Instructor instructor = DatabaseService.getInstructorById(message.getSender());
+                System.out
+                        .println("message " + i++ + " : from " + instructor.getName() + ": Title'" + message.getTitle()
+                                + "' , content '"
+                                + message.getContent() + "'");
             }
         }
     }
@@ -329,8 +335,10 @@ public class Client {
      */
     public Message replyToMessage(Message originalMessage, String replyContent) {
         Message reply = new Message("Re: " + originalMessage.getTitle(), replyContent,
-                originalMessage.getSender(), clientId);
-        originalMessage.getSender().receiveMessage(reply);
+                clientId, originalMessage.getSender());
+        inbox.remove(originalMessage);
+        System.out.println("Reply sent to " + originalMessage.getSender() + ": " + replyContent);
+
         return reply;
     }
 

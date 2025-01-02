@@ -5,10 +5,11 @@ import java.util.List;
 
 import javax.xml.crypto.Data;
 
-
 /**
- * The Instructor class represents an instructor within the system. It stores the
- * instructor's details such as name, password, login status, account status, and
+ * The Instructor class represents an instructor within the system. It stores
+ * the
+ * instructor's details such as name, password, login status, account status,
+ * and
  * associated programs. It also provides functionality for logging in, updating
  * programs, and managing subscriptions.
  */
@@ -30,7 +31,7 @@ public class Instructor {
      * The account is initially set to "pending" status, and the instructor is
      * assigned the basic subscription plan.
      *
-     * @param name the name of the instructor
+     * @param name     the name of the instructor
      * @param password the password for the instructor's account
      */
     public Instructor(String name, String password) {
@@ -104,7 +105,7 @@ public class Instructor {
      * Attempts to log in an instructor with the provided name and password.
      * If the credentials match, the instructor is logged in.
      *
-     * @param name the name of the instructor
+     * @param name     the name of the instructor
      * @param password the password for the instructor's account
      * @return the logged-in instructor if credentials are valid, otherwise null
      */
@@ -124,7 +125,7 @@ public class Instructor {
     /**
      * Updates the title of an existing program.
      *
-     * @param title the new title for the program
+     * @param title     the new title for the program
      * @param programId the ID of the program to be updated
      * @return the updated program
      */
@@ -137,7 +138,7 @@ public class Instructor {
     /**
      * Updates the fees of an existing program.
      *
-     * @param fees the new fees for the program
+     * @param fees      the new fees for the program
      * @param programId the ID of the program to be updated
      * @return the updated program
      */
@@ -162,12 +163,13 @@ public class Instructor {
     }
 
     /**
-     * Creates a new program with the specified details (fees, title, duration, and difficulty).
+     * Creates a new program with the specified details (fees, title, duration, and
+     * difficulty).
      * The instructor must be logged in to create the program.
      *
-     * @param fees the fees for the program
-     * @param title the title of the program
-     * @param duration the duration of the program in days
+     * @param fees       the fees for the program
+     * @param title      the title of the program
+     * @param duration   the duration of the program in days
      * @param difficulty the difficulty level of the program
      * @return the created program if the instructor is logged in, null otherwise
      */
@@ -185,13 +187,16 @@ public class Instructor {
     }
 
     /**
-     * Adds a goal to an existing program. The goal is represented by a Progress object,
-     * which contains the type of goal (e.g., weight loss, skill improvement), the starting value,
+     * Adds a goal to an existing program. The goal is represented by a Progress
+     * object,
+     * which contains the type of goal (e.g., weight loss, skill improvement), the
+     * starting value,
      * and the target value.
      *
-     * @param programId the ID of the program to which the goal will be added
-     * @param type the type of the goal (e.g., weight loss, skill improvement)
-     * @param startValue the starting value of the goal
+     * @param programId   the ID of the program to which the goal will be added
+     * @param type        the type of the goal (e.g., weight loss, skill
+     *                    improvement)
+     * @param startValue  the starting value of the goal
      * @param targetValue the target value of the goal
      */
     public void addGoalToProgram(String programId, String type, double startValue, double targetValue) {
@@ -215,7 +220,8 @@ public class Instructor {
     }
 
     /**
-     * Returns the current status of the instructor's account ("pending", "valid", "invalid").
+     * Returns the current status of the instructor's account ("pending", "valid",
+     * "invalid").
      *
      * @return the current status of the instructor
      */
@@ -233,7 +239,8 @@ public class Instructor {
     }
 
     /**
-     * Sets the status of the instructor's account. If the status is set to "valid" or "invalid",
+     * Sets the status of the instructor's account. If the status is set to "valid"
+     * or "invalid",
      * the request to become an instructor is removed from the pending state.
      *
      * @param status the new status to be set (either "valid" or "invalid")
@@ -241,6 +248,9 @@ public class Instructor {
     public void setStatus(String status) {
         if (status == "valid" || status == "invalid")
             DatabaseService.getInstructorRequestById(this.instructorId); // to remove request from pending
+        if (status == "valid") {
+            DatabaseService.addInstructor(this);
+        }
         this.status = status;
     }
 
@@ -274,7 +284,8 @@ public class Instructor {
     }
 
     /**
-     * Changes the subscription plan of the instructor. The current plan is cancelled,
+     * Changes the subscription plan of the instructor. The current plan is
+     * cancelled,
      * and the new plan is subscribed to.
      *
      * @param plan the new subscription plan to assign to the instructor
@@ -286,7 +297,8 @@ public class Instructor {
     }
 
     /**
-     * Cancels the current subscription plan and assigns the basic plan to the instructor.
+     * Cancels the current subscription plan and assigns the basic plan to the
+     * instructor.
      */
     public void deleteSubscription() {
         this.plan.cancelInstructorSubscription(this);
@@ -294,15 +306,22 @@ public class Instructor {
     }
 
     /**
-     * Views all the messages in the instructor's inbox. If there are no messages, a message indicating so is shown.
+     * Views all the messages in the instructor's inbox. If there are no messages, a
+     * message indicating so is shown.
      */
+
     public void viewMessages() {
         if (inbox.isEmpty()) {
             System.out.println("No messages received.");
         } else {
             System.out.println("Messages for " + name + ":");
+            int i = 1;
             for (Message message : inbox) {
-                System.out.println(message);
+                Client client = DatabaseService.getClientById(message.getSender());
+                System.out.println(
+                        "message " + i++ + " : from " + client.getClientName() + ": Title'" + message.getTitle()
+                                + "' , content '"
+                                + message.getContent() + "'");
             }
         }
     }
@@ -317,28 +336,32 @@ public class Instructor {
     }
 
     /**
-     * Sends a message to a client. The message includes a title, content, and the instructor's ID.
+     * Sends a message to a client. The message includes a title, content, and the
+     * instructor's ID.
      * The message is added to the recipient's inbox.
      *
      * @param recipient the client to whom the message is being sent
-     * @param title the title of the message
-     * @param content the content of the message
+     * @param title     the title of the message
+     * @param content   the content of the message
      * @return the sent message
      */
-    public Message sendMessage(Client recipient, String title, String content) {
-        Message message = new Message(title, content, this, recipient.getClientId());
-        recipient.receiveMessage(message);
+
+    public Message sendMessage(String recipientId, String title, String content) {// can send to all instructors
+        Message message = new Message(title, content, instructorId, recipientId);// display list of instructors to
+                                                                                 // choose
+
+        System.out.println("Message sent to " + recipientId + ": " + content);
         return message;
     }
 
-    /**
-     * Deletes a specific message from the instructor's inbox.
-     *
-     * @param message the message to be deleted
-     */
-    public void deleteMessage(Message message) {
-        inbox.remove(message);
-    }
+    // /**
+    // * Deletes a specific message from the instructor's inbox.
+    // *
+    // * @param message the message to be deleted
+    // */
+    // public void deleteMessage(Message message) {
+    // inbox.remove(message);
+    // }
 
     /**
      * Returns the inbox of the instructor containing all received messages.
@@ -348,4 +371,22 @@ public class Instructor {
     public ArrayList<Message> getInbox() {
         return inbox;
     }
+
+    /**
+     * Replies to an original message with the specified reply content.
+     * The reply message is sent to the original message sender ( instructor).
+     *
+     * @param originalMessage the message to reply to
+     * @param replyContent    the content of the reply
+     * @return the reply message
+     */
+    public Message replyToMessage(Message originalMessage, String replyContent) {
+        Message reply = new Message("Re: " + originalMessage.getTitle(), replyContent,
+                instructorId, originalMessage.getSender());
+        inbox.remove(originalMessage);
+        System.out.println("Reply sent to " + originalMessage.getSender() + ": " + replyContent);
+
+        return reply;
+    }
+
 }

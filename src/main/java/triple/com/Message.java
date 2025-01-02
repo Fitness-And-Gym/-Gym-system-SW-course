@@ -2,27 +2,46 @@ package triple.com;
 
 /**
  * The Message class represents a message sent by an instructor to a client.
- * It contains the title, content, sender (instructor), and the recipient's client ID.
+ * It contains the title, content, sender (instructor), and the recipient's
+ * client ID.
  */
 public class Message {
     private String title;
     private String content;
-    private Instructor instructor;
-    private String clientId;
+    private String sender;// ID
+    private String receiver;// ID
 
     /**
-     * Constructs a new message with the specified title, content, instructor, and recipient client ID.
+     * Constructs a new message with the specified title, content, sender, and
+     * recipient ID.
      *
-     * @param title the title of the message
-     * @param content the content of the message
-     * @param instructor the instructor who is sending the message
-     * @param clientId the ID of the client receiving the message
+     * @param title    the title of the message
+     * @param content  the content of the message
+     * @param sender   the ID of the sender who is sending the message
+     * @param receiver the ID of the receiver receiving the message
      */
-    public Message(String title, String content, Instructor instructor, String clientId) {
+    public Message(String title, String content, String sender, String receiver) {// clients Id start with c and
+                                                                                  // instructor id start with i
         this.title = title;
         this.content = content;
-        this.instructor = instructor;
-        this.clientId = clientId;
+        this.sender = sender;
+        this.receiver = receiver;// messages are not stored in the database they are temp messages once deleted
+                                 // from client and instructor it never can be retrived
+        putInbox();
+    }
+
+    public void putInbox() {
+        Boolean isRecipientClient = receiver.charAt(0) == 'C' ? true : false;
+        if (isRecipientClient)// add message to client inbox
+        {
+            Client client = DatabaseService.getClientById(receiver);
+            // if (!client.getInbox().contains(this))// if not in the inbox add it
+            client.receiveMessage(this);
+        } else {
+            Instructor instructor = DatabaseService.getInstructorById(receiver);
+            // if (!instructor.getInbox().contains(this))
+            instructor.receiveMessage(this);
+        }
     }
 
     /**
@@ -44,15 +63,16 @@ public class Message {
     }
 
     /**
-     * Returns the instructor who sent the message.
+     * Returns the sender who sent the message.
      *
-     * @return the instructor who sent the message
+     * @return the sender who sent the message
      */
-    public Instructor getSender() {
-        return instructor;
+    public String getSender() {
+        return sender;
     }
 
-    // public Client getRecipient() {
-    //     return clientId;
-    // }
+    public String getRecipient() {
+
+        return receiver;
+    }
 }

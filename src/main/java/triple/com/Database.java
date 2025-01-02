@@ -13,14 +13,16 @@ import java.util.Date;
  * The Database class serves as a mock database for storing various entities
  * such as clients, instructors, articles, programs, feedback, and plans. It
  * handles the storage and management of these entities in static ArrayLists.
- * This class simulates database operations like adding, removing, and retrieving
+ * This class simulates database operations like adding, removing, and
+ * retrieving
  * objects.
  */
 public class Database {
 
     // Static lists to hold the different entities
     private static ArrayList<Client> clients = new ArrayList<>(); // List of registered clients
-    private static ArrayList<Instructor> registrationRequests = new ArrayList<>(); // List of instructor registration requests
+    private static ArrayList<Instructor> registrationRequests = new ArrayList<>(); // List of instructor registration
+                                                                                   // requests
     private static ArrayList<Instructor> declinedInstructors = new ArrayList<>(); // List of declined instructors
     private static ArrayList<Article> articleRequests = new ArrayList<>(); // List of article submission requests
     private static ArrayList<Program> programs = new ArrayList<>(); // List of programs
@@ -37,7 +39,7 @@ public class Database {
 
     // Constructor and methods to manage the entities would be here...
 
-public static void addArticleRequest(Article article) {
+    public static void addArticleRequest(Article article) {
         articleRequests.add(article);
     }
 
@@ -178,7 +180,7 @@ public static void addArticleRequest(Article article) {
 
     public static Client getClientByName(String clientName) {
         for (Client client : clients) {
-            if (client.getClientName().equals(clientName)) {
+            if (client.getClientName().equalsIgnoreCase(clientName)) {
                 return client;
             }
         }
@@ -187,7 +189,7 @@ public static void addArticleRequest(Article article) {
 
     public static Instructor getInstructorByName(String instructorName) {
         for (Instructor instructor : instructors) {
-            if (instructor.getName().equals(instructorName))// assuming unique instructor name
+            if (instructor.getName().equalsIgnoreCase(instructorName))// assuming unique instructor name
                 return instructor;
         }
         return null;
@@ -323,14 +325,14 @@ public static void addArticleRequest(Article article) {
         return null;
     }
 
-    //May be used in instructor menu
+    // May be used in instructor menu
     // public static Article searchPendingArticleById(String id) {
-    //     for (Article article : articleRequests) {
-    //         if (article.getId().equals(id)) {
-    //             return article;
-    //         }
-    //     }
-    //     return null;
+    // for (Article article : articleRequests) {
+    // if (article.getId().equals(id)) {
+    // return article;
+    // }
+    // }
+    // return null;
     // }
 
     public static void addArticle(Article article) {
@@ -645,12 +647,16 @@ public static void addArticleRequest(Article article) {
         // Create mock instructors
         Instructor instructor1 = new Instructor("John", "12");
         Instructor instructor2 = new Instructor("Jane", "12");
-        Instructor instructor3 = new Instructor("Alice", "12");
+        Instructor instructor3 = new Instructor("ins", "123");
 
         // Set valid status for instructors
         instructor1.setStatus("valid");
         instructor2.setStatus("valid");
         instructor3.setStatus("valid");
+
+        instructors.add(instructor1);
+        instructors.add(instructor2);
+        instructors.add(instructor3);
 
         // Add mock articles to articleRequests
         new Article("Fitness Basics", "A beginner's guide to fitness.", instructor1, ArticleType.ARTICLE);
@@ -800,7 +806,7 @@ public static void addArticleRequest(Article article) {
         // Create mock instructors
         Instructor instructor1 = new Instructor("Alice Smith", "I001");
         Instructor instructor2 = new Instructor("Bob Johnson", "I002");
-        Instructor instructor3 = new Instructor("Carol Taylor", "I003");
+        Instructor instructor3 = new Instructor("Instructor", "123");
 
         // Set instructors as valid
         instructor1.setStatus("valid");
@@ -834,6 +840,36 @@ public static void addArticleRequest(Article article) {
         addEnrollmentsToProgram(program3);
         addEnrollmentsToProgram(program2);
         addEnrollmentsToProgram(program1);
+
+    }
+
+    public static void sendMockMessages(Client client) {
+        Instructor instructor = new Instructor("Tedy", "123");
+        instructor.setStatus("valid");
+        addInstructor(instructor);
+
+        Instructor instructor2 = new Instructor("Zina", "123");
+        instructor2.setStatus("valid");
+        addInstructor(instructor2);
+
+        instructor.sendMessage(client.getClientId(), "Welcome", "Hi " + client.getClientName() + " Hope your good! ");
+        instructor2.sendMessage(client.getClientId(), "Feedback",
+                "Hi " + client.getClientName() + "\n great job on your wight loss you are half the way ");
+
+    }
+
+    public static void sendMockMessages(Instructor instructor) {
+        // Define clients
+        Client client1 = new Client("Alice", "password12");
+        Client client2 = new Client("Bob", "password45");
+        Client client3 = new Client("Charlie", "password78");
+
+        client1.sendMessage(instructor.getId(), "Feedback",
+                "Hi " + instructor.getName() + "Wow your the best instructor!");
+        client2.sendMessage(instructor.getId(), "First attende",
+                "Hi " + instructor.getName() + "Excited for tomorrow session ^_^");
+        client3.sendMessage(instructor.getId(), "Q",
+                "Hi " + instructor.getName() + "Is there any upcoming progrograms for muscels gain?");
 
     }
 }

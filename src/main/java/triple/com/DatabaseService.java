@@ -3,6 +3,7 @@ package triple.com;
 import java.util.ArrayList;
 
 import javax.xml.crypto.Data;
+
 /**
  * The DatabaseService class serves as a middle layer
  * to let other classes interact with the real Database
@@ -28,7 +29,6 @@ public class DatabaseService {
     public static void printDeclinedInstructorsTable() {
         Database.printDeclinedInstructorsTable();
     }
-
 
     public static void deleteProgram(Program program) {
         Database.deleteProgram(program);
@@ -122,8 +122,6 @@ public class DatabaseService {
         return Database.searchArticleById(id);
     }
 
-
-
     public static void addArticle(Article article) {
         Database.addArticle(article);
     }
@@ -173,15 +171,9 @@ public class DatabaseService {
         return Database.getArticleRequests();
     }
 
-
-
-
-
     public static void removeArticleRequest(Article article) {
         Database.removeArticleRequest(article);
     }
-
-
 
     public static void removeProgram(Program program) {
         Database.removeProgram(program);
@@ -196,7 +188,7 @@ public class DatabaseService {
     }
 
     // public static Article getArticleById(String articleId) {
-    //     return Database.getArticleById(articleId);
+    // return Database.getArticleById(articleId);
     // }
 
     public static Article getArticleRequestById(String articleId) {
@@ -222,6 +214,14 @@ public class DatabaseService {
 
     public static void populateMockProgramsWithGoals() {
         Database.populateMockProgramsWithGoals();
+    }
+
+    public static void sendMockMessages(Client client) {
+        Database.sendMockMessages(client);
+    }
+
+    public static void sendMockMessages(Instructor instructor) {
+        Database.sendMockMessages(instructor);
     }
 
 }

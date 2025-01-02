@@ -1,14 +1,13 @@
 Feature: Client-Instructor Messaging
   As an instructor, I want to communicate with my enrolled clients via messaging.
 
-  Scenario: Send, receive, and delete messages
+  Scenario: Send, receive,and Reply to  messages
     Given I am an Instructor Again
-    When I send a message to the client with a title and content
-    Then The message is added to the client's inbox
-    When the client replies to the message
-    Then The reply is added to my inbox
-    When I delete a message from my inbox
-    Then The message no longer appears in my inbox
-    And The message remains in the client's inbox
+    When I send a message to the client titeled "Welcome Message" and content "Welcome To our community"
+    Then The "Welcome Message" is added to the client's inbox
+    When the client replies to "Welcome Message" by message with content "Thanks I am excited"
+    Then The "Thanking" reply is added to my inbox
+    Then "Welcome Message" will be deleted from client inbox
+
 
 

@@ -7,8 +7,8 @@ import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.List;
 
-//PS C:\Users\dell\OneDrive\Desktop\software\Fitness-Project-SE-course\src\main\java> javac triple/com/*.java
-//PS C:\Users\dell\OneDrive\Desktop\software\Fitness-Project-SE-course\src\main\java> java triple.com.Main
+//PS C:\Users\dell\OneDrive\Desktop\software\Fitness-Project-SE-course> mvn compile
+//PS C:\Users\dell\OneDrive\Desktop\software\Fitness-Project-SE-course> mvn exec:java
 //mvn clean verify
 
 public class Main {
@@ -99,14 +99,13 @@ public class Main {
         // String password = scanner.next();
 
         Client client = DatabaseService.getClientByName("tom");
-        // if (client.getPassword().equals(password)) {
+        // if (client!=null&&client.getPassword().equals(password)) {
         if (true) {
             boolean exit = true;
             System.out.println("Your login successful!");
-
+            DatabaseService.sendMockMessages(client);
             while (exit) {
-                System.out
-                        .println(lineSeparator);
+                System.out.println(lineSeparator);
                 System.out.println("Start your journey :");
                 System.out.println("1 - change user Name");
                 System.out.println("2 - Enroll in program");
@@ -114,7 +113,7 @@ public class Main {
                 System.out.println("4 - update Goal Progress");
                 System.out.println("5 - see my goals");
                 System.out.println("6 - change Subscription");
-
+                System.out.println("7 - Check inbox");
                 System.out.println(goBack);
 
                 // almost every thing is ready
@@ -140,6 +139,8 @@ public class Main {
                         clientOption6(scanner, client);
                         break;
                     case 7:
+                        clientOption7(scanner, client);
+
                         break;
                     case 8:
                         break;
@@ -180,6 +181,10 @@ public class Main {
 
     private static void instructorLogin(Scanner scanner) {
 
+        // For testing->
+        // userName:ins
+        // Password:123
+
         System.out.print(enterUserName);
         String username = scanner.next();
 
@@ -187,9 +192,10 @@ public class Main {
         String password = scanner.next();
 
         Instructor instructor = DatabaseService.getInstructorByName(username);
-        if (instructor.getPassword().equals(password)) {
-            boolean exit = true;
 
+        if (instructor != null && instructor.getPassword().equals(password)) {
+            boolean exit = true;
+            DatabaseService.sendMockMessages(instructor);
             System.out.println("Your Logged In");
 
             while (exit) {
@@ -197,6 +203,7 @@ public class Main {
                         .println(lineSeparator);
                 System.out.println("Start your journey :");
                 System.out.println("1 - create program");
+                System.out.println("2 - Check inbox");
 
                 System.out.println(goBack);
 
@@ -207,6 +214,7 @@ public class Main {
                     case 1:
                         break;
                     case 2:
+                        instructorOption2(scanner, instructor);
                         break;
                     case 3:
 
@@ -229,13 +237,11 @@ public class Main {
                         break;
                 }
             }
-            main(null);
 
-        } else
-
-        {
+        } else {
             System.out.println("Invalid client credentials. Please try again.");
         }
+        main(null);
 
     }
 
@@ -625,4 +631,62 @@ public class Main {
 
         System.out.print(client.toString());
     }
+
+    public static void clientOption7(Scanner scanner, Client client) {
+
+        client.viewMessages();
+        System.out.println("1-Reply to a message ");
+        System.out.println("2-Go back");
+        int option = scanner.nextInt();
+
+        if (option == 1) {
+            System.out.print("Message Number= ");
+            int messageNumber = scanner.nextInt();
+            if (messageNumber > 0) {
+                Message message = client.getInbox().get(messageNumber - 1);
+                Instructor instructor = DatabaseService.getInstructorById(message.getSender());
+                System.out.println("Replying to : " + instructor.getName());
+                scanner.nextLine(); // Clear the buffer
+
+                System.out.print("Title:  ");
+                String title = scanner.nextLine();
+
+                System.out.print("Content:  ");
+                String content = scanner.nextLine();
+
+                client.replyToMessage(message, content);
+            }
+
+        }
+    }
+
+    // INSTRUCTOR OPTIONS
+    public static void instructorOption2(Scanner scanner, Instructor instructor) {
+
+        instructor.viewMessages();
+        System.out.println("1-Reply to a message ");
+        System.out.println("2-Go back");
+        int option = scanner.nextInt();
+
+        if (option == 1) {
+            System.out.print("Message Number= ");
+            int messageNumber = scanner.nextInt();
+            if (messageNumber > 0) {
+                Message message = instructor.getInbox().get(messageNumber - 1);
+                Client client = DatabaseService.getClientById(message.getSender());
+                System.out.println("Replying to : " + client.getClientName());
+                scanner.nextLine(); // Clear the buffer
+
+                System.out.print("Title:  ");
+                String title = scanner.nextLine();
+
+                System.out.print("Content:  ");
+                String content = scanner.nextLine();
+
+                instructor.replyToMessage(message, content);
+            }
+
+        }
+    }
+
 }
