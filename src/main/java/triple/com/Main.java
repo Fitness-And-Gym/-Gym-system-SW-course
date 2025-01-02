@@ -114,6 +114,15 @@ public class Main {
                 System.out.println("5 - see my goals");
                 System.out.println("6 - change Subscription");
                 System.out.println("7 - Check inbox");
+                System.out.println("8 - Read pulished articles");
+                System.out.println("9 - Add Dietary Preference");
+                System.out.println("10- Delete Dietary Preference");
+                System.out.println("11 - Write Feedback");
+                System.out.println("12 - Filter Programs By Difficulty");
+                System.out.println("13 - Filter Programs ByGoal");
+                System.out.println("14- View my Feeds");
+
+                // write feedback about an instructor
                 System.out.println(goBack);
 
                 // almost every thing is ready
@@ -199,11 +208,17 @@ public class Main {
             System.out.println("Your Logged In");
 
             while (exit) {
-                System.out
-                        .println(lineSeparator);
+                System.out.println(lineSeparator);
                 System.out.println("Start your journey :");
                 System.out.println("1 - create program");
                 System.out.println("2 - Check inbox");
+                System.out.println("3 - Send message to clients");
+                System.out.println("4 - My Programs");
+                System.out.println("5 - Enter attendence");
+                System.out.println("6 - Write and Publish  Article ,Tip ,Recipe");
+                System.out.println("7 - Change Subscribtion");
+                System.out.println("8 - Cancle Subscribtion ");
+                System.out.println("9 - ");
 
                 System.out.println(goBack);
 
@@ -220,6 +235,8 @@ public class Main {
 
                         break;
                     case 4:
+                        instructorOption4(scanner, instructor);
+
                         break;
                     case 5:
                         break;
@@ -687,6 +704,45 @@ public class Main {
             }
 
         }
+    }
+
+    public static void instructorOption4(Scanner scanner, Instructor instructor) {
+        instructor.viewPrograms();
+
+        System.out.print("Details of Program Number= ");
+        int option = scanner.nextInt();
+        Program program;
+        // get Program
+        if (option > 0 && option < instructor.getPrograms().size()) {
+            program = instructor.getPrograms().get(option - 1);
+        } else {
+            return;
+        }
+
+        System.out.println(program.getTitle() + "program :");
+        System.out.print("1 - Update Program Title");
+        System.out.print("2 - Update Program fees");
+        System.out.print("3 - Enter Attendence");// same as above
+        System.out.print("4 - Add addGoalToProgram");
+        System.out.print("5 - delete Program");
+        option = scanner.nextInt();
+
+        switch (option) {
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+
+            default:
+                break;
+        }
+
     }
 
 }

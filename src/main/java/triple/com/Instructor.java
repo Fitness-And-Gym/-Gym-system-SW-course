@@ -24,6 +24,9 @@ public class Instructor {
     private PlanInstructor plan; // The subscription plan assigned to the instructor
     private ArrayList<Message> inbox = new ArrayList<>(); // Inbox for the instructor's messages
 
+    public List<Program> getPrograms() {
+        return programs;
+    }
     private List<Program> programs; // List of programs associated with the instructor
 
     /**
