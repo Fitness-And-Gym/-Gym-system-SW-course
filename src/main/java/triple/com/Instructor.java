@@ -23,12 +23,16 @@ public class Instructor {
     private String status; // Account status ( "pending", "valid", "invalid")
     private PlanInstructor plan; // The subscription plan assigned to the instructor
     private ArrayList<Message> inbox = new ArrayList<>(); // Inbox for the instructor's messages
+    private List<Program> programs; // List of programs associated with the instructor
 
     public List<Program> getPrograms() {
         return programs;
     }
 
-    private List<Program> programs; // List of programs associated with the instructor
+    public void addProgram(Program program) {
+        if (!program.isCompleted())
+            programs.add(0, program);
+    }
 
     /**
      * Constructor to initialize an instructor's account with a name and password.
@@ -159,10 +163,13 @@ public class Instructor {
      */
     public void deleteMyProgram(String programId) {
         Program program = DatabaseService.getProgramById(programId);
+
         if (program.getInstructor().equals(this)) {
             DatabaseService.deleteProgram(program);
+            programs.remove(program);
+
         } else {
-            System.out.println("Did not call the delete program function.");
+            System.out.println("Error executing the delete program function(your not the owner).");
         }
     }
 
@@ -215,8 +222,9 @@ public class Instructor {
     public void viewPrograms() {
         if (loggedIn) {
             System.out.println("Programs by " + name + ":");
+            int i = 1;
             for (Program program : programs) {
-                System.out.println(program.getTitle() + " (" + program.getDuration() + " days)");
+                System.out.println(i++ + "- " + program.getTitle() + " (" + program.getDuration() + " days)");
             }
         } else {
             System.out.println("Instructor must be logged in to view programs.");

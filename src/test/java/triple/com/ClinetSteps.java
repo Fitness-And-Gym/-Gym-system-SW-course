@@ -23,6 +23,8 @@ public class ClinetSteps {
         admin = new Admin();
         admin.login("admin", "admin");
         admin.acceptInstructor(instructor.getId());
+        DatabaseService.createMockData();
+
     }
 
     @Given("I am a registered client")

@@ -29,6 +29,7 @@ public class InstructorSteps {
         admin = new Admin();
         admin.login("admin", "admin");
         admin.acceptInstructor(instructor.getId());
+
     }
 
     @Given("I am an Instructor")

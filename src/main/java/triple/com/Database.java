@@ -37,6 +37,9 @@ public class Database {
     private static PlanClient basicPlanClient = new PlanClient("Basic", "free", 0, "Limited access");
     private static PlanInstructor basicPlanInstructor = new PlanInstructor("Basic", "free", 0, "Limited access");
 
+    // instructor for testing main menu
+    private static Instructor instructor1 = new Instructor("ins", "123");
+
     // Constructor and methods to manage the entities would be here...
 
     public static void addArticleRequest(Article article) {
@@ -300,10 +303,9 @@ public class Database {
 
     }
 
-    // may be deleted not used
     public static Program getProgramById(String programId) {
         for (Program program : programs) {
-            if (program.getProgramId().equals(programId)) {
+            if (program.getProgramId().equalsIgnoreCase(programId)) {
                 return program;
             }
         }
@@ -424,7 +426,6 @@ public class Database {
     // Mock Data Section//
     public static void createMockData() {
         // Create some instructors
-        Instructor instructor1 = new Instructor("John", "12");
         Instructor instructor2 = new Instructor("Jane", "12");
         Instructor instructor3 = new Instructor("Alice", "12");
         Instructor instructor4 = new Instructor("Ali", "121");
@@ -487,7 +488,6 @@ public class Database {
 
     public static void populateMockPrograms() {
         // Create mock instructors
-        Instructor instructor1 = new Instructor("Alice Smith", "I001");
         Instructor instructor2 = new Instructor("Bob Johnson", "I002");
         Instructor instructor3 = new Instructor("Carol Taylor", "I003");
 
@@ -558,7 +558,6 @@ public class Database {
 
     public static void populateMockCompletedPrograms() {
         // Create mock instructors
-        Instructor instructor1 = new Instructor("Alice Smith", "I001");
         Instructor instructor2 = new Instructor("Bob Johnson", "I002");
         Instructor instructor3 = new Instructor("Carol Taylor", "I003");
 
@@ -633,7 +632,7 @@ public class Database {
 
         Random random = new Random();
         for (Client client : program.getEnrolledClients()) {
-            for (int week = 1; week <= program.getDuration(); week++) {
+            for (int week = 1; week <= program.getDuration() - 3; week++) {
                 boolean attended = random.nextBoolean(); // Randomly set attendance (true/false)
                 program.markAttendance(client, week, attended);
             }
@@ -645,9 +644,8 @@ public class Database {
 
     public static void populateMockArticles() {
         // Create mock instructors
-        Instructor instructor1 = new Instructor("John", "12");
+        Instructor instructor3 = new Instructor("John", "12");
         Instructor instructor2 = new Instructor("Jane", "12");
-        Instructor instructor3 = new Instructor("ins", "123");
 
         // Set valid status for instructors
         instructor1.setStatus("valid");
@@ -760,7 +758,6 @@ public class Database {
         Client client6 = new Client("Frank", "password123");
 
         // Define instructors
-        Instructor instructor1 = new Instructor("John", "password12");
         Instructor instructor2 = new Instructor("Jane", "password12");
         Instructor instructor3 = new Instructor("Michael", "password12");
         Instructor instructor4 = new Instructor("Sarah", "password12");
@@ -804,7 +801,6 @@ public class Database {
 
     public static void populateMockProgramsWithGoals() {
         // Create mock instructors
-        Instructor instructor1 = new Instructor("Alice Smith", "I001");
         Instructor instructor2 = new Instructor("Bob Johnson", "I002");
         Instructor instructor3 = new Instructor("Instructor", "123");
 
@@ -872,4 +868,5 @@ public class Database {
                 "Hi " + instructor.getName() + "Is there any upcoming progrograms for muscels gain?");
 
     }
+
 }

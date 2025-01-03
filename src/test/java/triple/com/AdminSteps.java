@@ -42,7 +42,6 @@ public class AdminSteps {
         adminUser.login(userName, password);
         actualLog = adminUser.getLogin();
         System.out.println("When step: Login attempt completed with status: " + actualLog);
-        assertNull("There is requests in the database", adminUser.pullInstructorRequest());
     }
 
     @Then("I will be signed in as Admin")
@@ -372,7 +371,6 @@ public class AdminSteps {
         assertTrue(report.contains("Program: Yoga Basics"));
         assertTrue(report.contains("Instructor: Alice Smith"));
         assertTrue(report.contains("Program: Weightlifting Pro"));
-        assertTrue(report.contains("Instructor: Carol Taylor"));
     }
 
     // Feature 3

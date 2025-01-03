@@ -31,6 +31,10 @@ public class Program {
     private List<Progress> programGoals; // The Ideal clients that are going to enroll and the outcome
     private boolean completed;
 
+    public Map<Client, List<Boolean>> getAttendanceRecords() {
+        return attendanceRecords;
+    }
+
     /**
      * Constructs a new Program with the specified details.
      *
@@ -63,6 +67,7 @@ public class Program {
         this.attendanceRecords = new HashMap<>();
         this.programGoals = new ArrayList<>();
         this.completed = false;
+        instructor.addProgram(this);
         DatabaseService.addProgram(this);
     }
 
@@ -89,7 +94,7 @@ public class Program {
      */
     public void markAsCompleted() {
         this.completed = true;
-        DatabaseService.removeProgram(this);
+        instructor.deleteMyProgram(programId);
         DatabaseService.addCompletedProgram(this);
     }
 
@@ -382,6 +387,15 @@ public class Program {
             }
         }
 
+        report.append("Program Goals:\n");
+        if (programGoals.isEmpty()) {
+            report.append(" - No program goals defined.\n");
+        } else {
+            for (Progress progress : programGoals) {
+                report.append(" - ").append(progress.getProgressSummary()).append("\n");
+            }
+        }
+
         report.append("-------------------------");
 
         return report.toString();
@@ -410,4 +424,16 @@ public class Program {
 
         return report.toString();
     }
+
+    public void insertAttendance(Map<Client, Boolean> attendance) {
+        for (Map.Entry<Client, Boolean> entry : attendance.entrySet()) {
+            Client client = entry.getKey();
+            Boolean attended = entry.getValue();
+
+            attendanceRecords.get(client).add(attended);
+
+        }
+
+    }
+
 }

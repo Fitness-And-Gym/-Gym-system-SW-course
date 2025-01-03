@@ -6,7 +6,9 @@ import javax.sql.DataSource;
 import javax.xml.crypto.Data;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 //PS C:\Users\dell\OneDrive\Desktop\software\Fitness-Project-SE-course> mvn compile
 //PS C:\Users\dell\OneDrive\Desktop\software\Fitness-Project-SE-course> mvn exec:java
@@ -93,15 +95,14 @@ public class Main {
 
     private static void clientLogin(Scanner scanner) {
 
-        // System.out.print(enterUserName);
-        // String username = scanner.next();
+        System.out.print(enterUserName);
+        String username = scanner.next();
 
-        // System.out.print("Enter password: ");
-        // String password = scanner.next();
+        System.out.print("Enter password: ");
+        String password = scanner.next();
 
-        Client client = DatabaseService.getClientByName("tom");
-        // if (client!=null&&client.getPassword().equals(password)) {
-        if (true) {
+        Client client = DatabaseService.getClientByName(username);
+        if (client != null && client.getPassword().equalsIgnoreCase(password)) {
             boolean exit = true;
             System.out.println("Your login successful!");
             DatabaseService.sendMockMessages(client);
@@ -853,42 +854,130 @@ public class Main {
     }
 
     public static void instructorOption4(Scanner scanner, Instructor instructor) {
-        instructor.viewPrograms();
 
-        System.out.print("Details of Program Number= ");
-        int option = scanner.nextInt();
-        Program program;
-        // get Program
-        if (option > 0 && option < instructor.getPrograms().size()) {
-            program = instructor.getPrograms().get(option - 1);
-        } else {
-            return;
-        }
+        boolean exit = true;
+        while (exit) {
+            instructor.viewPrograms();
 
-        System.out.println(program.getTitle() + "program :");
-        System.out.print("1 - Update Program Title");
-        System.out.print("2 - Update Program fees");
-        System.out.print("3 - Enter Attendence");// same as above
-        System.out.print("4 - Add addGoalToProgram");
-        System.out.print("5 - delete Program");
-        option = scanner.nextInt();
+            System.out.print("Details of Program Number(0 go back)= ");
+            int option = scanner.nextInt();
+            scanner.nextLine();// clear buffer
 
-        switch (option) {
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-            case 4:
-                break;
-            case 5:
-                break;
+            Program program;
+            if (option > 0 && option <= instructor.getPrograms().size()) {
 
-            default:
-                break;
+                try {
+                    program = instructor.getPrograms().get(option - 1);
+                    boolean shouldDelete = handleProgram(program);
+                    try {
+                        if (shouldDelete) {
+                            instructor.deleteMyProgram(program.getProgramId());
+                            System.out.println("Deleting operation was successful");
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Program does not exist to be deleted  " + e.getMessage());
+                    }
+
+                } catch (Exception e) {
+
+                    System.out.println("Program does not exist " + e.getMessage());
+                }
+
+            } else if (option == 0) {
+                exit = false;// just for infinite while loop analysis
+                return;
+            }
         }
 
     }
 
+    public static boolean handleProgram(Program program) {
+        Scanner scanner = new Scanner(System.in);
+        while (program != null) {
+            System.out.println(program.generateReport());
+
+            System.out.println(program.getTitle() + "program :");
+            System.out.println("1 - Update Program Title");
+            System.out.println("2 - Update Program fees");
+            System.out.println("3 - Enter Attendance");// same as above
+            System.out.println("4 - Add New Goal To Program");
+            System.out.println("5 - delete Program");
+            System.out.println(goBack);
+
+            int option = scanner.nextInt();
+            scanner.nextLine();// clear buffer
+
+            switch (option) {
+                case 0:
+                    program = null;
+                    break;
+                case 1:
+                    System.out.print("New Program Title: ");
+                    String title = scanner.next();
+
+                    program.updateTitle(title);
+                    break;
+                case 2:
+                    System.out.print("New Program fees: ");
+                    int fees = scanner.nextInt();
+
+                    program.updateFees(fees);
+                    break;
+                case 3:
+
+                    System.out.println("Enter attendance for one week (Y for present, N for absent):");
+
+                    Map<Client, Boolean> attendance = new HashMap<>();
+
+                    for (Client client : program.getEnrolledClients()) {
+                        System.out.print("Attendance for " + client.getClientName() + ": ");
+                        String yesNo = scanner.next();
+
+                        boolean attended;
+
+                        if (yesNo.equalsIgnoreCase("y"))
+                            attended = true;
+                        else
+                            attended = false;
+
+                        attendance.put(client, attended);
+                    }
+
+                    program.insertAttendance(attendance);
+
+                    System.out.println("Attendance recorded successfully.");
+
+                    System.out.println("\nAttendance Records:");
+                    for (Map.Entry<Client, List<Boolean>> entry : program.getAttendanceRecords().entrySet()) {
+                        System.out.println(entry.getKey().getClientName() + ": " + entry.getValue());
+                    }
+
+                    break;
+                case 4:
+                    System.out.print("Enter Goal title: ");
+                    title = scanner.next();
+
+                    System.out.print("Enter your current state value: ");
+                    double current = scanner.nextDouble();
+
+                    System.out.print("Enter your Target value: ");
+                    double target = scanner.nextDouble();
+
+                    Progress progress = new Progress(title, current, target);
+                    program.addProgramGoal(progress);
+                    break;
+                case 5:
+                    return true;
+
+                default:
+                    return false;
+
+            }
+
+        }
+        scanner.nextLine();// clear buffer
+
+        return false;
+
+    }
 }
