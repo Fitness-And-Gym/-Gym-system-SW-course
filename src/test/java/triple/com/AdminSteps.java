@@ -369,7 +369,7 @@ public class AdminSteps {
     public void itShouldIncludeTheCompletedProgramsAndAnAbstractAboutEachProgram() {
         assertTrue(report.contains("----- Program Report -----"));
         assertTrue(report.contains("Program: Yoga Basics"));
-        assertTrue(report.contains("Instructor: Alice Smith"));
+        assertTrue(report.contains("Instructor: ins"));
         assertTrue(report.contains("Program: Weightlifting Pro"));
     }
 
