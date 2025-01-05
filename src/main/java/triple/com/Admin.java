@@ -216,8 +216,9 @@ public class Admin {
         for (Program program : DatabaseService.getCompletedPrograms()) {
             report.append(program.generateReportForAdmin()).append("\n");
         }
-        logger.info(report.toString());
-        return report.toString();
+        String repoString = report.toString();
+        logger.info(repoString);
+        return repoString;
     }
 
     /**
@@ -300,7 +301,7 @@ public class Admin {
         for (Feedback feed : feeds) {
             String temp = feed.printFeedback();
             allFeedback.append(temp).append("\n");
-            logger.info(temp.toString());
+            logger.info(temp);
         }
 
         return allFeedback.toString();
@@ -320,8 +321,9 @@ public class Admin {
 
         }
         logger.info("\nPlans available for clients\n" + "------------------------------------\n");
-        logger.info(allPlanDetails.toString());
-        return allPlanDetails.toString();
+        String allPlanDetailString = allPlanDetails.toString();
+        logger.info(allPlanDetailString);
+        return allPlanDetailString;
     }
 
     /**
@@ -337,7 +339,8 @@ public class Admin {
             allPlanDetails.append(planNumber++ + " . ").append(plan.getPlanDetails()).append("\n");
         }
         logger.info("\nPlans available for Instructors\n" + "------------------------------------\n");
-        logger.info(allPlanDetails.toString());
-        return allPlanDetails.toString();
+        String allPlanDetailString = allPlanDetails.toString();
+        logger.info(allPlanDetailString);
+        return allPlanDetailString;
     }
 }
