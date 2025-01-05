@@ -19,16 +19,19 @@ public class Main {
     static final String lineSeparator = "===================================================================================";
     static final String goBack = "<--Go back (enter 0)";
     static final String adminCredentials = "admin";
+    static boolean Initialize = true;
 
     public static void main(String[] args) {
-        // Initialize the DB
-        DatabaseService.createMockData();
-        DatabaseService.populateMockPrograms();
-        DatabaseService.populateMockArticles();
-        DatabaseService.populateMockCompletedPrograms();
-        DatabaseService.populateMockFeedbacks();
-        DatabaseService.populateMockPlans();
-
+        if (Initialize) {
+            // Initialize the DB
+            DatabaseService.createMockData();
+            DatabaseService.populateMockPrograms();
+            DatabaseService.populateMockArticles();
+            DatabaseService.populateMockCompletedPrograms();
+            DatabaseService.populateMockFeedbacks();
+            DatabaseService.populateMockPlans();
+            Initialize = false;
+        }
         System.out.println("\nWelcome to our Fitness Gym!");
         Scanner scanner = new Scanner(System.in);
 
@@ -116,8 +119,7 @@ public class Main {
                 System.out.println("5 - see my goals");
                 System.out.println("6 - change Subscription");
                 System.out.println("7 - Check inbox");
-                System.out.println("8 - Read published articles");
-                System.out.println("9 - Add Dietary Preference");
+                 System.out.println("9 - Add Dietary Preference");
                 System.out.println("10- Delete Dietary Preference");
                 System.out.println("11 - Write Feedback");
                 System.out.println("12 - Filter Programs By Difficulty");
@@ -128,8 +130,7 @@ public class Main {
                 // write feedback about an instructor
                 System.out.println(goBack);
 
-                // almost every thing is ready
-                // add benefit for a plan
+                
                 int option = scanner.nextInt();
                 switch (option) {
                     case 1:
@@ -219,10 +220,11 @@ public class Main {
                 System.out.println("2 - Check inbox");
                 System.out.println("3 - Send messages to clients");
                 System.out.println("4 - My Programs");
-                System.out.println("5 - Enter attendance");
-                System.out.println("6 - Write and Publish  Article ,Tip ,Recipe");
-                System.out.println("7 - Change Subscription");
-                System.out.println("8 - Cancel Subscription ");
+                System.out.println("5 - Write and Publish  Article ,Tip ,Recipe");
+                System.out.println("6 - Change Subscription");
+                System.out.println("7 - Cancel Subscription ");
+                System.out.println("8 - Review my Articles ");
+
                 // System.out.println("9 - ");
 
                 System.out.println(goBack);
@@ -241,17 +243,21 @@ public class Main {
                         break;
                     case 4:
                         instructorOption4(scanner, instructor);
-
                         break;
                     case 5:
+                        instructorOption5(scanner, instructor);
                         break;
                     case 6:
+                        instructorOption6(scanner, instructor);
+
                         break;
                     case 7:
+                        instructorOption7(scanner, instructor);
+
                         break;
                     case 8:
-                        break;
-                    case 9:
+                        instructorOption8(instructor);
+
                         break;
 
                     default:
@@ -891,6 +897,7 @@ public class Main {
 
     }
 
+    // used by instructorOption4
     public static boolean handleProgram(Program program) {
         Scanner scanner = new Scanner(System.in);
         while (program != null) {
@@ -980,4 +987,89 @@ public class Main {
         return false;
 
     }
+
+    public static void instructorOption5(Scanner scanner, Instructor instructor) {
+
+        scanner.nextLine(); // Clear the buffer
+
+        System.out.print("Enter title: ");
+        String title = scanner.nextLine();
+
+        System.out.println("1)ARTICLE    2)TIP   3)RECIPE");
+        int option = scanner.nextInt();
+
+        scanner.nextLine(); // Clear the buffer
+
+        ArticleType type;
+
+        switch (option) {
+            case 1:
+                type = ArticleType.ARTICLE;
+                break;
+            case 2:
+                type = ArticleType.TIP;
+                break;
+            case 3:
+                type = ArticleType.RECIPE;
+                break;
+            default:
+                type = ArticleType.ARTICLE;
+                break;
+        }
+
+        System.out.println("Start Writing here-: ");
+        String text = scanner.nextLine();
+
+        Article article = instructor.writeArticle(title, text, type);
+
+        System.out.println(article);
+
+    }
+
+    public static void instructorOption6(Scanner scanner, Instructor instructor) {
+
+        Admin admin = new Admin();
+        admin.login(adminCredentials, adminCredentials);
+        admin.seePlansForInstructors();
+
+        try {
+            System.out.print("Enter Plan number= ");
+            int planNumber = scanner.nextInt();
+
+            // we are here converte to instructor
+            PlanInstructor plan = DatabaseService.getInstructorPlanByNumber(planNumber - 1);
+
+            instructor.changeSubscription(plan);
+
+            System.out.print(instructor.toString());
+
+        } catch (Exception e) {
+            System.out.println("couldn't change subscription try again later " + e.getMessage());
+        }
+
+    }
+
+    public static void instructorOption7(Scanner scanner, Instructor instructor) {
+        try {
+            instructor.changeSubscription(DatabaseService.getBasicPlanInstructor());
+        } catch (Exception e) {
+            System.out.println("couldn't cancel subscription try again later " + e.getMessage());
+        }
+        System.out.print(instructor.toString());
+
+    }
+
+    public static void instructorOption8(Instructor instructor) {
+        try {
+            for (Article article : DatabaseService.getArticles()) {
+                if (article.getAuthor().getId().equalsIgnoreCase(instructor.getId())) {
+                    System.out.println(article.toString());
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("No articles yet " + e.getMessage());
+        }
+
+    }
+
 }

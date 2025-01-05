@@ -78,6 +78,10 @@ public class Database {
         return plansClient.get(number);
     }
 
+    public static PlanInstructor getInstructorPlanByNumber(int number) {
+        return plansInstructors.get(number);
+    }
+
     public static ArrayList<Program> getPrograms() {
         return programs;
     }
@@ -228,6 +232,10 @@ public class Database {
 
     public static Article getLastArticleRequest() {
         return articleRequests.get(0);
+    }
+
+    public static ArrayList<Article> getArticles() {
+        return articles;
     }
 
     // Instructor database manipulation
@@ -666,7 +674,7 @@ public class Database {
                 ArticleType.ARTICLE);
         approvedArticle1.setApproved(true);
 
-        Article approvedArticle2 = new Article("Stay Hydrated", "Drink at least 2 liters of water daily.", instructor2,
+        Article approvedArticle2 = new Article("Stay Hydrated", "Drink at least 2 liters of water daily.", instructor1,
                 ArticleType.TIP);
         approvedArticle2.setApproved(true);
 

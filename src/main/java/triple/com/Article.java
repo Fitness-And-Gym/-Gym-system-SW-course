@@ -6,8 +6,10 @@ import triple.com.Instructor;
 
 /**
  * Represents an article that can be submitted by an instructor. Articles can
- * be of various types ( ARTICLE, TIP, RECIPE) and are subject to approval by an admin.
- * The class provides functionality to manage article details, including submission, approval, and categorization.
+ * be of various types ( ARTICLE, TIP, RECIPE) and are subject to approval by an
+ * admin.
+ * The class provides functionality to manage article details, including
+ * submission, approval, and categorization.
  */
 public class Article {
     private static int idCounterArticle = 1;
@@ -20,14 +22,15 @@ public class Article {
     private ArticleType type;
 
     /**
-     * Constructor to create a new article with the provided title, content, author, and type.
+     * Constructor to create a new article with the provided title, content, author,
+     * and type.
      * Initializes the submission date and sets approval status to false by default.
      * The article is added to the database as a request for approval.
      *
-     * @param title the title of the article
+     * @param title   the title of the article
      * @param content the main content of the article
-     * @param author the instructor who authored the article
-     * @param type the type of the article (ARTICLE, TIP, RECIPE)
+     * @param author  the instructor who authored the article
+     * @param type    the type of the article (ARTICLE, TIP, RECIPE)
      */
     public Article(String title, String content, Instructor author, ArticleType type) {
         this.id = "A" + idCounterArticle++;
@@ -141,7 +144,8 @@ public class Article {
 
     /**
      * Sets the approval status of the article.
-     * If approved, the article is moved from the request list to the approved list in the database.
+     * If approved, the article is moved from the request list to the approved list
+     * in the database.
      *
      * @param approved the new approval status
      */
@@ -170,4 +174,16 @@ public class Article {
     public void setType(ArticleType type) {
         this.type = type;
     }
+
+    @Override
+    public String toString() {
+        return "Article ID: " + id + "\n" +
+                "Title: " + title + "\n" +
+                "Author: " + (author != null ? author.getName() : "Unknown") + "\n" +
+                "Submission Date: " + submissionDate + "\n" +
+                "Approved: " + (isApproved ? "Yes" : "No") + "\n" +
+                "Type: " + type + "\n" +
+                "Content: " + content;
+    }
+
 }

@@ -14,6 +14,10 @@ public class DatabaseService {
         return Database.getClientPlanByNumber(number);
     }
 
+    public static PlanInstructor getInstructorPlanByNumber(int number) {
+        return Database.getInstructorPlanByNumber(number);
+    }
+
     public static ArrayList<Program> getPrograms() {
         return Database.getPrograms();
     }
@@ -197,6 +201,10 @@ public class DatabaseService {
 
     public static Article getLastArticleRequest() {
         return Database.getLastArticleRequest();
+    }
+
+    public static ArrayList<Article> getArticles() {
+        return Database.getArticles();
     }
 
     // mock

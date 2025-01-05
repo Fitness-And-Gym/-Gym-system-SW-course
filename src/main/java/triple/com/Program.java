@@ -15,9 +15,6 @@ import java.util.Set;
  * on program performance such as revenue and attendance.
  */
 public class Program {
-    // TO DO : add videos and images array for program added by instructor
-    // TO DO : have a schedule for how many session in a week and in which day and
-    // time
     private static int idCounter = 1;
     private int enrollments;
     private Instructor instructor;
@@ -30,6 +27,10 @@ public class Program {
     private Map<Client, List<Boolean>> attendanceRecords; // assuming one session per week
     private List<Progress> programGoals; // The Ideal clients that are going to enroll and the outcome
     private boolean completed;
+
+    public int getFees() {
+        return fees;
+    }
 
     public Map<Client, List<Boolean>> getAttendanceRecords() {
         return attendanceRecords;

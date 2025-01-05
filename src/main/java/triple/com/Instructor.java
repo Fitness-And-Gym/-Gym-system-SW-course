@@ -25,6 +25,11 @@ public class Instructor {
     private ArrayList<Message> inbox = new ArrayList<>(); // Inbox for the instructor's messages
     private List<Program> programs; // List of programs associated with the instructor
 
+    public Article writeArticle(String title, String content, ArticleType type) {
+        return new Article(title, content, this, ArticleType.ARTICLE);
+
+    }
+
     public List<Program> getPrograms() {
         return programs;
     }
@@ -399,6 +404,31 @@ public class Instructor {
         System.out.println("Reply sent to " + originalMessage.getSender() + ": " + replyContent);
 
         return reply;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Your Instructor Profile:\n");
+        sb.append("-------------------\n");
+        sb.append("ID          : ").append(instructorId).append("\n");
+        sb.append("Name        : ").append(name).append("\n");
+        sb.append("Status      : ").append(status).append("\n");
+        sb.append("Plan        : ").append(plan != null ? plan.getName() : "No Plan Assigned").append("\n");
+        sb.append("\nPrograms:\n");
+
+        if (programs.isEmpty()) {
+            sb.append("No programs, Create your first program!.\n");
+        } else {
+            for (int i = 0; i < programs.size(); i++) {
+                Program program = programs.get(i);
+                sb.append("  ").append(i + 1).append(". ").append(program.getTitle())
+                        .append(" - Duration: ").append(program.getDuration())
+                        .append(" weeks, Fees: ").append(program.getFees()).append("\n");
+            }
+        }
+
+        return sb.toString();
     }
 
 }
