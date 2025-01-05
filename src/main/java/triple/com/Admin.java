@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.yaml.snakeyaml.Yaml;
 
@@ -18,9 +19,8 @@ import org.yaml.snakeyaml.Yaml;
  * </p>
  */
 public class Admin {
-    private String userName; // Admin's username
-    private String password; // Admin's password
     private boolean loggedIn; // Indicates whether the admin is logged in
+    Logger logger = Logger.getLogger(getClass().getName());
 
     /**
      * Returns whether the admin is logged in.
@@ -55,15 +55,13 @@ public class Admin {
 
             Map<String, String> obj = yaml.load(inputStream);
 
-            System.out.println(obj);
 
             String adminName = obj.get("user");
             String adminPassword = obj.get("password");
 
             if (userName.equals(adminName) && password.equals(adminPassword)) {
                 loggedIn = true;
-                this.userName = userName;
-                this.password = password;
+
             } else {
                 loggedIn = false;
             }
@@ -134,7 +132,7 @@ public class Admin {
         if (myClient != null) {
             myClient.setStatus("invalid");
         } else {
-            System.out.println("client is not deactivated**");
+            logger.info("client is not deactivated**");
         }
     }
 
@@ -173,7 +171,7 @@ public class Admin {
         if (loggedIn) {
             return DatabaseService.processRequest();
         }
-        System.out.println("Admin must login first**");
+        logger.info("Admin must login first**");
         return null;
     }
 
@@ -203,7 +201,7 @@ public class Admin {
         for (Program program : DatabaseService.getPrograms()) {
             report.append(program.generateReportForAdmin()).append("\n");
         }
-        System.out.println(report);
+        logger.info(report.toString());
         return report.toString();
     }
 
@@ -218,7 +216,7 @@ public class Admin {
         for (Program program : DatabaseService.getCompletedPrograms()) {
             report.append(program.generateReportForAdmin()).append("\n");
         }
-        System.out.println(report);
+        logger.info(report.toString());
         return report.toString();
     }
 
@@ -302,7 +300,7 @@ public class Admin {
         for (Feedback feed : feeds) {
             String temp = feed.printFeedback();
             allFeedback.append(temp).append("\n");
-            System.out.println(temp);
+            logger.info(temp.toString());
         }
 
         return allFeedback.toString();
@@ -321,8 +319,8 @@ public class Admin {
             allPlanDetails.append(planNumber++ + " . ").append(plan.getPlanDetails()).append("\n");
 
         }
-        System.out.println("\nPlans available for clients\n" + "------------------------------------\n");
-        System.out.println(allPlanDetails.toString());
+        logger.info("\nPlans available for clients\n" + "------------------------------------\n");
+        logger.info(allPlanDetails.toString());
         return allPlanDetails.toString();
     }
 
@@ -338,8 +336,8 @@ public class Admin {
         for (PlanInstructor plan : DatabaseService.getPlansInstructors()) {
             allPlanDetails.append(planNumber++ + " . ").append(plan.getPlanDetails()).append("\n");
         }
-        System.out.println("\nPlans available for Instructors\n" + "------------------------------------\n");
-        System.out.println(allPlanDetails.toString());
+        logger.info("\nPlans available for Instructors\n" + "------------------------------------\n");
+        logger.info(allPlanDetails.toString());
         return allPlanDetails.toString();
     }
 }

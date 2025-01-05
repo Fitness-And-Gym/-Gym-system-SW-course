@@ -115,19 +115,19 @@ public class Main {
             DatabaseService.sendMockMessages(client);
             while (exit) {
                 System.out.println(lineSeparator);
-                System.out.println("Start your journey :");
-                System.out.println("1 - change user Name");
-                System.out.println("2 - Enroll in program");
-                System.out.println("3 - Set Goal today");
-                System.out.println("4 - update Goal Progress");
-                System.out.println("5 - see my goals");
-                System.out.println("6 - change Subscription");
-                System.out.println("7 - Check inbox");
-                System.out.println("8 - Open conversation with Instructor");
-                System.out.println("9 - Dietary Preferences");
-                System.out.println("10 - Write Feedback");
-                System.out.println("11 - Search for Programs By Difficulty/Goal");
-                System.out.println("12 - View my Feeds");
+                System.out.println("Start your journey:");
+                System.out.println("1 - Update Your Username");
+                System.out.println("2 - Enroll in a New Program");
+                System.out.println("3 - Set Month's Goal");
+                System.out.println("4 - Update Goal Progress");
+                System.out.println("5 - View My Goals");
+                System.out.println("6 - Modify Subscription Plan");
+                System.out.println("7 - Check Your Inbox");
+                System.out.println("8 - Chat with an Instructor");
+                System.out.println("9 - Update Dietary Preferences");
+                System.out.println("10 - Share Your Feedback");
+                System.out.println("11 - Search Programs by Difficulty or Goal");
+                System.out.println("12 - Explore My Feeds");
 
                 // write feedback about an instructor
                 System.out.println(goBack);
@@ -170,10 +170,6 @@ public class Main {
                     case 12:
                         clientOption12(scanner, client);
                         break;
-
-                    case 15:
-                        break;
-
                     default:
                         exit = false;
                         break;
@@ -228,15 +224,15 @@ public class Main {
             System.out.println("Your Logged In");
             while (exit) {
                 System.out.println(lineSeparator);
-                System.out.println("Start your journey :");
-                System.out.println("1 - create program");
-                System.out.println("2 - Check inbox");
-                System.out.println("3 - Send messages to clients");
-                System.out.println("4 - My Programs");
-                System.out.println("5 - Write and Publish  Article ,Tip ,Recipe");
-                System.out.println("6 - Change Subscription");
-                System.out.println("7 - Cancel Subscription ");
-                System.out.println("8 - Review my Articles ");
+                System.out.println("Begin your professional journey:");
+                System.out.println("1 - Create a New Program for Clients");
+                System.out.println("2 - Access Your Inbox");
+                System.out.println("3 - Communicate with Clients");
+                System.out.println("4 - View and Manage My Programs");// ins 123
+                System.out.println("5 - Compose and Publish Articles, Tips, or Recipes");
+                System.out.println("6 - Modify Subscription Details");
+                System.out.println("7 - Cancel Your Subscription Plan");
+                System.out.println("8 - Review My Published Articles");
 
                 // System.out.println("9 - ");
 
@@ -306,27 +302,27 @@ public class Main {
             while (exit) {
 
                 System.out.println(lineSeparator);
-                System.out.println("Please choose action :");
-                System.out.println("1 - createClientAccount");
-                System.out.println("2 - see the most popular programs");
-                System.out.println("3 - updateClient");
-                System.out.println("4 - deactivateClient");
-                System.out.println("5 - check instructors requests box!");
-                System.out.println("6 - createInstructorAccount");
-                System.out.println("7 - TrackCompletedPrograms");
-                System.out.println("8 - Track on going programs");
-                System.out.println("9 - read Feed backs");
-                System.out.println("10 - seePlansForClient");
-                System.out.println("11 - seePlansForInstructors");
-                System.out.println("12 - see instructors");
-                System.out.println("13 - see  Instructors I declined");
-                System.out.println("14 - getPendingArticle");
-                System.out.println("15 - see clients");
-                System.out.println("16 - see pending Articles");
-                System.out.println("17 - see Articles");
-                System.out.println("18 - create new plan for Instructors");
-                System.out.println("19 - create new plan for clients");
-                System.out.println("20 - Add benefit for a plan");
+                System.out.println("Please choose an action:");
+                System.out.println("1 - Create a New Client Account");
+                System.out.println("2 - View Most Popular Programs");
+                System.out.println("3 - Update Client Information");
+                System.out.println("4 - Deactivate a Client Account");
+                System.out.println("5 - Check Instructor Requests");
+                System.out.println("6 - Create a New Instructor Account");
+                System.out.println("7 - Track Completed Programs");
+                System.out.println("8 - Monitor Ongoing Programs");
+                System.out.println("9 - Read Client Feedback");
+                System.out.println("10 - View Client-Specific Plans");
+                System.out.println("11 - Explore Instructor Plans");
+                System.out.println("12 - View All Instructors");
+                System.out.println("13 - Review Declined Instructor Applications");
+                System.out.println("14 - Retrieve Pending Articles");
+                System.out.println("15 - View All Clients");
+                System.out.println("16 - Review Pending Articles");
+                System.out.println("17 - Browse Published Articles");
+                System.out.println("18 - Design a New Plan for Instructors");
+                System.out.println("19 - Create a Custom Plan for Clients");
+                System.out.println("20 - Add Benefits to an Existing Plan");
 
                 System.out.println(goBack);
 

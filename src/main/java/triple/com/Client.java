@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 /**
  * Represents a client in the system, with functionality to manage programs,
@@ -15,6 +16,7 @@ public class Client {
      * A unique counter to generate unique client IDs.
      */
     private static int idCounter = 1;
+    Logger logger = Logger.getLogger(getClass().getName());
 
     /**
      * The unique identifier for the client.
@@ -186,7 +188,7 @@ public class Client {
     public String displayGaolProgressIn(int goalNumber) {
         Progress progress = progressByGoal.get(goalNumber);
         String summery = progress.getProgressSummary();
-        System.out.println(summery);
+        logger.info(summery);
         return summery;
     }
 
@@ -196,10 +198,10 @@ public class Client {
      */
     public void displayGoalProgress() {
         if (progressByGoal.isEmpty()) {
-            System.out.println("No goals set for this client.");
+            logger.info("No goals set for this client.");
         } else {
             for (int i = 0; i < progressByGoal.size(); i++) {
-                System.out.println("ID:" + i + "\t" + progressByGoal.get(i).getProgressSummary());
+                logger.info("ID:" + i + "\t" + progressByGoal.get(i).getProgressSummary());
             }
         }
     }
@@ -297,15 +299,15 @@ public class Client {
     public Message sendMessage(String recipientId, String title, String content) {// can send to all instructors
         Message message = new Message(title, content, clientId, recipientId);// display list of instructors to choose
 
-        System.out.println("Message sent to " + recipientId + ": " + title);
+        logger.info("Message sent to " + recipientId + ": " + title);
         return message;
     }
 
     public void viewMessages() {
         if (inbox.isEmpty()) {
-            System.out.println("No messages received.");
+            logger.info("No messages received.");
         } else {
-            System.out.println("Messages for " + clientName + ":");
+            logger.info("Messages for " + clientName + ":");
             int i = 1;
             for (Message message : inbox) {
                 Instructor instructor = DatabaseService.getInstructorById(message.getSender());
@@ -337,7 +339,7 @@ public class Client {
         Message reply = new Message("Re: " + originalMessage.getTitle(), replyContent,
                 clientId, originalMessage.getSender());
         inbox.remove(originalMessage);
-        System.out.println("Reply sent to " + originalMessage.getSender() + ": " + replyContent);
+        logger.info("Reply sent to " + originalMessage.getSender() + ": " + replyContent);
 
         return reply;
     }
@@ -351,9 +353,9 @@ public class Client {
     public void addDietaryPreference(String preference) {
         if (!dietaryPreferences.contains(preference)) {
             dietaryPreferences.add(preference);
-            System.out.println("Dietary preference added: " + preference);
+            logger.info("Dietary preference added: " + preference.toString());
         } else {
-            System.out.println("This dietary preference already exists.");
+            logger.info("This dietary preference already exists.");
         }
     }
 
@@ -367,11 +369,11 @@ public class Client {
         for (int i = 0; i < dietaryPreferences.size(); i++) {
             if (dietaryPreferences.get(i).equalsIgnoreCase(preference)) {
                 dietaryPreferences.remove(i);
-                System.out.println("Dietary preference removed: " + preference);
+                logger.info("Dietary preference removed: " + preference);
                 return;
             }
         }
-        System.out.println("Dietary preference not found.");
+        logger.info("Dietary preference not found.");
     }
 
     /**
@@ -388,11 +390,11 @@ public class Client {
      */
     public void printDietaryPreferences() {
         if (dietaryPreferences.isEmpty()) {
-            System.out.println("No dietary preferences set.");
+            logger.info("No dietary preferences set.");
         } else {
-            System.out.println("Dietary Preferences:");
+            logger.info("Dietary Preferences:");
             for (String preference : dietaryPreferences) {
-                System.out.println("  - " + preference);
+                logger.info("  - " + preference.toString());
             }
         }
     }
@@ -442,7 +444,7 @@ public class Client {
         for (Program program : programs) {
             report.append(program.generateReportForAdmin()).append("\n");
         }
-        System.out.println(report);
+        logger.info(report.toString());
         return report.toString();
     }
 

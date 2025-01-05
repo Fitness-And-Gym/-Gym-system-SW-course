@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Logger;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -18,6 +19,7 @@ import java.util.Date;
  * objects.
  */
 public class Database {
+    private static final Logger logger = Logger.getLogger(Database.class.getName());
 
     // Static lists to hold the different entities
     private static ArrayList<Client> clients = new ArrayList<>(); // List of registered clients
@@ -96,7 +98,7 @@ public class Database {
     public static void printInstructorsTable() {
         System.out.printf("%-10s %-20s %-15s %-10s %-15s %-10s%n",
                 "ID", "Name", "Password", "Now active", "Status", "Plan");
-        System.out.println("------------------------------------------------------------------------------------");
+        logger.info("------------------------------------------------------------------------------------");
 
         for (Instructor instructor : instructors) {
             System.out.printf("%-10s %-20s %-15s %-10s %-15s %-10s%n",
@@ -112,7 +114,7 @@ public class Database {
     public static void printDeclinedInstructorsTable() {
         System.out.printf("%-10s %-20s %-15s  %-15s %n",
                 "ID", "Name", "Password", "Status");
-        System.out.println("------------------------------------------------------------------------------------");
+        logger.info("------------------------------------------------------------------------------------");
         for (Instructor instructor : declinedInstructors) {
             System.out.printf("%-10s %-20s %-15s  %-15s %n",
                     instructor.getId(),
@@ -127,16 +129,16 @@ public class Database {
     // Program program = getProgramById(programId);
     // if (program != null) {
     // programs.remove(program);
-    // System.out.println("program to delete title" + program.getTitle());
+    // logger.info("program to delete title" + program.getTitle());
     // }
     // }
 
     public static void deleteProgram(Program program) {
         if (programs.contains(program)) {
             programs.remove(program);
-            System.out.println("Program removed successfully: " + program.getTitle());
+            logger.info("Program removed successfully: " + program.getTitle());
         } else {
-            System.out.println("Program not found in the list: " + program.getTitle());
+            logger.info("Program not found in the list: " + program.getTitle());
         }
 
     }
@@ -156,13 +158,13 @@ public class Database {
     public static void addPlanToClient(PlanClient plan) {
         if (!plansClient.contains(plan))
             plansClient.add(0, plan);
-        System.out.println("Plan added to Client plans: " + plan.getName());
+        logger.info("Plan added to Client plans: " + plan.getName());
     }
 
     public static void addPlanToInstructors(PlanInstructor plan) {
         if (!plansInstructors.contains(plan))
             plansInstructors.add(0, plan);
-        System.out.println("Plan added to Instructor plans: " + plan.getName());
+        logger.info("Plan added to Instructor plans: " + plan.getName());
     }
 
     public static void addFeed(Feedback feedback) {
@@ -181,7 +183,7 @@ public class Database {
     public static void addClient(Client client) {
         if (!clients.contains(client))
             clients.add(client);
-        // system.out.println("Added client to database: " + client.getClientName());
+        // logger.info("Added client to database: " + client.getClientName());
 
     }
 
@@ -247,12 +249,12 @@ public class Database {
     public static void sendRequest(Instructor req) {
         if (!registrationRequests.contains(req) && req.getStatus() != "valid")
             registrationRequests.add(req);
-        // system.out.println("Request sent successfully to admin: " + req.getName());
+        // logger.info("Request sent successfully to admin: " + req.getName());
     }
 
     public static Instructor processRequest() {
         if (registrationRequests.isEmpty()) {
-            System.out.println("Instructors requests box empty!");
+            logger.info("Instructors requests box empty!");
             return null;
         }
         Instructor oldestRequest = registrationRequests.get(0);
@@ -285,7 +287,7 @@ public class Database {
 
     public static ArrayList<Program> getPopularPrograms() {
         if (programs.isEmpty()) {
-            // system.out.println("No programs available.");
+            // logger.info("No programs available.");
             return null;
         }
         ArrayList<Program> sortedPrograms = new ArrayList<>(programs);
@@ -298,14 +300,7 @@ public class Database {
             }
         });
 
-        // system.out.println("Program Statistics (sorted by enrollments):");
-        for (Program program : sortedPrograms) {
-            // system.out.println("Program Name: " + program.getName());
-            // system.out.println("ID: " + program.getId());
-            // system.out.println("Instructor: " + program.getInstructor().getName());
-            // system.out.println("Enrollments: " + program.popularity());
-            // system.out.println("---------------");
-        }
+
 
         return sortedPrograms;
 
@@ -355,7 +350,7 @@ public class Database {
         SimpleDateFormat dateFormatter = new SimpleDateFormat("MMM yyyy");
         System.out.printf("%-10s %-20s %-15s %-15s %-30s %-20s %-10s%n",
                 "ID", "Author", "Date", "Type", "Title", "Content", "Approved");
-        System.out.println(
+        logger.info(
                 "------------------------------------------------------------------------------------------------");
 
         for (Article article : articles) {
@@ -384,7 +379,7 @@ public class Database {
         // Header row with column names
         System.out.printf("%-10s %-20s %-15s %-15s %-30s %-20s %-10s%n",
                 "ID", "Author", "Date", "Type", "Title", "Content", "Approved");
-        System.out.println(
+        logger.info(
                 "------------------------------------------------------------------------------------------------");
 
         for (Article article : articleRequests) {
@@ -410,14 +405,14 @@ public class Database {
         ArrayList<Client> clients = DatabaseService.getAllClients();
 
         if (clients.isEmpty()) {
-            System.out.println("No clients found.");
+            logger.info("No clients found.");
             return;
         }
 
         System.out.printf("%-10s %-20s %-10s %-15s %-10s %-10s %-10s%n",
                 "Client ID", "Name", "Status", "Plan", "Programs", "Goals", "Feedback");
 
-        System.out.println("===================================================================================");
+        logger.info("===================================================================================");
 
         for (Client cl : clients) {
             System.out.printf("%-10s %-20s %-10s %-15s %-10d %-10d %-10d%n",
@@ -561,7 +556,7 @@ public class Database {
         addEnrollmentsToProgram(program1);
 
         // Log added data
-        System.out.println("Mock programs and enrollments added successfully.");
+        logger.info("Mock programs and enrollments added successfully.");
     }
 
     public static void populateMockCompletedPrograms() {
@@ -618,7 +613,7 @@ public class Database {
         addEnrollmentsToProgram(program2);
 
         // Log added data
-        System.out.println("Mock completed programs are ready programs and enrollments added successfully.");
+        logger.info("Mock completed programs are ready programs and enrollments added successfully.");
     }
 
     public static void addEnrollmentsToProgram(Program program) {
@@ -651,7 +646,7 @@ public class Database {
             }
         }
 
-        System.out.println("Mock enrollments and attendance records have been added.");
+        logger.info("Mock enrollments and attendance records have been added.");
 
     }
 
@@ -727,7 +722,7 @@ public class Database {
         // client5.writeFeedback("complaint", "Some exercises lack proper instructions
         // in the video.");
 
-        System.out.println("Mock feedbacks populated successfully!");
+        logger.info("Mock feedbacks populated successfully!");
     }
 
     public static void populateMockPlans() {
@@ -809,7 +804,7 @@ public class Database {
         instructor5.changeSubscription(instructorEnterprisePlan); // Emma on Enterprise
         instructor6.changeSubscription(instructorEnterprisePlan); // Chris on Enterprise
 
-        System.out.println("Mock plans and subscriptions populated successfully with benefits.");
+        logger.info("Mock plans and subscriptions populated successfully with benefits.");
     }
 
     public static void populateMockProgramsWithGoals() {
