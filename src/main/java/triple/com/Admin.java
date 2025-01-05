@@ -55,7 +55,6 @@ public class Admin {
 
             Map<String, String> obj = yaml.load(inputStream);
 
-
             String adminName = obj.get("user");
             String adminPassword = obj.get("password");
 
@@ -201,8 +200,9 @@ public class Admin {
         for (Program program : DatabaseService.getPrograms()) {
             report.append(program.generateReportForAdmin()).append("\n");
         }
-        logger.info(report.toString());
-        return report.toString();
+        String repoString = report.toString();
+        logger.info(repoString);
+        return repoString;
     }
 
     /**
