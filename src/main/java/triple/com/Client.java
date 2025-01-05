@@ -364,12 +364,14 @@ public class Client {
      * @param preference the dietary preference to remove
      */
     public void deleteDietaryPreference(String preference) {
-        if (dietaryPreferences.contains(preference)) {
-            dietaryPreferences.remove(preference);
-            System.out.println("Dietary preference removed: " + preference);
-        } else {
-            System.out.println("Dietary preference not found.");
+        for (int i = 0; i < dietaryPreferences.size(); i++) {
+            if (dietaryPreferences.get(i).equalsIgnoreCase(preference)) {
+                dietaryPreferences.remove(i);
+                System.out.println("Dietary preference removed: " + preference);
+                return;
+            }
         }
+        System.out.println("Dietary preference not found.");
     }
 
     /**

@@ -630,6 +630,11 @@ public class Database {
         Client client5 = new Client("Tom White", "password654");
         Client client6 = new Client("tom", "123");
 
+        // Mock feedbacks for client6//only for the main test
+        client6.writeFeedback("suggestion", "Can you integrate a calorie calculator?");
+        client6.writeFeedback("complaint", "The app is very slow sometimes. Please fix it.");
+        client6.writeFeedback("feedback", "Overall, I love the progress tracker feature.");
+
         // Enroll clients into programs
         program.enrollClient(client1);
         program.enrollClient(client2);

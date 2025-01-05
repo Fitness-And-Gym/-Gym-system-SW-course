@@ -36,49 +36,53 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         // Display login options
-        System.out.println("Sign up(1) or Login(2):");
-        int login = scanner.nextInt();
-        if (login == 1) {
-            System.out.println("Choose account type:");
-            System.out.println("1 - User");
-            System.out.println("2 - Instructor");
-            System.out.print("Enter your choice (1/2): ");
-            int choice = scanner.nextInt();
-            switch (choice) {
-                case 1:
-                    clientSignUp(scanner);
-                    break;
-                case 2:
-                    instructorSignUp(scanner);
-                    break;
+        try {
+            System.out.println("Sign up(1) or Login(2):");
+            int login = scanner.nextInt();
+            if (login == 1) {
+                System.out.println("Choose account type:");
+                System.out.println("1 - User");
+                System.out.println("2 - Instructor");
+                System.out.print("Enter your choice (1/2): ");
+                int choice = scanner.nextInt();
+                switch (choice) {
+                    case 1:
+                        clientSignUp(scanner);
+                        break;
+                    case 2:
+                        instructorSignUp(scanner);
+                        break;
 
-                default:
-                    System.out.println("Invalid choice. Please restart the program and try again.");
+                    default:
+                        System.out.println("Invalid choice. Please restart the program and try again.");
+                }
+            } else if (login == 2) {
+                System.out.println("Please choose your login type:");
+                System.out.println("1 - User");
+                System.out.println("2 - Instructor");
+                System.out.println("3 - Admin");
+                System.out.print("Enter your choice (1/2/3): ");
+                int choice = scanner.nextInt();
+                switch (choice) {
+                    case 1:
+                        clientLogin(scanner);
+                        break;
+                    case 2:
+                        instructorLogin(scanner);
+                        break;
+                    case 3:
+                        adminLogin(scanner);
+                        break;
+                    default:
+                        System.out.println("Invalid choice. Please restart the program and try again.");
+                }
+            } else {
+                System.out.println("Not valid option try again");
             }
-        } else if (login == 2) {
-            System.out.println("Please choose your login type:");
-            System.out.println("1 - User");
-            System.out.println("2 - Instructor");
-            System.out.println("3 - Admin");
-            System.out.print("Enter your choice (1/2/3): ");
-            int choice = scanner.nextInt();
-            switch (choice) {
-                case 1:
-                    clientLogin(scanner);
-                    break;
-                case 2:
-                    instructorLogin(scanner);
-                    break;
-                case 3:
-                    adminLogin(scanner);
-                    break;
-                default:
-                    System.out.println("Invalid choice. Please restart the program and try again.");
-            }
-        } else {
-            System.out.println("Not valid option try again");
+        } catch (Exception e) {
+            System.out.println("Not valid option try again" + e.getMessage());
+
         }
-
         scanner.close();
     }
 
@@ -119,18 +123,15 @@ public class Main {
                 System.out.println("5 - see my goals");
                 System.out.println("6 - change Subscription");
                 System.out.println("7 - Check inbox");
-                 System.out.println("9 - Add Dietary Preference");
-                System.out.println("10- Delete Dietary Preference");
-                System.out.println("11 - Write Feedback");
-                System.out.println("12 - Filter Programs By Difficulty");
-                System.out.println("13 - Filter Programs ByGoal");
-                System.out.println("14 -  View my Feeds");
-                System.out.println("15 -  Open conversation with Instructor");
+                System.out.println("8 - Open conversation with Instructor");
+                System.out.println("9 - Dietary Preferences");
+                System.out.println("10 - Write Feedback");
+                System.out.println("11 - Search for Programs By Difficulty/Goal");
+                System.out.println("12 - View my Feeds");
 
                 // write feedback about an instructor
                 System.out.println(goBack);
 
-                
                 int option = scanner.nextInt();
                 switch (option) {
                     case 1:
@@ -153,12 +154,24 @@ public class Main {
                         break;
                     case 7:
                         clientOption7(scanner, client);
-
                         break;
                     case 8:
+                        clientOption8(scanner, client);
                         break;
+                    case 9:
+                        clientOption9(scanner, client);
+                        break;
+                    case 10:
+                        clientOption10(scanner, client);
+                        break;
+                    case 11:
+                        clientOption11(scanner, client);
+                        break;
+                    case 12:
+                        clientOption12(scanner, client);
+                        break;
+
                     case 15:
-                        clientOption15(scanner, client);
                         break;
 
                     default:
@@ -167,12 +180,12 @@ public class Main {
                 }
 
             }
-            main(null);
         } else
 
         {
             System.out.println("Invalid client credentials. Please try again.");
         }
+        main(null);
 
     }
 
@@ -389,10 +402,11 @@ public class Main {
                         break;
                 }
             }
-            main(null);
         } else {
             System.out.println("Invalid admin credentials. Please try again.");
         }
+        main(null);
+
     }
 
     public static void adminOption1(Scanner scanner, Admin admin) {
@@ -753,7 +767,7 @@ public class Main {
         }
     }
 
-    public static void clientOption15(Scanner scanner, Client client) {
+    public static void clientOption8(Scanner scanner, Client client) {
         scanner.nextLine(); // Clear the buffer
 
         DatabaseService.printInstructorsTable();
@@ -766,11 +780,12 @@ public class Main {
             if (instructor != null) {
                 System.out.println("Open conversation with " + instructor.getName() + " : ");
 
-                System.out.print("Enter Message title: ");
-                String title = scanner.next();
+                scanner.nextLine(); // Clear the buffer
+                System.out.print("Title : ");
+                String title = scanner.nextLine();
 
-                System.out.print("Enter Message content: ");
-                String content = scanner.next();
+                System.out.print("Content : ");
+                String content = scanner.nextLine();
 
                 client.sendMessage(instructorId.toUpperCase(), title, content);
             }
@@ -778,6 +793,119 @@ public class Main {
         } catch (Exception e) {
             System.out.println("Enter Valid Id " + e.getMessage());
         }
+    }
+
+    public static void clientOption9(Scanner scanner, Client client) {
+        scanner.nextLine(); // Clear the buffer
+        boolean exit = true;
+        try {
+            while (exit) {
+
+                client.printDietaryPreferences();
+
+                System.out.println("1- Add Dietary Preference: ");
+                System.out.println("2- Delete Dietary Preference: ");
+                System.out.println(goBack);
+
+                int option = scanner.nextInt();
+                scanner.nextLine(); // Clear the buffer
+
+                switch (option) {
+                    case 1:
+                        System.out.print("Dietary Preference: ");
+                        String dietaryPreference = scanner.nextLine();
+
+                        client.addDietaryPreference(dietaryPreference);
+                        break;
+                    case 2:
+                        System.out.print("Dietary Preference: ");
+                        dietaryPreference = scanner.nextLine();
+
+                        client.deleteDietaryPreference(dietaryPreference);
+
+                        break;
+
+                    default:
+                        exit = false;
+                        break;
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Sorry Can't set preference now" + e.getMessage());
+        }
+    }
+
+    public static void clientOption10(Scanner scanner, Client client) {
+        scanner.nextLine(); // Clear the buffer
+        try {
+
+            System.out.print("Feedback Type(e.g., complaint, suggestion): ");
+            String feedbackType = scanner.nextLine();
+
+            System.out.print("Content: ");
+            String feedbackContent = scanner.nextLine();
+
+            client.writeFeedback(feedbackType, feedbackContent);
+
+        } catch (Exception e) {
+            System.out.println("Sorry Can't send feedback now" + e.getMessage());
+        }
+
+    }
+
+    public static void clientOption11(Scanner scanner, Client client) {
+        scanner.nextLine(); // Clear the buffer
+        boolean exit = true;
+
+        try {
+
+            while (exit) {
+
+                System.out.println("1- Filter Programs By Difficulty");
+                System.out.println("2- Filter Programs By Goals ");
+                System.out.println(goBack);
+
+                int option = scanner.nextInt();
+                scanner.nextLine(); // Clear the buffer
+
+                switch (option) {
+                    case 1:
+                        System.out.print("Search(eg. Beginner,Intermediate,Advanced) : ");
+                        String searchText = scanner.nextLine();
+                        ArrayList<Program> programs = client.filterProgramsByDifficulty(searchText);
+                        client.printPrograms(programs);
+                        break;
+
+                    case 2:
+                        System.out.print("Search(eg. Lose weight) : ");
+                        searchText = scanner.nextLine();
+                        programs = client.filterProgramsByGoal(searchText);
+                        client.printPrograms(programs);
+                        break;
+
+                    default:
+                        exit = false;
+                        break;
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Sorry Can't search programs now " + e.getMessage());
+        }
+
+    }
+
+    public static void clientOption12(Scanner scanner, Client client) {
+        scanner.nextLine(); // Clear the buffer
+        try {
+            ArrayList<Feedback> feedbacks = client.getClientFeeds();
+            for (Feedback feedback : feedbacks) {
+                System.out.println(feedback.printFeedback());
+            }
+
+        } catch (Exception e) {
+            System.out.println("Sorry Can't search programs now " + e.getMessage());
+        }
+
     }
 
     // INSTRUCTOR OPTIONS
@@ -845,11 +973,13 @@ public class Main {
             if (client != null) {
                 System.out.println("Open conversation with " + client.getClientName() + " : ");
 
+                scanner.nextLine(); // Clear the buffer
+
                 System.out.print("Enter Message title: ");
-                String title = scanner.next();
+                String title = scanner.nextLine();
 
                 System.out.print("Enter Message content: ");
-                String content = scanner.next();
+                String content = scanner.nextLine();
 
                 instructor.sendMessage(clientId.toUpperCase(), title, content);
             }
@@ -897,8 +1027,8 @@ public class Main {
 
     }
 
-    // used by instructorOption4
     public static boolean handleProgram(Program program) {
+        // used by instructorOption4
         Scanner scanner = new Scanner(System.in);
         while (program != null) {
             System.out.println(program.generateReport());

@@ -414,7 +414,7 @@ public class Program {
         double attendancePercent = calculateProgramAttendance();
 
         report.append("----- Program Report -----\n")
-                .append("Program: ").append(title).append("\n")
+                .append("Program: ").append(title).append(" -" + difficulty).append("\n")
                 .append(" - Program ID: ").append(programId).append("\n")
                 .append(" - Instructor: ").append(instructor.getName()).append("\n")
                 .append(" - Enrollments: ").append(enrollments).append("\n")
