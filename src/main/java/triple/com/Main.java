@@ -1,6 +1,7 @@
 package triple.com;
 
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 import javax.sql.DataSource;
 import javax.xml.crypto.Data;
@@ -20,6 +21,7 @@ public class Main {
     static final String goBack = "<--Go back (enter 0)";
     static final String adminCredentials = "admin";
     static boolean Initialize = true;
+    private static final Logger logger = Logger.getLogger(Main.class.getName());
 
     public static void main(String[] args) {
         if (Initialize) {
@@ -32,18 +34,18 @@ public class Main {
             DatabaseService.populateMockPlans();
             Initialize = false;
         }
-        System.out.println("\nWelcome to our Fitness Gym!");
+        logger.info("\nWelcome to our Fitness Gym!");
         Scanner scanner = new Scanner(System.in);
 
         // Display login options
         try {
-            System.out.println("Sign up(1) or Login(2):");
+            logger.info("Sign up(1) or Login(2):");
             int login = scanner.nextInt();
             if (login == 1) {
-                System.out.println("Choose account type:");
-                System.out.println("1 - User");
-                System.out.println("2 - Instructor");
-                System.out.print("Enter your choice (1/2): ");
+                logger.info("Choose account type:");
+                logger.info("1 - User");
+                logger.info("2 - Instructor");
+                logger.info("Enter your choice (1/2): ");
                 int choice = scanner.nextInt();
                 switch (choice) {
                     case 1:
@@ -54,14 +56,14 @@ public class Main {
                         break;
 
                     default:
-                        System.out.println("Invalid choice. Please restart the program and try again.");
+                        logger.info("Invalid choice. Please restart the program and try again.");
                 }
             } else if (login == 2) {
-                System.out.println("Please choose your login type:");
-                System.out.println("1 - User");
-                System.out.println("2 - Instructor");
-                System.out.println("3 - Admin");
-                System.out.print("Enter your choice (1/2/3): ");
+                logger.info("Please choose your login type:");
+                logger.info("1 - User");
+                logger.info("2 - Instructor");
+                logger.info("3 - Admin");
+                logger.info("Enter your choice (1/2/3): ");
                 int choice = scanner.nextInt();
                 switch (choice) {
                     case 1:
@@ -74,13 +76,13 @@ public class Main {
                         adminLogin(scanner);
                         break;
                     default:
-                        System.out.println("Invalid choice. Please restart the program and try again.");
+                        logger.info("Invalid choice. Please restart the program and try again.");
                 }
             } else {
-                System.out.println("Not valid option try again");
+                logger.info("Not valid option try again");
             }
         } catch (Exception e) {
-            System.out.println("Not valid option try again" + e.getMessage());
+            logger.info("Not valid option try again" + e.getMessage());
 
         }
         scanner.close();
@@ -88,49 +90,49 @@ public class Main {
 
     private static void clientSignUp(Scanner scanner) {
 
-        System.out.print(enterUserName);
+        logger.info(enterUserName);
         String username = scanner.next();
 
-        System.out.print("Enter  password: ");
+        logger.info("Enter  password: ");
         String password = scanner.next();
 
         Client client = new Client(username, password);
-        System.out.print("New account successful! \n Login to your account");
+        logger.info("New account successful! \n Login to your account");
         clientLogin(scanner);
 
     }
 
     private static void clientLogin(Scanner scanner) {
 
-        System.out.print(enterUserName);
+        logger.info(enterUserName);
         String username = scanner.next();
 
-        System.out.print("Enter password: ");
+        logger.info("Enter password: ");
         String password = scanner.next();
 
         Client client = DatabaseService.getClientByName(username);
         if (client != null && client.getPassword().equalsIgnoreCase(password)) {
             boolean exit = true;
-            System.out.println("Your login successful!");
+            logger.info("Your login successful!");
             DatabaseService.sendMockMessages(client);
             while (exit) {
-                System.out.println(lineSeparator);
-                System.out.println("Start your journey:");
-                System.out.println("1 - Update Your Username");
-                System.out.println("2 - Enroll in a New Program");
-                System.out.println("3 - Set Month's Goal");
-                System.out.println("4 - Update Goal Progress");
-                System.out.println("5 - View My Goals");
-                System.out.println("6 - Modify Subscription Plan");
-                System.out.println("7 - Check Your Inbox");
-                System.out.println("8 - Chat with an Instructor");
-                System.out.println("9 - Update Dietary Preferences");
-                System.out.println("10 - Share Your Feedback");
-                System.out.println("11 - Search Programs by Difficulty or Goal");
-                System.out.println("12 - Explore My Feeds");
+                logger.info(lineSeparator);
+                logger.info("Start your journey:");
+                logger.info("1 - Update Your Username");
+                logger.info("2 - Enroll in a New Program");
+                logger.info("3 - Set Month's Goal");
+                logger.info("4 - Update Goal Progress");
+                logger.info("5 - View My Goals");
+                logger.info("6 - Modify Subscription Plan");
+                logger.info("7 - Check Your Inbox");
+                logger.info("8 - Chat with an Instructor");
+                logger.info("9 - Update Dietary Preferences");
+                logger.info("10 - Share Your Feedback");
+                logger.info("11 - Search Programs by Difficulty or Goal");
+                logger.info("12 - Explore My Feeds");
 
                 // write feedback about an instructor
-                System.out.println(goBack);
+                logger.info(goBack);
 
                 int option = scanner.nextInt();
                 switch (option) {
@@ -179,7 +181,7 @@ public class Main {
         } else
 
         {
-            System.out.println("Invalid client credentials. Please try again.");
+            logger.info("Invalid client credentials. Please try again.");
         }
         main(null);
 
@@ -187,15 +189,15 @@ public class Main {
 
     private static void instructorSignUp(Scanner scanner) {
 
-        System.out.print(enterUserName);
+        logger.info(enterUserName);
         String username = scanner.next();
 
-        System.out.print("Enter  password: ");
+        logger.info("Enter  password: ");
         String password = scanner.next();
 
         Instructor instructor = new Instructor(username, password);// automatically sends request to admin
-        System.out.println(" Pending request sent to admin........");
-        System.out.println(goBack);
+        logger.info(" Pending request sent to admin........");
+        logger.info(goBack);
         int goBack = scanner.nextInt();
         if (goBack == 0)
             main(null);
@@ -208,10 +210,10 @@ public class Main {
         // userName:ins
         // Password:123
 
-        System.out.print(enterUserName);
+        logger.info(enterUserName);
         String username = scanner.next();
 
-        System.out.print("Enter password: ");
+        logger.info("Enter password: ");
         String password = scanner.next();
 
         Instructor instructor = DatabaseService.getInstructorByName(username);
@@ -221,22 +223,22 @@ public class Main {
 
             boolean exit = true;
             DatabaseService.sendMockMessages(instructor);
-            System.out.println("Your Logged In");
+            logger.info("Your Logged In");
             while (exit) {
-                System.out.println(lineSeparator);
-                System.out.println("Begin your professional journey:");
-                System.out.println("1 - Create a New Program for Clients");
-                System.out.println("2 - Access Your Inbox");
-                System.out.println("3 - Communicate with Clients");
-                System.out.println("4 - View and Manage My Programs");// ins 123
-                System.out.println("5 - Compose and Publish Articles, Tips, or Recipes");
-                System.out.println("6 - Modify Subscription Details");
-                System.out.println("7 - Cancel Your Subscription Plan");
-                System.out.println("8 - Review My Published Articles");
+                logger.info(lineSeparator);
+                logger.info("Begin your professional journey:");
+                logger.info("1 - Create a New Program for Clients");
+                logger.info("2 - Access Your Inbox");
+                logger.info("3 - Communicate with Clients");
+                logger.info("4 - View and Manage My Programs");// ins 123
+                logger.info("5 - Compose and Publish Articles, Tips, or Recipes");
+                logger.info("6 - Modify Subscription Details");
+                logger.info("7 - Cancel Your Subscription Plan");
+                logger.info("8 - Review My Published Articles");
 
-                // System.out.println("9 - ");
+                // logger.info("9 - ");
 
-                System.out.println(goBack);
+                logger.info(goBack);
 
                 int option = scanner.nextInt();
                 switch (option) {
@@ -276,7 +278,7 @@ public class Main {
             }
 
         } else {
-            System.out.println("Invalid client credentials. Please try again.");
+            logger.info("Invalid client credentials. Please try again.");
         }
         main(null);
 
@@ -286,45 +288,45 @@ public class Main {
 
         Admin admin = new Admin();
 
-        System.out.print("Enter admin username: ");
+        logger.info("Enter admin username: ");
         String username = scanner.next();
 
-        System.out.print("Enter admin password: ");
+        logger.info("Enter admin password: ");
         String password = scanner.next();
-        System.out.println(username + password);
+        logger.info(username + password);
 
         admin.login(username, password);
 
         if (admin.getLogin()) {
             boolean exit = true;
-            System.out.println("Admin login successful!");
+            logger.info("Admin login successful!");
 
             while (exit) {
 
-                System.out.println(lineSeparator);
-                System.out.println("Please choose an action:");
-                System.out.println("1 - Create a New Client Account");
-                System.out.println("2 - View Most Popular Programs");
-                System.out.println("3 - Update Client Information");
-                System.out.println("4 - Deactivate a Client Account");
-                System.out.println("5 - Check Instructor Requests");
-                System.out.println("6 - Create a New Instructor Account");
-                System.out.println("7 - Track Completed Programs");
-                System.out.println("8 - Monitor Ongoing Programs");
-                System.out.println("9 - Read Client Feedback");
-                System.out.println("10 - View Client-Specific Plans");
-                System.out.println("11 - Explore Instructor Plans");
-                System.out.println("12 - View All Instructors");
-                System.out.println("13 - Review Declined Instructor Applications");
-                System.out.println("14 - Retrieve Pending Articles");
-                System.out.println("15 - View All Clients");
-                System.out.println("16 - Review Pending Articles");
-                System.out.println("17 - Browse Published Articles");
-                System.out.println("18 - Design a New Plan for Instructors");
-                System.out.println("19 - Create a Custom Plan for Clients");
-                System.out.println("20 - Add Benefits to an Existing Plan");
+                logger.info(lineSeparator);
+                logger.info("Please choose an action:");
+                logger.info("1 - Create a New Client Account");
+                logger.info("2 - View Most Popular Programs");
+                logger.info("3 - Update Client Information");
+                logger.info("4 - Deactivate a Client Account");
+                logger.info("5 - Check Instructor Requests");
+                logger.info("6 - Create a New Instructor Account");
+                logger.info("7 - Track Completed Programs");
+                logger.info("8 - Monitor Ongoing Programs");
+                logger.info("9 - Read Client Feedback");
+                logger.info("10 - View Client-Specific Plans");
+                logger.info("11 - Explore Instructor Plans");
+                logger.info("12 - View All Instructors");
+                logger.info("13 - Review Declined Instructor Applications");
+                logger.info("14 - Retrieve Pending Articles");
+                logger.info("15 - View All Clients");
+                logger.info("16 - Review Pending Articles");
+                logger.info("17 - Browse Published Articles");
+                logger.info("18 - Design a New Plan for Instructors");
+                logger.info("19 - Create a Custom Plan for Clients");
+                logger.info("20 - Add Benefits to an Existing Plan");
 
-                System.out.println(goBack);
+                logger.info(goBack);
 
                 int option = scanner.nextInt();
                 switch (option) {
@@ -399,28 +401,28 @@ public class Main {
                 }
             }
         } else {
-            System.out.println("Invalid admin credentials. Please try again.");
+            logger.info("Invalid admin credentials. Please try again.");
         }
         main(null);
 
     }
 
     public static void adminOption1(Scanner scanner, Admin admin) {
-        System.out.print("Enter Client username: ");
+        logger.info("Enter Client username: ");
         String username = scanner.next();
 
-        System.out.print("Enter Client default password: ");
+        logger.info("Enter Client default password: ");
         String password = scanner.next();
         Client client = admin.createClientAccount(username, password);
         if (client.getStatus() == "valid") {
-            System.out.print("A new account for " + client.getClientName() + " is created");
+            logger.info("A new account for " + client.getClientName() + " is created");
         }
     }
 
     public static void adminOption2(Admin admin) {
         List<Program> programs = admin.seeStatistics();
         if (programs.isEmpty()) {
-            System.out.println("No programs available.");
+            logger.info("No programs available.");
             return;
         }
 
@@ -429,7 +431,7 @@ public class Main {
                 "Program ID", "Title", "Instructor", "Enrollments", "Duration", "Fees");
 
         // Print a separator line
-        System.out.println("-------------------------------------------------------------------------------");
+        logger.info("-------------------------------------------------------------------------------");
 
         // Print each program's details
         for (Program program : programs) {
@@ -445,59 +447,59 @@ public class Main {
 
     public static void adminOption3(Scanner scanner, Admin admin) {
         DatabaseService.printClientsTable();
-        System.out.println("enter client Id to update");
+        logger.info("enter client Id to update");
         String clientId = scanner.next();
-        System.out.println("New user Name:");
+        logger.info("New user Name:");
         String updatedName = scanner.next();
-        System.out.println("New password");
+        logger.info("New password");
         String updatedPassword = scanner.next();
         Client updatedClient = admin.updateClient(clientId, updatedName, updatedPassword);
-        System.out.println("Client successfully updated !");
-        System.out.println("-------------------------------------------------------------------------------");
-        System.out.println(updatedClient.toString());
-        System.out.println("-------------------------------------------------------------------------------");
+        logger.info("Client successfully updated !");
+        logger.info("-------------------------------------------------------------------------------");
+        logger.info(updatedClient.toString());
+        logger.info("-------------------------------------------------------------------------------");
 
     }
 
     public static void adminOption4(Scanner scanner, Admin admin) {
         DatabaseService.printClientsTable();
-        System.out.println("Are you sure to deactivate client with Id=");
+        logger.info("Are you sure to deactivate client with Id=");
         String clientId = scanner.next();
         admin.deactivateClient(clientId);
-        System.out.println("Client with Id =" + clientId + " deactivated ?");
+        logger.info("Client with Id =" + clientId + " deactivated ?");
     }
 
     public static void adminOption5(Scanner scanner, Admin admin) {
         Instructor instructor = admin.pullInstructorRequest();
         if (instructor != null) {
             int requestsNumber = DatabaseService.getAllRequests().size();
-            System.out.println("You have " + requestsNumber + "pending requests = >");
-            System.out.println("REQUEST: Instructor Id:" + instructor.getId() + "| Instructor Name:"
+            logger.info("You have " + requestsNumber + "pending requests = >");
+            logger.info("REQUEST: Instructor Id:" + instructor.getId() + "| Instructor Name:"
                     + instructor.getName() + " | Status" + instructor.getStatus());
             System.err.println("Accept (1) / Reject (0)");
             int accept = scanner.nextInt();
             if (accept == 1) {
                 admin.acceptInstructor(instructor.getId());
-                System.out.println(
+                logger.info(
                         "congratulations new instructor joined! \n remaining requests: " + (requestsNumber - 1));
             } else if (accept == 0) {
                 admin.rejectInstructor(instructor.getId());
-                System.out.println("declined one request remaining requests: " + (requestsNumber - 1));
+                logger.info("declined one request remaining requests: " + (requestsNumber - 1));
             } else
-                System.out.println("still pending requests=> " + (requestsNumber));
+                logger.info("still pending requests=> " + (requestsNumber));
 
         }
     }
 
     public static void adminOption6(Scanner scanner, Admin admin) {
 
-        System.out.print("Enter Instructor username: ");
+        logger.info("Enter Instructor username: ");
         String username = scanner.next();
 
-        System.out.print("Enter Instructor default password: ");
+        logger.info("Enter Instructor default password: ");
         String password = scanner.next();
         Instructor instructor = admin.createInstructorAccount(username, password);
-        System.out.println("Successfully created Instructor account for : " + instructor.getName() + " with Id : "
+        logger.info("Successfully created Instructor account for : " + instructor.getName() + " with Id : "
                 + instructor.getId());
     }
 
@@ -517,7 +519,7 @@ public class Main {
         admin.seePlansForClient();
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Enter the number of the plan you want to add a benefit to(-1 to go back):");
+        logger.info("Enter the number of the plan you want to add a benefit to(-1 to go back):");
         int planNumber;
 
         try {
@@ -527,10 +529,10 @@ public class Main {
             PlanClient planClient = DatabaseService.getPlansClient().get(planNumber - 1);
             scanner.nextLine();
             addBenefit(admin, planClient);
-            System.out.println(planClient.getPlanDetails());
+            logger.info(planClient.getPlanDetails());
 
         } catch (Exception e) {
-            System.out.println("Invalid input. Please enter a valid plan number.");
+            logger.info("Invalid input. Please enter a valid plan number.");
         }
 
     }
@@ -539,7 +541,7 @@ public class Main {
         admin.seePlansForInstructors();
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Enter the number of the plan you want to add a benefit to(-1 to go back):");
+        logger.info("Enter the number of the plan you want to add a benefit to(-1 to go back):");
         int planNumber;
 
         try {
@@ -549,9 +551,9 @@ public class Main {
             PlanInstructor planInstructor = DatabaseService.getPlansInstructors().get(planNumber - 1);
             scanner.nextLine();
             addBenefit(admin, planInstructor);
-            System.out.println(planInstructor.getPlanDetails());
+            logger.info(planInstructor.getPlanDetails());
         } catch (Exception e) {
-            System.out.println("Invalid input. Please enter a valid plan number.");
+            logger.info("Invalid input. Please enter a valid plan number.");
         }
     }
 
@@ -567,23 +569,23 @@ public class Main {
         Article article = admin.getPendingArticle();
         if (article != null) {
             int articlesNumber = DatabaseService.getArticleRequests().size() + 1;// why the number of articles less by 1
-            System.out.println("You have " + articlesNumber + "pending articles = >");
-            System.out.println("Article: Article Id:" + article.getId() + "\n Author:"
+            logger.info("You have " + articlesNumber + "pending articles = >");
+            logger.info("Article: Article Id:" + article.getId() + "\n Author:"
                     + article.getAuthor().getName() + " \n creation date" + article.getSubmissionDate() + "\nTitle: "
                     + article.getTitle() + " (" + article.getType() + ")\n" + article.getContent());
             System.err.println("Approve (1) / Decline (0)");
             int approve = scanner.nextInt();
             if (approve == 1) {
                 admin.acceptArticle(article.getId());
-                System.out.println(
+                logger.info(
                         "Article publish successfully! \n pending articles: " + (articlesNumber - 1));
             } else if (approve == 0) {
                 admin.rejectArticle(article.getId());
-                System.out.println("declined one article pending articles: " + (articlesNumber - 1));
+                logger.info("declined one article pending articles: " + (articlesNumber - 1));
             } else
-                System.out.println("still pending articles=> " + (articlesNumber));
+                logger.info("still pending articles=> " + (articlesNumber));
         } else
-            System.out.println("No pending articles!");
+            logger.info("No pending articles!");
 
     }
 
@@ -605,22 +607,22 @@ public class Main {
     public static void adminOption18(Admin admin, boolean flagClient) {
         Scanner scanner = new Scanner(System.in);// here I created a new scanner because the passed one is not working
                                                  // properly
-        System.out.println("Enter the plan name:");
+        logger.info("Enter the plan name:");
         String name = scanner.nextLine();
 
-        System.out.println("Enter the plan type (Paid, Free):");
+        logger.info("Enter the plan type (Paid, Free):");
         String type = scanner.nextLine();
 
-        System.out.println("Enter the plan price:");
+        logger.info("Enter the plan price:");
         double price = 0;
         try {
             price = Double.parseDouble(scanner.nextLine());
         } catch (NumberFormatException e) {
-            System.out.println("Invalid price input. Please enter a valid number.");
+            logger.info("Invalid price input. Please enter a valid number.");
             return;
         }
 
-        System.out.println("Enter the basic benefit of the plan:");
+        logger.info("Enter the basic benefit of the plan:");
         String basicBenefit = scanner.nextLine();
 
         if (flagClient) {
@@ -628,7 +630,7 @@ public class Main {
         } else
             admin.createInstructorPlan(name, type, price, basicBenefit);
 
-        System.out.println("Plan " + name + " created successfully!");
+        logger.info("Plan " + name + " created successfully!");
     }
 
     public static void adminOption19(Scanner scanner, Admin admin) {
@@ -637,7 +639,7 @@ public class Main {
     }
 
     public static void adminOption20(Scanner scanner, Admin admin) {
-        System.out.print("Plan For Client(1)/Instructor(2) :");
+        logger.info("Plan For Client(1)/Instructor(2) :");
         Integer isClient = scanner.nextInt();
         scanner.nextLine();
         if (isClient == 1) {
@@ -652,7 +654,7 @@ public class Main {
         Boolean shouldAddMore = true;
         while (shouldAddMore) {
 
-            System.out.print("Enter benefit description (# to stop):");
+            logger.info("Enter benefit description (# to stop):");
             String benefit = scanner.nextLine();
 
             if (benefit.equals("#")) {
@@ -666,11 +668,11 @@ public class Main {
 
     public static void clientOption1(Scanner scanner, Client client) {
 
-        System.out.print("Enter new username: ");
+        logger.info("Enter new username: ");
         String username = scanner.next();
         client.updateName(username);
-        System.out.println("Updated userName successfully!");
-        System.out.print(client.toString());
+        logger.info("Updated userName successfully!");
+        logger.info(client.toString());
 
     }
 
@@ -678,41 +680,41 @@ public class Main {
         Admin admin = new Admin();
         admin.login(adminCredentials, adminCredentials);
         admin.TrackActivePrograms();
-        System.out.print("Enter Program ID= ");
+        logger.info("Enter Program ID= ");
         String programId = scanner.next();
         client.enrollInProgram(programId);
-        System.out.print(client.toString());
+        logger.info(client.toString());
 
     }
 
     public static void clientOption3(Scanner scanner, Client client) {
-        System.out.print("Enter Goal title: ");
+        logger.info("Enter Goal title: ");
         String title = scanner.next();
 
-        System.out.print("Enter your current state value: ");
+        logger.info("Enter your current state value: ");
         double current = scanner.nextDouble();
 
-        System.out.print("Enter your Target value: ");
+        logger.info("Enter your Target value: ");
         double target = scanner.nextDouble();
 
         client.setGoal(title, current, target);
-        System.out.println("===YOUR GOALS=== ");
+        logger.info("===YOUR GOALS=== ");
         client.displayGoalProgress();
     }
 
     public static void clientOption4(Scanner scanner, Client client) {
         client.displayGoalProgress();
         if (client.getGoals().size() != 0) {
-            System.out.print("Enter Goal Id= ");
+            logger.info("Enter Goal Id= ");
             int progressNumber = scanner.nextInt();
 
-            System.out.print("Enter status update value: ");
+            logger.info("Enter status update value: ");
             double updateValue = scanner.nextDouble();
 
             client.updateGoalProgress(progressNumber, updateValue);
             client.displayGoalProgress();
         } else
-            System.out.println("set Goals first");
+            logger.info("set Goals first");
 
     }
 
@@ -725,36 +727,36 @@ public class Main {
         admin.login(adminCredentials, adminCredentials);
         admin.seePlansForClient();
 
-        System.out.print("Enter Plan number= ");
+        logger.info("Enter Plan number= ");
         int planNumber = scanner.nextInt();
 
         PlanClient plan = DatabaseService.getClientPlanByNumber(planNumber - 1);
 
         client.changeSubscription(plan);
 
-        System.out.print(client.toString());
+        logger.info(client.toString());
     }
 
     public static void clientOption7(Scanner scanner, Client client) {
 
         client.viewMessages();
-        System.out.println("1-Reply to a message ");
-        System.out.println("2-Go back");
+        logger.info("1-Reply to a message ");
+        logger.info("2-Go back");
         int option = scanner.nextInt();
 
         if (option == 1) {
-            System.out.print("Message Number= ");
+            logger.info("Message Number= ");
             int messageNumber = scanner.nextInt();
             if (messageNumber > 0) {
                 Message message = client.getInbox().get(messageNumber - 1);
                 Instructor instructor = DatabaseService.getInstructorById(message.getSender());
-                System.out.println("Replying to : " + instructor.getName());
+                logger.info("Replying to : " + instructor.getName());
                 scanner.nextLine(); // Clear the buffer
 
-                System.out.print("Title:  ");
+                logger.info("Title:  ");
                 String title = scanner.nextLine();
 
-                System.out.print("Content:  ");
+                logger.info("Content:  ");
                 String content = scanner.nextLine();
 
                 client.replyToMessage(message, content);
@@ -768,26 +770,26 @@ public class Main {
 
         DatabaseService.printInstructorsTable();
 
-        System.out.print("Enter instructor Id to open conversation with: ");
+        logger.info("Enter instructor Id to open conversation with: ");
         String instructorId = scanner.next();
 
         try {
             Instructor instructor = DatabaseService.getInstructorById(instructorId);
             if (instructor != null) {
-                System.out.println("Open conversation with " + instructor.getName() + " : ");
+                logger.info("Open conversation with " + instructor.getName() + " : ");
 
                 scanner.nextLine(); // Clear the buffer
-                System.out.print("Title : ");
+                logger.info("Title : ");
                 String title = scanner.nextLine();
 
-                System.out.print("Content : ");
+                logger.info("Content : ");
                 String content = scanner.nextLine();
 
                 client.sendMessage(instructorId.toUpperCase(), title, content);
             }
 
         } catch (Exception e) {
-            System.out.println("Enter Valid Id " + e.getMessage());
+            logger.info("Enter Valid Id " + e.getMessage());
         }
     }
 
@@ -799,22 +801,22 @@ public class Main {
 
                 client.printDietaryPreferences();
 
-                System.out.println("1- Add Dietary Preference: ");
-                System.out.println("2- Delete Dietary Preference: ");
-                System.out.println(goBack);
+                logger.info("1- Add Dietary Preference: ");
+                logger.info("2- Delete Dietary Preference: ");
+                logger.info(goBack);
 
                 int option = scanner.nextInt();
                 scanner.nextLine(); // Clear the buffer
 
                 switch (option) {
                     case 1:
-                        System.out.print("Dietary Preference: ");
+                        logger.info("Dietary Preference: ");
                         String dietaryPreference = scanner.nextLine();
 
                         client.addDietaryPreference(dietaryPreference);
                         break;
                     case 2:
-                        System.out.print("Dietary Preference: ");
+                        logger.info("Dietary Preference: ");
                         dietaryPreference = scanner.nextLine();
 
                         client.deleteDietaryPreference(dietaryPreference);
@@ -827,7 +829,7 @@ public class Main {
                 }
             }
         } catch (Exception e) {
-            System.out.println("Sorry Can't set preference now" + e.getMessage());
+            logger.info("Sorry Can't set preference now" + e.getMessage());
         }
     }
 
@@ -835,16 +837,16 @@ public class Main {
         scanner.nextLine(); // Clear the buffer
         try {
 
-            System.out.print("Feedback Type(e.g., complaint, suggestion): ");
+            logger.info("Feedback Type(e.g., complaint, suggestion): ");
             String feedbackType = scanner.nextLine();
 
-            System.out.print("Content: ");
+            logger.info("Content: ");
             String feedbackContent = scanner.nextLine();
 
             client.writeFeedback(feedbackType, feedbackContent);
 
         } catch (Exception e) {
-            System.out.println("Sorry Can't send feedback now" + e.getMessage());
+            logger.info("Sorry Can't send feedback now" + e.getMessage());
         }
 
     }
@@ -857,23 +859,23 @@ public class Main {
 
             while (exit) {
 
-                System.out.println("1- Filter Programs By Difficulty");
-                System.out.println("2- Filter Programs By Goals ");
-                System.out.println(goBack);
+                logger.info("1- Filter Programs By Difficulty");
+                logger.info("2- Filter Programs By Goals ");
+                logger.info(goBack);
 
                 int option = scanner.nextInt();
                 scanner.nextLine(); // Clear the buffer
 
                 switch (option) {
                     case 1:
-                        System.out.print("Search(eg. Beginner,Intermediate,Advanced) : ");
+                        logger.info("Search(eg. Beginner,Intermediate,Advanced) : ");
                         String searchText = scanner.nextLine();
                         ArrayList<Program> programs = client.filterProgramsByDifficulty(searchText);
                         client.printPrograms(programs);
                         break;
 
                     case 2:
-                        System.out.print("Search(eg. Lose weight) : ");
+                        logger.info("Search(eg. Lose weight) : ");
                         searchText = scanner.nextLine();
                         programs = client.filterProgramsByGoal(searchText);
                         client.printPrograms(programs);
@@ -885,7 +887,7 @@ public class Main {
                 }
             }
         } catch (Exception e) {
-            System.out.println("Sorry Can't search programs now " + e.getMessage());
+            logger.info("Sorry Can't search programs now " + e.getMessage());
         }
 
     }
@@ -895,11 +897,11 @@ public class Main {
         try {
             ArrayList<Feedback> feedbacks = client.getClientFeeds();
             for (Feedback feedback : feedbacks) {
-                System.out.println(feedback.printFeedback());
+                logger.info(feedback.printFeedback());
             }
 
         } catch (Exception e) {
-            System.out.println("Sorry Can't search programs now " + e.getMessage());
+            logger.info("Sorry Can't search programs now " + e.getMessage());
         }
 
     }
@@ -908,45 +910,45 @@ public class Main {
     public static void instructorOption1(Scanner scanner, Instructor instructor) {
         scanner.nextLine();// clear buffer
 
-        System.out.println("Enter Program Name: ");
+        logger.info("Enter Program Name: ");
         String title = scanner.nextLine();
 
-        System.out.println("Enter Program fees: ");
+        logger.info("Enter Program fees: ");
         int fees = scanner.nextInt();
 
-        System.out.println("Enter Program duration(in weeks): ");
+        logger.info("Enter Program duration(in weeks): ");
         int duration = scanner.nextInt();
 
         scanner.nextLine();// clear buffer
 
-        System.out.println("Enter Program difficulty(Beginner, Intermediate, Advanced): ");
+        logger.info("Enter Program difficulty(Beginner, Intermediate, Advanced): ");
         String difficulty = scanner.nextLine();
 
         Program program = instructor.createProgram(fees, title, duration, difficulty);
-        System.out.println(program.generateReport());
+        logger.info(program.generateReport());
 
     }
 
     public static void instructorOption2(Scanner scanner, Instructor instructor) {
 
         instructor.viewMessages();
-        System.out.println("1-Reply to a message ");
-        System.out.println("2-Go back");
+        logger.info("1-Reply to a message ");
+        logger.info("2-Go back");
         int option = scanner.nextInt();
 
         if (option == 1) {
-            System.out.print("Message Number= ");
+            logger.info("Message Number= ");
             int messageNumber = scanner.nextInt();
             if (messageNumber > 0) {
                 Message message = instructor.getInbox().get(messageNumber - 1);
                 Client client = DatabaseService.getClientById(message.getSender());
-                System.out.println("Replying to : " + client.getClientName());
+                logger.info("Replying to : " + client.getClientName());
                 scanner.nextLine(); // Clear the buffer
 
-                System.out.print("Title:  ");
+                logger.info("Title:  ");
                 String title = scanner.nextLine();
 
-                System.out.print("Content:  ");
+                logger.info("Content:  ");
                 String content = scanner.nextLine();
 
                 instructor.replyToMessage(message, content);
@@ -961,27 +963,27 @@ public class Main {
 
         DatabaseService.printClientsTable();
 
-        System.out.print("Enter client Id to open conversation with: ");
+        logger.info("Enter client Id to open conversation with: ");
         String clientId = scanner.next();
 
         try {
             Client client = DatabaseService.getClientById(clientId);
             if (client != null) {
-                System.out.println("Open conversation with " + client.getClientName() + " : ");
+                logger.info("Open conversation with " + client.getClientName() + " : ");
 
                 scanner.nextLine(); // Clear the buffer
 
-                System.out.print("Enter Message title: ");
+                logger.info("Enter Message title: ");
                 String title = scanner.nextLine();
 
-                System.out.print("Enter Message content: ");
+                logger.info("Enter Message content: ");
                 String content = scanner.nextLine();
 
                 instructor.sendMessage(clientId.toUpperCase(), title, content);
             }
 
         } catch (Exception e) {
-            System.out.println("Enter Valid Id " + e.getMessage());
+            logger.info("Enter Valid Id " + e.getMessage());
         }
     }
 
@@ -991,7 +993,7 @@ public class Main {
         while (exit) {
             instructor.viewPrograms();
 
-            System.out.print("Details of Program Number(0 go back)= ");
+            logger.info("Details of Program Number(0 go back)= ");
             int option = scanner.nextInt();
             scanner.nextLine();// clear buffer
 
@@ -1004,15 +1006,15 @@ public class Main {
                     try {
                         if (shouldDelete) {
                             instructor.deleteMyProgram(program.getProgramId());
-                            System.out.println("Deleting operation was successful");
+                            logger.info("Deleting operation was successful");
                         }
                     } catch (Exception e) {
-                        System.out.println("Program does not exist to be deleted  " + e.getMessage());
+                        logger.info("Program does not exist to be deleted  " + e.getMessage());
                     }
 
                 } catch (Exception e) {
 
-                    System.out.println("Program does not exist " + e.getMessage());
+                    logger.info("Program does not exist " + e.getMessage());
                 }
 
             } else if (option == 0) {
@@ -1027,15 +1029,15 @@ public class Main {
         // used by instructorOption4
         Scanner scanner = new Scanner(System.in);
         while (program != null) {
-            System.out.println(program.generateReport());
+            logger.info(program.generateReport());
 
-            System.out.println(program.getTitle() + "program :");
-            System.out.println("1 - Update Program Title");
-            System.out.println("2 - Update Program fees");
-            System.out.println("3 - Enter Attendance");// same as above
-            System.out.println("4 - Add New Goal To Program");
-            System.out.println("5 - delete Program");
-            System.out.println(goBack);
+            logger.info(program.getTitle() + "program :");
+            logger.info("1 - Update Program Title");
+            logger.info("2 - Update Program fees");
+            logger.info("3 - Enter Attendance");// same as above
+            logger.info("4 - Add New Goal To Program");
+            logger.info("5 - delete Program");
+            logger.info(goBack);
 
             int option = scanner.nextInt();
             scanner.nextLine();// clear buffer
@@ -1045,25 +1047,25 @@ public class Main {
                     program = null;
                     break;
                 case 1:
-                    System.out.print("New Program Title: ");
+                    logger.info("New Program Title: ");
                     String title = scanner.next();
 
                     program.updateTitle(title);
                     break;
                 case 2:
-                    System.out.print("New Program fees: ");
+                    logger.info("New Program fees: ");
                     int fees = scanner.nextInt();
 
                     program.updateFees(fees);
                     break;
                 case 3:
 
-                    System.out.println("Enter attendance for one week (Y for present, N for absent):");
+                    logger.info("Enter attendance for one week (Y for present, N for absent):");
 
                     Map<Client, Boolean> attendance = new HashMap<>();
 
                     for (Client client : program.getEnrolledClients()) {
-                        System.out.print("Attendance for " + client.getClientName() + ": ");
+                        logger.info("Attendance for " + client.getClientName() + ": ");
                         String yesNo = scanner.next();
 
                         boolean attended;
@@ -1078,22 +1080,22 @@ public class Main {
 
                     program.insertAttendance(attendance);
 
-                    System.out.println("Attendance recorded successfully.");
+                    logger.info("Attendance recorded successfully.");
 
-                    System.out.println("\nAttendance Records:");
+                    logger.info("\nAttendance Records:");
                     for (Map.Entry<Client, List<Boolean>> entry : program.getAttendanceRecords().entrySet()) {
-                        System.out.println(entry.getKey().getClientName() + ": " + entry.getValue());
+                        logger.info(entry.getKey().getClientName() + ": " + entry.getValue());
                     }
 
                     break;
                 case 4:
-                    System.out.print("Enter Goal title: ");
+                    logger.info("Enter Goal title: ");
                     title = scanner.next();
 
-                    System.out.print("Enter your current state value: ");
+                    logger.info("Enter your current state value: ");
                     double current = scanner.nextDouble();
 
-                    System.out.print("Enter your Target value: ");
+                    logger.info("Enter your Target value: ");
                     double target = scanner.nextDouble();
 
                     Progress progress = new Progress(title, current, target);
@@ -1118,10 +1120,10 @@ public class Main {
 
         scanner.nextLine(); // Clear the buffer
 
-        System.out.print("Enter title: ");
+        logger.info("Enter title: ");
         String title = scanner.nextLine();
 
-        System.out.println("1)ARTICLE    2)TIP   3)RECIPE");
+        logger.info("1)ARTICLE    2)TIP   3)RECIPE");
         int option = scanner.nextInt();
 
         scanner.nextLine(); // Clear the buffer
@@ -1143,12 +1145,12 @@ public class Main {
                 break;
         }
 
-        System.out.println("Start Writing here-: ");
+        logger.info("Start Writing here-: ");
         String text = scanner.nextLine();
 
         Article article = instructor.writeArticle(title, text, type);
 
-        System.out.println(article);
+        logger.info(article.toString());
 
     }
 
@@ -1159,7 +1161,7 @@ public class Main {
         admin.seePlansForInstructors();
 
         try {
-            System.out.print("Enter Plan number= ");
+            logger.info("Enter Plan number= ");
             int planNumber = scanner.nextInt();
 
             // we are here converte to instructor
@@ -1167,10 +1169,10 @@ public class Main {
 
             instructor.changeSubscription(plan);
 
-            System.out.print(instructor.toString());
+            logger.info(instructor.toString());
 
         } catch (Exception e) {
-            System.out.println("couldn't change subscription try again later " + e.getMessage());
+            logger.info("couldn't change subscription try again later " + e.getMessage());
         }
 
     }
@@ -1179,9 +1181,9 @@ public class Main {
         try {
             instructor.changeSubscription(DatabaseService.getBasicPlanInstructor());
         } catch (Exception e) {
-            System.out.println("couldn't cancel subscription try again later " + e.getMessage());
+            logger.info("couldn't cancel subscription try again later " + e.getMessage());
         }
-        System.out.print(instructor.toString());
+        logger.info(instructor.toString());
 
     }
 
@@ -1189,11 +1191,11 @@ public class Main {
         try {
             for (Article article : DatabaseService.getArticles()) {
                 if (article.getAuthor().getId().equalsIgnoreCase(instructor.getId())) {
-                    System.out.println(article.toString());
+                    logger.info(article.toString());
                 }
             }
         } catch (Exception e) {
-            System.out.println("No articles yet " + e.getMessage());
+            logger.info("No articles yet " + e.getMessage());
         }
 
     }
