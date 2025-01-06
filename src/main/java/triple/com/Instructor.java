@@ -79,15 +79,6 @@ public class Instructor {
     }
 
     /**
-     * Sets the name of the instructor.
-     *
-     * @param name the new name of the instructor
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
      * Returns the login status of the instructor.
      *
      * @return true if the instructor is logged in, false otherwise
@@ -233,6 +224,7 @@ public class Instructor {
             }
         } else {
             System.out.println("Instructor must be logged in to view programs.");
+            throw new Error("Unauthenticated Instructor");
         }
     }
 
@@ -371,14 +363,7 @@ public class Instructor {
         return message;
     }
 
-    // /**
-    // * Deletes a specific message from the instructor's inbox.
-    // *
-    // * @param message the message to be deleted
-    // */
-    // public void deleteMessage(Message message) {
-    // inbox.remove(message);
-    // }
+  
 
     /**
      * Returns the inbox of the instructor containing all received messages.

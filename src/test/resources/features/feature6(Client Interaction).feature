@@ -8,6 +8,9 @@ Feature: Client-Instructor Messaging
     When the client replies to "Welcome Message" by message with content "Thanks I am excited"
     Then The "Thanking" reply is added to my inbox
     Then "Welcome Message" will be deleted from client inbox
+    Then I can view my messages with clients
+    When I have messages from a client
+    Then I can see and reply to that message
 
 
 
