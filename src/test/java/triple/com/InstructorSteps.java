@@ -16,7 +16,10 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
@@ -143,6 +146,36 @@ public class InstructorSteps {
         assertNull(DatabaseService.getProgramById(program.getProgramId()));
     }
 
+    Client client1;
+    Client client2;
+
+    @When("I mark attendance for my program")
+    public void I_mark_attendance_for_my_program() {
+        Map<Client, Boolean> attendance = new HashMap<>();
+
+        client1 = new Client("Alice", "123");
+        client2 = new Client("Bob", "123");
+
+        program.enrollClient(client1);
+        program.enrollClient(client2);
+
+        attendance.put(client1, true);
+        attendance.put(client2, false);
+
+        program.insertAttendance(attendance);
+
+    }
+
+    @Then("My program attendance will have records of attendance")
+    public void My_program_attendance_will_have_records_of_attendance() {
+
+        assertNotNull(program.getAttendance(client1));
+        assertFalse(program.getAttendance(client2).get(0));
+
+        assertNotNull(program.getAttendance(client2));
+
+    }
+
     // FEATURE
     @Given("I am an Instructor Again")
     public void iAmAnInstructorAgain() {
@@ -235,6 +268,7 @@ public class InstructorSteps {
     public void I_can_view_my_messages_with_clients() {
         try {
             instructor.viewMessages();
+            client.viewMessages();
         } catch (Exception e) {
             System.out.println("error calling viewMessages method" + e.getMessage());
         }

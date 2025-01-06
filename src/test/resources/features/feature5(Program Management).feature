@@ -13,6 +13,8 @@ Scenario: Create, update, or delete fitness programs with the following details
         Then It will not be deleted
         When I delete the program
         Then It will return null when searching for it.
+        When I mark attendance for my program
+        Then My program attendance will have records of attendance
 
 Scenario: I want to delete my subscription
         When I change my subscription plan to a paid one

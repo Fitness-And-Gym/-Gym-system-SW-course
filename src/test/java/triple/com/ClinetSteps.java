@@ -51,11 +51,17 @@ public class ClinetSteps {
     @When("I add dietary preferences {string}")
     public void iAddDietaryPreferences(String preference) {
         client.addDietaryPreference(preference); // Assuming dietary preferences are stored as status for this mock
+        client.addDietaryPreference(preference);// will not be added twice
     }
 
     @Then("my profile should include {string} as my dietary preference")
     public void myProfileShouldIncludeAsMyDietaryPreference(String expectedPreference) {
         assertTrue(client.getDietaryPreferences().contains(expectedPreference));
+        try {
+            client.printDietaryPreferences();
+        } catch (Exception e) {
+            System.out.println("Error Printing Dietary Preferences" + e.getMessage());
+        }
     }
 
     @When("I delete the {string} dietary preference")
@@ -66,9 +72,12 @@ public class ClinetSteps {
     @Then("my dietary preference will be updated to not include {string}")
     public void my_dietary_preference_will_be_updated_to_not_include(String deletedPreference) {
         assertFalse(client.getDietaryPreferences().contains(deletedPreference));
+
         // make sure you can print the preferences
         try {
             client.printDietaryPreferences();
+            client.deleteDietaryPreference("wrong Dietary Preference Does not Exist");
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
