@@ -16,6 +16,7 @@ Scenario: Create, update, or delete fitness programs with the following details
         When I mark attendance for my program
         Then My program attendance will have records of attendance
 
+
 Scenario: I want to delete my subscription
         When I change my subscription plan to a paid one
         Then My plan will not be free
@@ -27,6 +28,8 @@ Scenario: logged out Authorization check
         When I log out from my account and try to create a program
         Then The System will prevent me from createing Program.
         Then I can't see my programs.
+
+
 
 
 

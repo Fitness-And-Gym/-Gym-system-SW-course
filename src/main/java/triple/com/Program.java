@@ -54,7 +54,7 @@ public class Program {
         }
 
         if (!instructor.getStatus().equals("valid")) {
-            throw new IllegalStateException("Instructor is not authorized to create a program.");
+            throw new IllegalStateException("Instructor is Invalid");
         }
 
         this.programId = "P" + idCounter++;

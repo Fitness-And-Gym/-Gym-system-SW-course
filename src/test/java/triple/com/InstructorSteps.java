@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Rule;
+import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import static org.junit.Assert.assertFalse;
@@ -297,6 +298,26 @@ public class InstructorSteps {
             // Check that the message matches the expected one
             assertEquals("Unauthenticated Instructor", e.getMessage());
         }
+    }
+
+    //Trying another syntax
+    @Test(expected = Error.class)
+    public void I_can_t_create_a_program() {
+        instructor = new Instructor("ins", "123");
+        instructor.setStatus("Invalid");
+        try {
+            program = new Program(instructor, 100, "Test program", 4, "Beginner");
+            fail("Expected Error to be thrown, but none was thrown.");
+        } catch (Error e) {
+            assertEquals("Instructor is Invalid", e.getMessage());
+        }
+        try {
+            program = new Program(null, 100, "Test program", 4, "Beginner");
+            fail("Expected Error to be thrown, but none was thrown.");
+        } catch (Error e) {
+            assertEquals("Instructor cannot be null.", e.getMessage());
+        }
+
     }
 
 }
