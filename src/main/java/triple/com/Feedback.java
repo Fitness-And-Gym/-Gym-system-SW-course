@@ -33,16 +33,8 @@ public class Feedback {
         DatabaseService.addFeed(this); // Add the feedback to the database
     }
 
-    // Getters and Setters
 
-    /**
-     * Returns the unique identifier for the feedback.
-     *
-     * @return the feedback ID
-     */
-    public String getId() {
-        return id;
-    }
+
 
     /**
      * Returns the type of feedback (e.g., complaint, suggestion).
@@ -62,14 +54,7 @@ public class Feedback {
         return message;
     }
 
-    /**
-     * Returns the timestamp of when the feedback was submitted.
-     *
-     * @return the timestamp of the feedback submission
-     */
-    public Date getTimestamp() {
-        return timestamp;
-    }
+  
 
     /**
      * Formats and prints the feedback details as a string.
