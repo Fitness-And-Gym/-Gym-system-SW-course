@@ -52,14 +52,6 @@ public class Article {
         return id;
     }
 
-    /**
-     * Sets the unique identifier of the article.
-     *
-     * @param id the article's new ID
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
 
     /**
      * Gets the title of the article.
@@ -70,14 +62,7 @@ public class Article {
         return title;
     }
 
-    /**
-     * Sets the title of the article.
-     *
-     * @param title the new title for the article
-     */
-    public void setTitle(String title) {
-        this.title = title;
-    }
+
 
     /**
      * Gets the content of the article.
@@ -88,14 +73,7 @@ public class Article {
         return content;
     }
 
-    /**
-     * Sets the content of the article.
-     *
-     * @param content the new content for the article
-     */
-    public void setContent(String content) {
-        this.content = content;
-    }
+
 
     /**
      * Gets the author of the article.
@@ -106,14 +84,7 @@ public class Article {
         return author;
     }
 
-    /**
-     * Sets the author of the article.
-     *
-     * @param author the new author for the article
-     */
-    public void setAuthor(Instructor author) {
-        this.author = author;
-    }
+
 
     /**
      * Gets the submission date of the article.
@@ -166,14 +137,7 @@ public class Article {
         return type;
     }
 
-    /**
-     * Sets the type of the article (e.g., ARTICLE, TIP, RECIPE).
-     *
-     * @param type the new type for the article
-     */
-    public void setType(ArticleType type) {
-        this.type = type;
-    }
+   
 
     @Override
     public String toString() {

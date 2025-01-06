@@ -203,6 +203,7 @@ public class InstructorSteps {
         assertEquals("The title should match.", expectedTitle, article.getTitle());
         assertTrue(expectedContent.equals(article.getContent()));
         assertEquals("The article's author should be the instructor.", instructor.getId(), article.getAuthor().getId());
+        assertNotNull(article.toString());
     }
 
     @When("I change my subscription plan to a paid one")
