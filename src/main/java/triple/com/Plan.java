@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 /**
  * The Plan class represents a subscription plan for clients or instructors.
- * It contains the name, type (paid or free), price, and associated benefits of the plan.
+ * It contains the name, type (paid or free), price, and associated benefits of
+ * the plan.
  */
 public class Plan {
     private String name; // Name of the plan (e.g., Basic, Premium)
@@ -13,11 +14,12 @@ public class Plan {
     private ArrayList<String> benefits; // List of benefits associated with the plan
 
     /**
-     * Constructs a new plan with the specified name, type, price, and a basic benefit.
+     * Constructs a new plan with the specified name, type, price, and a basic
+     * benefit.
      *
-     * @param name the name of the plan (e.g., "Basic" or "Premium")
-     * @param type the type of the plan (e.g., "Paid" or "Free")
-     * @param price the price of the plan
+     * @param name         the name of the plan (e.g., "Basic" or "Premium")
+     * @param type         the type of the plan (e.g., "Paid" or "Free")
+     * @param price        the price of the plan
      * @param basicBenefit a basic benefit included in the plan
      */
     public Plan(String name, String type, double price, String basicBenefit) {
@@ -65,15 +67,6 @@ public class Plan {
     }
 
     /**
-     * Sets the list of benefits associated with the plan.
-     *
-     * @param benefits a list of benefits
-     */
-    public void setBenefits(ArrayList<String> benefits) {
-        this.benefits = benefits;
-    }
-
-    /**
      * Adds a new benefit to the plan.
      *
      * @param benefit a new benefit to be added
@@ -82,27 +75,4 @@ public class Plan {
         this.benefits.add(benefit);
     }
 
-    /**
-     * Removes a benefit from the plan.
-     *
-     * @param benefit the benefit to be removed
-     */
-    public void removeBenefit(String benefit) {
-        this.benefits.remove(benefit);
-    }
-
-
-    // /**
-    //  * Prints the details of the plan.
-    //  */
-    // public void printPlanDetails() {
-    //     System.out.println("Plan Name: " + name);
-    //     System.out.println("Plan Type: " + type);
-    //     System.out.println("Price: $" + price);
-    //     System.out.println("Benefits: ");
-    //     for (String benefit : benefits) {
-    //         System.out.println("- " + benefit);
-    //     }
-    //     System.out.println("------------------------------------");
-    // }
 }
